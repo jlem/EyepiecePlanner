@@ -1,0 +1,17 @@
+
+// Fonts
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+h1 {
+  margin-bottom: 30px;
+}
+
+.asterisk {
+  font-weight: bold;
+  color: $brand-danger;
+}

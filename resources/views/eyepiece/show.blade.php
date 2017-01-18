@@ -1,0 +1,65 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+
+        <!-- Heading -->
+
+        <h1>{{ $eyepiece->getDescription() }}</h1>
+
+
+        <!-- Eyepiece Details -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{ $eyepiece->getDescription() }} Details
+                        <a class="pull-right btn btn-xs btn-primary" href="/eyepiece/{{ $eyepiece->getID() }}/edit">Edit Eyepiece</a>
+                    </div>
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>Focal Length</dt>
+                            <dd>{{ $eyepiece->getFocalLength() }} mm</dd>
+                            <dt>Apparent Field</dt>
+                            <dd>{{ $eyepiece->getApparentField() }}°</dd>
+                            <dt>Eye Relief</dt>
+                            <dd>{{ $eyepiece->getEyeRelief() }} mm</dd>
+                            <dt>Barrel Size</dt>
+                            <dd>{{ $eyepiece->getBarrelSize() }} in.</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Eyepiece Telescope Calculations -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {{ $eyepiece->getDescription() }} Calculations
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Telescope</th>
+                            <th>Magnification</th>
+                            <th>True FoV</th>
+                            <th>Exit Pupil</th>
+                        </tr>
+                        @foreach($telescopes as $telescope)
+                            <tr>
+                                <td>{{ $telescope->getDescription() }}</td>
+                                <td>{{ $eyepiece->calculateMagnification($telescope) }}x</td>
+                                <td>{{ $eyepiece->calculateTrueFoV($telescope) }}°</td>
+                                <td>{{ $eyepiece->calculateExitPupil($telescope) }} mm</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
