@@ -12,13 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $eyepieces = \EPP\Eyepiece::all();
+    return view('welcome', compact('eyepieces'));
 });
 
 Route::resource('/telescope', 'TelescopeController');
 Route::resource('/eyepiece', 'EyepieceController');
 Route::resource('/manufacturer', 'ManufacturerController');
 Route::resource('/product-line', 'ProductLineController');
+
+Route::get('/compare', 'ComparisonController@compare');
 
 Auth::routes();
 

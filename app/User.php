@@ -4,8 +4,9 @@ namespace EPP;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection;
 
-class User extends Authenticatable
+class User extends Authenticatable implements UserInterface
 {
     use Notifiable;
 
@@ -32,8 +33,32 @@ class User extends Authenticatable
         return $this->hasMany(Telescope::class);
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * @return Collection
+     */
     public function getTelescopes()
     {
         return $this->telescopes;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    public function isAdmin()
+    {
+        foreach($this->getRoles() as $role) {
+            if ($role->isAdmin()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

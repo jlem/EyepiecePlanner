@@ -5,7 +5,9 @@
 
         <!-- Heading -->
         <div>
-            <a class="pull-right btn btn-primary" href="/eyepiece/create">Add Eyepiece</a>
+            @if (isAdmin())
+                <a class="pull-right btn btn-primary" href="/eyepiece/create">Add Eyepiece</a>
+            @endif
             <h1>Eyepieces</h1>
         </div>
 
@@ -26,11 +28,11 @@
                         <tr>
                             <td width="15%">{{ $eyepiece->getManufacturer()->getName() }}</td>
                             <td width="14%">{{ $eyepiece->getProductLine()->getName() }}</td>
-                            <td width="14%"><a href="/eyepiece/{{ $eyepiece->getID() }}">{{ $eyepiece->getFocalLength() }} mm</a></td>
-                            <td width="14%">{{ $eyepiece->getApparentField() }}°</td>
-                            <td width="14%">{{ $eyepiece->getFieldStop() }} mm</td>
-                            <td width="14%">{{ $eyepiece->getEyeRelief() }} mm</td>
-                            <td width="14%">{{ $eyepiece->getBarrelSize() }}"</td>
+                            <td width="14%"><a href="/eyepiece/{{ $eyepiece->getID() }}">{{ append( $eyepiece->getFocalLength(), ' mm') }}</a></td>
+                            <td width="14%">{{ append($eyepiece->getApparentField(), '°') }}</td>
+                            <td width="14%">{{ append($eyepiece->getFieldStop(), ' mm') }}</td>
+                            <td width="14%">{{ append($eyepiece->getEyeRelief(), ' mm') }}</td>
+                            <td width="14%">{{ append($eyepiece->getBarrelSize(), '"') }}</td>
                         </tr>
                     @endforeach
                 </table>

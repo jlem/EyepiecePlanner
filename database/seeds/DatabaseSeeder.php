@@ -17,9 +17,18 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('test')
         ]);
 
-        DB::table('manufacturers')->insert([ 'name' => 'Televue' ]);
-        DB::table('manufacturers')->insert([ 'name' => 'Meade' ]);
-        DB::table('manufacturers')->insert([ 'name' => 'Celestron' ]);
-        // $this->call(UsersTableSeeder::class);
+        DB::table('roles')->insert([
+            'name' => 'Admin',
+            'is_admin' => true
+        ]);
+
+        DB::table('role_user')->insert([
+            'user_id' => 1,
+            'role_id' => 1
+        ]);
+
+        $this->call(ManufacturersTableSeeder::class);
+        $this->call(ProductLinesTableSeeder::class);
+        $this->call(EyepiecesTableSeeder::class);
     }
 }

@@ -7,6 +7,10 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+[v-cloak] {
+  display: none;
+}
+
 h1 {
   margin-bottom: 30px;
 }
@@ -14,4 +18,38 @@ h1 {
 .asterisk {
   font-weight: bold;
   color: $brand-danger;
+}
+
+.search {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.search-results {
+  position: absolute;
+  z-index: 2;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  padding: 10px;
+}
+
+.selected {
+  background: #b1dda3;
+  font-weight: bold;
+}
+
+.search-result {
+  cursor: pointer;
+}
+
+.selection-tools {
+  height: 30px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.warning-magnification {
+  color: red;
+  font-weight: bold;
 }

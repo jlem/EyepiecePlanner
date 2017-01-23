@@ -13,6 +13,13 @@
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
+                                    <input id="addanother" type="checkbox" name="addanother" @if (Session::has('add-eyepiece')) checked="checked" @endif value="1" />
+                                    <label for="addanother">Add another?</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
                                         Add Eyepiece
                                     </button>

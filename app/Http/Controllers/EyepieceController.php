@@ -7,13 +7,14 @@ use EPP\Manufacturer;
 use EPP\ProductLine;
 use Illuminate\Http\Request;
 use Auth;
+use Session;
 
 class EyepieceController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('admin')->except(['index', 'show']);
     }
 
     /**
@@ -23,10 +24,13 @@ class EyepieceController extends Controller
      */
     public function index()
     {
-        $eyepieces = Eyepiece::with('productLine', 'manufacturer')
-            ->orderBy('manufacturer_id', 'ASC')
-            ->orderBy('product_line_id', 'ASC')
-            ->orderBy('focal_length', 'ASC')
+        $eyepieces = Eyepiece::with(['productLine', 'manufacturer'])
+            ->join('product_lines', 'product_lines.id', '=', 'eyepieces.product_line_id')
+            ->join('manufacturers', 'manufacturers.id', '=', 'eyepieces.manufacturer_id')
+            ->select('eyepieces.*')
+            ->orderBy('manufacturers.name', 'ASC')
+            ->orderBy('product_lines.name', 'ASC')
+            ->orderBy('eyepieces.focal_length', 'ASC')
             ->get();
 
         return view('eyepiece.index', compact('eyepieces'));
@@ -39,11 +43,13 @@ class EyepieceController extends Controller
      */
     public function create()
     {
-        $manufacturers = Manufacturer::all();
+        $manufacturers = Manufacturer::with(['productLines' => function ($query) {
+            $query->orderby('name', 'ASC');
+        }])
+            ->orderBy('name', 'ASC')
+            ->get();
 
-        $product_lines = ProductLine::all();
-
-        return view('eyepiece.create', compact('manufacturers', 'product_lines'));
+        return view('eyepiece.create', compact('manufacturers'));
     }
 
     /**
@@ -56,7 +62,22 @@ class EyepieceController extends Controller
     {
         $input = $request->only((new Eyepiece())->getFillable());
 
+        $input['manufacturer_id'] = ProductLine::find($input['product_line_id'])->manufacturer_id;
+
+        $input = array_filter($input);
+
         Eyepiece::create($input);
+
+        // Preserve session information to add another eyepiece
+        if (!empty($request->input('addanother'))) {
+            Session::put('add-eyepiece', [
+                'product_line_id' => intval($input['product_line_id']),
+                'apparent_field' => floatval($input['apparent_field']),
+            ]);
+            return redirect('/eyepiece/create');
+        } else {
+            Session::forget('add-eyepiece');
+        }
 
         return redirect('/eyepiece');
     }
@@ -71,7 +92,7 @@ class EyepieceController extends Controller
     {
         $eyepiece = Eyepiece::find($id);
 
-        $telescopes = Auth::user()->getTelescopes();
+        $telescopes = user()->getTelescopes();
 
         return view('eyepiece.show', compact('eyepiece', 'telescopes'));
     }
@@ -86,11 +107,13 @@ class EyepieceController extends Controller
     {
         $eyepiece = Eyepiece::find($id);
 
-        $manufacturers = Manufacturer::all();
+        $manufacturers = Manufacturer::with(['productLines' => function ($query) {
+            $query->orderby('name', 'ASC');
+        }])
+            ->orderBy('name', 'ASC')
+            ->get();
 
-        $product_lines = ProductLine::all();
-
-        return view('eyepiece.edit', compact('eyepiece', 'manufacturers', 'product_lines'));
+        return view('eyepiece.edit', compact('eyepiece', 'manufacturers'));
     }
 
     /**
@@ -103,6 +126,10 @@ class EyepieceController extends Controller
     public function update(Request $request, $id)
     {
         $input = $request->only((new Eyepiece())->getFillable());
+
+        $input['manufacturer_id'] = ProductLine::find($input['product_line_id'])->manufacturer_id;
+
+        $input = array_filter($input);
 
         Eyepiece::find($id)->update($input);
 

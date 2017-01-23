@@ -6206,7 +6206,7 @@ button.list-group-item-danger.active:focus {
 
 .panel {
   margin-bottom: 22px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #fff;
   border: 1px solid transparent;
   border-radius: 4px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -7687,6 +7687,10 @@ button.close {
   }
 }
 
+[v-cloak] {
+  display: none;
+}
+
 h1 {
   margin-bottom: 30px;
 }
@@ -7694,6 +7698,40 @@ h1 {
 .asterisk {
   font-weight: bold;
   color: #bf5329;
+}
+
+.search {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.search-results {
+  position: absolute;
+  z-index: 2;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  padding: 10px;
+}
+
+.selected {
+  background: #b1dda3;
+  font-weight: bold;
+}
+
+.search-result {
+  cursor: pointer;
+}
+
+.selection-tools {
+  height: 30px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.warning-magnification {
+  color: red;
+  font-weight: bold;
 }
 
 /*# sourceMappingURL=app.css.map */

@@ -18,9 +18,15 @@ class Telescope extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function setID($id)
+    {
+        $this->{$this->getKeyName()} = $id;
+        return $this;
+    }
+
     public function getID()
     {
-        return $this->id;
+        return $this->getKey();
     }
 
     public function getName()

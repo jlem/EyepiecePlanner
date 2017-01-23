@@ -4,15 +4,21 @@ namespace EPP\Http\Controllers;
 
 use EPP\Eyepiece;
 use EPP\Telescope;
+use EPP\Http\Validators\TelescopeValidator;
+use EPP\TelescopeService;
 use Illuminate\Http\Request;
 use Auth;
 
 class TelescopeController extends Controller
 {
+    /**
+     * @var TelescopeService
+     */
+    private $telescopeService;
 
-    public function __construct()
+    public function __construct(TelescopeService $telescopeService)
     {
-        $this->middleware('auth');
+        $this->telescopeService = $telescopeService;
     }
 
     /**
@@ -22,7 +28,9 @@ class TelescopeController extends Controller
      */
     public function index()
     {
-        $telescopes = Telescope::where('user_id', Auth::user()->id)->get();
+        $this->telescopeService->saveCookieTelescopesToDatabase();
+
+        $telescopes = user()->getTelescopes();
 
         return view('telescope.index', compact('telescopes'));
     }
@@ -46,11 +54,24 @@ class TelescopeController extends Controller
     public function store(Request $request)
     {
         $input = $request->only(['name', 'aperture', 'focal_length']);
-        $input['user_id'] = Auth::user()->id;
 
-        Telescope::create($input);
+        $validator = TelescopeValidator::make($input);
 
-        return redirect('/telescope');
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
+        // Store telescope information in the database, else store it in a cookie
+        if (Auth::check()) {
+            Auth::user()->telescopes()->create($input);
+            return redirect('/telescope');
+        }
+        else {
+            // Get existing telescopes from cookies and append new telescope data to it
+            $telescopes = $request->hasCookie('epp_telescope') ? $request->cookie('epp_telescope') : [];
+            $telescopes[] = $input;
+            return redirect('/telescope')->cookie('epp_telescope', $telescopes);
+        }
     }
 
     /**
@@ -61,9 +82,9 @@ class TelescopeController extends Controller
      */
     public function show($id)
     {
-        $selectedTelescope = Telescope::find($id);
+        $telescopes = user()->getTelescopes();
 
-        $telescopes = Auth::user()->getTelescopes();
+        $selectedTelescope = Telescope::find($id);
 
         $eyepieces = Eyepiece::with('productLine', 'manufacturer')
             ->orderBy('manufacturer_id', 'ASC')

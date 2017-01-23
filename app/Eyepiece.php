@@ -73,16 +73,16 @@ class Eyepiece extends Model
 
     public function calculateMagnification(Telescope $telescope)
     {
-        return intval($telescope->getFocalLength() / $this->getFocalLength());
+        return floatval(number_format($telescope->getFocalLength() / $this->getFocalLength(), 2));
     }
 
     public function calculateTrueFov(Telescope $telescope)
     {
-        return number_format($this->getApparentField() / $this->calculateMagnification($telescope), 2);
+        return floatval(number_format($this->getApparentField() / $this->calculateMagnification($telescope), 2));
     }
 
     public function calculateExitPupil(Telescope $telescope)
     {
-        return number_format($telescope->getAperture() / $this->calculateMagnification($telescope), 1);
+        return floatval(number_format($telescope->getAperture() / $this->calculateMagnification($telescope), 1));
     }
 }

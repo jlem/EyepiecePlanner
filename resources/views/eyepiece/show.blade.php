@@ -5,18 +5,20 @@
 
         <!-- Heading -->
 
-        <h1>{{ $eyepiece->getDescription() }}</h1>
+        <h1>
+            @if(isAdmin())
+                <a class="pull-right btn btn-primary" href="/eyepiece/{{ $eyepiece->getID() }}/edit">Edit Eyepiece</a>
+            @endif
+            {{ $eyepiece->getDescription() }}
+        </h1>
 
 
         <!-- Eyepiece Details -->
 
         <div class="row">
             <div class="col-md-12">
+                <h3>Details</h3>
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        {{ $eyepiece->getDescription() }} Details
-                        <a class="pull-right btn btn-xs btn-primary" href="/eyepiece/{{ $eyepiece->getID() }}/edit">Edit Eyepiece</a>
-                    </div>
                     <div class="panel-body">
                         <dl class="dl-horizontal">
                             <dt>Focal Length</dt>
@@ -38,10 +40,8 @@
 
         <div class="row">
             <div class="col-md-12">
+                <h3>Telescope Calculations</h3>
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        {{ $eyepiece->getDescription() }} Calculations
-                    </div>
                     <table class="table table-bordered">
                         <tr>
                             <th>Telescope</th>
