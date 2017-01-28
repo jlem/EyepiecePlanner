@@ -6,7 +6,7 @@
         <!-- Heading -->
 
         <div>
-            <a class="pull-right btn btn-primary" href="/telescope/create">Add Telescope</a>
+            <a class="pull-right btn btn-success" href="/telescope/create">Add Telescope</a>
             <h1>My Telescopes</h1>
         </div>
 
@@ -40,7 +40,8 @@
                                 <form action="/telescope/{{ $telescope->getID() }}" method="POST">
                                     <input type="hidden" name="_method" value="DELETE" />
                                     {{ csrf_field() }}
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                                    <a href="/telescope/{{ $telescope->getID() }}/edit"  class="btn btn-primary btn-xs">Edit</a>
                                 </form>
                             </td>
                         </tr>

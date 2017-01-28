@@ -5,20 +5,14 @@ namespace EPP\Http\Controllers;
 use EPP\Eyepiece;
 use EPP\Telescope;
 use EPP\Http\Validators\TelescopeValidator;
-use EPP\TelescopeService;
 use Illuminate\Http\Request;
 use Auth;
 
 class TelescopeController extends Controller
 {
-    /**
-     * @var TelescopeService
-     */
-    private $telescopeService;
-
-    public function __construct(TelescopeService $telescopeService)
+    public function __construct()
     {
-        $this->telescopeService = $telescopeService;
+        $this->middleware('auth');
     }
 
     /**
@@ -28,9 +22,7 @@ class TelescopeController extends Controller
      */
     public function index()
     {
-        $this->telescopeService->saveCookieTelescopesToDatabase();
-
-        $telescopes = user()->getTelescopes();
+        $telescopes = Auth::user()->getTelescopes();
 
         return view('telescope.index', compact('telescopes'));
     }
@@ -61,17 +53,9 @@ class TelescopeController extends Controller
             return redirect()->back()->withErrors($validator);
         }
 
-        // Store telescope information in the database, else store it in a cookie
-        if (Auth::check()) {
-            Auth::user()->telescopes()->create($input);
-            return redirect('/telescope');
-        }
-        else {
-            // Get existing telescopes from cookies and append new telescope data to it
-            $telescopes = $request->hasCookie('epp_telescope') ? $request->cookie('epp_telescope') : [];
-            $telescopes[] = $input;
-            return redirect('/telescope')->cookie('epp_telescope', $telescopes);
-        }
+        Auth::user()->telescopes()->create($input);
+
+        return redirect('/telescope');
     }
 
     /**
@@ -82,7 +66,7 @@ class TelescopeController extends Controller
      */
     public function show($id)
     {
-        $telescopes = user()->getTelescopes();
+        $telescopes = Auth::user()->getTelescopes();
 
         $selectedTelescope = Telescope::find($id);
 
@@ -120,7 +104,7 @@ class TelescopeController extends Controller
         // Verify ownership
         $telescope = Telescope::find($id);
 
-        if ($telescope->getUser()->id !== Auth::user()->id) {
+        if ($telescope->user_id !== Auth::user()->id) {
             abort(401);
         }
 
@@ -139,6 +123,15 @@ class TelescopeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Verify ownership
+        $telescope = Telescope::find($id);
+
+        if (!$telescope || $telescope->user_id !== Auth::user()->id) {
+            abort(401);
+        }
+
+        $telescope->delete();
+
+        return redirect('/telescope');
     }
 }

@@ -29,7 +29,7 @@ h1 {
   position: absolute;
   z-index: 2;
   background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   width: 400px;
   padding: 10px;
@@ -52,4 +52,33 @@ h1 {
 .warning-magnification {
   color: red;
   font-weight: bold;
+}
+
+.pupil-reference {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 3px;
+  position: absolute;
+  width: 150px;
+  top: 25px;
+  right: 0;
+  z-index: 2;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+
+  .dl-horizontal {
+    margin-bottom: 0;
+
+    dt {
+      width: 55px;
+    }
+
+    dd {
+      margin-left: 70px;
+    }
+  }
+}
+
+.comparison-telescope-form {
+  position: relative;
 }

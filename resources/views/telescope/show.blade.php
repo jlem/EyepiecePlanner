@@ -67,16 +67,16 @@
                     </tr>
                     @foreach($eyepieces as $eyepiece)
                         <tr>
-                            <td width="10%">{{ $eyepiece->getManufacturer()->getName() }}</td>
+                            <td width="15%">{{ $eyepiece->getManufacturer()->getName() }}</td>
                             <td width="10%">{{ $eyepiece->getProductLine()->getName() }}</td>
-                            <td width="10%"><a href="/eyepiece/{{ $eyepiece->getID() }}">{{ $eyepiece->getFocalLength() }} mm</a></td>
-                            <td width="10%">{{ $eyepiece->calculateMagnification($selectedTelescope) }}x</td>
-                            <td width="10%">{{ $eyepiece->calculateExitPupil($selectedTelescope) }} mm</td>
-                            <td width="10%">{{ $eyepiece->calculateTrueFoV($selectedTelescope) }}°</td>
-                            <td width="10%">{{ $eyepiece->getApparentField() }}°</td>
-                            <td width="10%">{{ $eyepiece->getFieldStop() }} mm</td>
-                            <td width="10%">{{ $eyepiece->getEyeRelief() }} mm</td>
-                            <td width="10%">{{ $eyepiece->getBarrelSize() }}"</td>
+                            <td width="10%"><a href="/eyepiece/{{ $eyepiece->getID() }}">{{ append($eyepiece->getFocalLength(), ' mm') }}</a></td>
+                            <td width="10%">{{ append($eyepiece->calculateMagnification($selectedTelescope), 'x') }}</td>
+                            <td width="10%">{{ append($eyepiece->calculateExitPupil($selectedTelescope), ' mm') }}</td>
+                            <td width="9%">{{ append($eyepiece->calculateTrueFoV($selectedTelescope), '°') }}</td>
+                            <td width="9%">{{ append($eyepiece->getApparentField(), '°') }}</td>
+                            <td width="9%">{{ append($eyepiece->getFieldStop(), ' mm') }}</td>
+                            <td width="9%">{{ append($eyepiece->getEyeRelief(), ' mm') }}</td>
+                            <td width="9%">{{ append($eyepiece->getBarrelSize(), '"') }}</td>
                         </tr>
                     @endforeach
                 </table>

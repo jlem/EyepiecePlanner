@@ -38,28 +38,35 @@
 
         <!-- Eyepiece Telescope Calculations -->
 
-        <div class="row">
-            <div class="col-md-12">
-                <h3>Telescope Calculations</h3>
-                <div class="panel panel-default">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Telescope</th>
-                            <th>Magnification</th>
-                            <th>True FoV</th>
-                            <th>Exit Pupil</th>
-                        </tr>
-                        @foreach($telescopes as $telescope)
+        @if (Auth::check())
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Telescope Calculations</h3>
+                    <div class="panel panel-default">
+                        <table class="table table-bordered">
                             <tr>
-                                <td>{{ $telescope->getDescription() }}</td>
-                                <td>{{ $eyepiece->calculateMagnification($telescope) }}x</td>
-                                <td>{{ $eyepiece->calculateTrueFoV($telescope) }}°</td>
-                                <td>{{ $eyepiece->calculateExitPupil($telescope) }} mm</td>
+                                <th>Telescope</th>
+                                <th>Magnification</th>
+                                <th>True FoV</th>
+                                <th>Exit Pupil</th>
                             </tr>
-                        @endforeach
-                    </table>
+                            @foreach($telescopes as $telescope)
+                                <tr>
+                                    <td>{{ $telescope->getDescription() }}</td>
+                                    <td>{{ $eyepiece->calculateMagnification($telescope) }}x</td>
+                                    <td>{{ $eyepiece->calculateTrueFoV($telescope) }}°</td>
+                                    <td>{{ $eyepiece->calculateExitPupil($telescope) }} mm</td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                    @if (count($telescopes) === 0)
+                        <div style="text-align: center;">
+                            <a href="/telescope/create" class="btn btn-success btn-xl">Add Telescope</a>
+                        </div>
+                    @endif
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 @endsection
