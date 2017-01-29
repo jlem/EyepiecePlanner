@@ -46,6 +46,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li><a href="/eyepiece">Eyepieces</a></li>
+                        <li><a href="/">Compare</a></li>
                         @if(Auth::check())
                             <li><a href="/telescope">My Telescopes</a></li>
                             <li><a href="/manufacturer">Manufacturers</a></li>

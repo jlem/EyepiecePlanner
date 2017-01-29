@@ -25,6 +25,17 @@ h1 {
   margin-bottom: 15px;
 }
 
+.search input {
+  padding-left: 60px;
+}
+
+.search-icon {
+  font-size: 30px;
+  position: absolute;
+  top: 8px;
+  left: 12px;
+}
+
 .search-results {
   position: absolute;
   z-index: 2;
@@ -45,7 +56,7 @@ h1 {
 }
 
 .selection-tools {
-  height: 30px;
+  height: 50px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
