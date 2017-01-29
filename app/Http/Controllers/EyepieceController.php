@@ -3,6 +3,7 @@
 namespace EPP\Http\Controllers;
 
 use EPP\Eyepiece;
+use EPP\Eyepiece\EyepieceRepository;
 use EPP\Manufacturer;
 use EPP\ProductLine;
 use Illuminate\Http\Request;
@@ -12,9 +13,15 @@ use Session;
 class EyepieceController extends Controller
 {
 
-    public function __construct()
+    /**
+     * @var EyepieceRepository
+     */
+    private $eyepieceRepository;
+
+    public function __construct(EyepieceRepository $eyepieceRepository)
     {
         $this->middleware('admin')->except(['index', 'show']);
+        $this->eyepieceRepository = $eyepieceRepository;
     }
 
     /**
@@ -24,14 +31,7 @@ class EyepieceController extends Controller
      */
     public function index()
     {
-        $eyepieces = Eyepiece::with(['productLine', 'manufacturer'])
-            ->join('product_lines', 'product_lines.id', '=', 'eyepieces.product_line_id')
-            ->join('manufacturers', 'manufacturers.id', '=', 'eyepieces.manufacturer_id')
-            ->select('eyepieces.*')
-            ->orderBy('manufacturers.name', 'ASC')
-            ->orderBy('product_lines.name', 'ASC')
-            ->orderBy('eyepieces.focal_length', 'ASC')
-            ->get();
+        $eyepieces = $this->eyepieceRepository->getJSONList();
 
         return view('eyepiece.index', compact('eyepieces'));
     }
@@ -92,7 +92,7 @@ class EyepieceController extends Controller
     {
         $eyepiece = Eyepiece::find($id);
 
-        $telescopes = user()->getTelescopes();
+        $telescopes = Auth::user()->getTelescopes();
 
         return view('eyepiece.show', compact('eyepiece', 'telescopes'));
     }

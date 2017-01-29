@@ -107,39 +107,8 @@
                         <p>Examples: <em>"Delite"</em>, <em>"Explore Scientific"</em>, <em>"30mm"</em></p>
                     </div>
 
-
                     <!-- Eyepiece List -->
-                    <table v-cloak class="table table-bordered">
-                        <tr>
-                            <th>Manufacturer</th>
-                            <th>Product Line</th>
-                            <th>Focal Length</th>
-                            <th>Magnification<span class="asterisk">*</span></th>
-                            <th>Exit Pupil<span class="asterisk">*</span></th>
-                            <th>True FoV<span class="asterisk">*</span></th>
-                            <th>Apparent Field</th>
-                            <th>Eye Relief</th>
-                            <th>Field Stop</th>
-                            <th>Barrel Size</th>
-                        </tr>
-                        <tr v-for="(eyepiece, index) in selectedEyepieces" v-bind:class="{ warning: isMagnificationTooHigh(eyepiece, telescope) || isExitPupilTooLarge(eyepiece, telescope) }">
-                            <td><span v-cloak>@{{ eyepiece.manufacturer_name }}</span></td>
-                            <td><span v-cloak>@{{ eyepiece.product_name }}</span></td>
-                            <td><span v-cloak>@{{ eyepiece.focal_length | mm}}</span></td>
-                            <td v-bind:class="{ 'warning-magnification': isMagnificationTooHigh(eyepiece, telescope) }">
-                                <span v-cloak>@{{ calculateMagnification(eyepiece, telescope) | numberFormat(2) | mag}}</span>
-                            </td>
-                            <td v-bind:class="{ 'warning-magnification': isExitPupilTooLarge(eyepiece, telescope) }">
-                                <span v-cloak>@{{ calculateExitPupil(eyepiece, telescope) | numberFormat(2) | mm}}</span>
-                            </td>
-                            <td><span v-cloak>@{{ calculateTrueFoV(eyepiece, telescope) | numberFormat(2) | deg}}</span></td>
-                            <td><span v-cloak>@{{ eyepiece.apparent_field | deg }}</span></td>
-                            <td><span v-cloak>@{{ eyepiece.eye_relief | mm }}</span></td>
-                            <td><span v-cloak>@{{ eyepiece.field_stop | mm }}</span></td>
-                            <td><span v-cloak>@{{ eyepiece.barrel_size }}</span></td>
-                        </tr>
-                    </table>
-                    <span class="asterisk">*</span> Values computed for your selected telescope. All other values are properties of the eyepiece.
+                    <eyepiece-list :eyepieces="selectedEyepieces" :telescope="telescope"></eyepiece-list>
                 </div>
             </div>
         </div>
@@ -148,6 +117,12 @@
 @section('page-script')
     <script>
         window.eyepieces = JSON.parse('{!! $eyepieces !!}');
+        window.telescope = {
+            focal_length: 2000,
+            aperture: 400,
+            max_magnification: 50,
+            max_pupil: 7
+        };
     </script>
     <script src="/js/eyepiece-form.js"></script>
 @endsection

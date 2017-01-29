@@ -3,14 +3,17 @@
 namespace EPP;
 
 use Illuminate\Database\Eloquent\Model;
+use EPP\Conversion\MMToInch;
 
 class Telescope extends Model
 {
+    CONST MM_PER_INCH = 25.4;
+
     protected $fillable = [
         'name',
         'aperture',
         'focal_length',
-        'user_id'
+        'max_magnification'
     ];
 
     public function user()
@@ -41,16 +44,22 @@ class Telescope extends Model
 
     public function getApertureInches()
     {
-        // This sequence does the following:
-        // 1. Convert mm to inches
-        // 2. Get the float value of this number (which will drop extraneous zeros)
-        // 3. By multiplying by four, rounding, and dividing by four, we can get to the nearest 1/4"
-        return round(floatval($this->getAperture() / 25.4) * 4) / 4;
+        return MMToInch::convert($this->getAperture(), MMToInch::NEAREST_QUARTER);
     }
 
     public function getFocalLength()
     {
         return $this->focal_length;
+    }
+
+    public function getMaxMagnification()
+    {
+        return $this->max_magnification;
+    }
+
+    public function calculateMaxMagnification()
+    {
+        return $this->max_magnification * MMToInch::convert($this->getAperture(), MMToInch::EXACT);
     }
 
     public function getUser()

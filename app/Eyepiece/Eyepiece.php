@@ -1,7 +1,8 @@
-<?php
+<?php namespace EPP\Eyepiece;
 
-namespace EPP;
-
+use EPP\Manufacturer;
+use EPP\ProductLine;
+use EPP\Telescope;
 use Illuminate\Database\Eloquent\Model;
 
 class Eyepiece extends Model

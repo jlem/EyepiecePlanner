@@ -4,13 +4,6 @@ import utils from "./utils";
 
 'use strict';
 
-let telescope = {
-	focal_length: 2000,
-	aperture: 400,
-	max_magnification: 50,
-	max_pupil: 7
-};
-
 const ELEMENT = '#comparison';
 
 // Search
@@ -20,9 +13,9 @@ const search = (eyepieces, query) => (!query) ? [] : eyepieces.filter(eyepiece =
 new Vue({
 	el: ELEMENT,
 	data: {
+		telescope: window.telescope,
 		eyepieces: window.eyepieces,
 		selectedEyepieces: [],
-		telescope: telescope,
 		searchResults: [],
 		pupilReference: false,
 		query: null

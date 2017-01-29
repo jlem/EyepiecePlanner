@@ -3,6 +3,7 @@
 namespace EPP\Http\Controllers;
 
 use EPP\Eyepiece;
+use EPP\Eyepiece\EyepieceRepository;
 use EPP\Telescope;
 use EPP\Http\Validators\TelescopeValidator;
 use Illuminate\Http\Request;
@@ -10,9 +11,15 @@ use Auth;
 
 class TelescopeController extends Controller
 {
-    public function __construct()
+    /**
+     * @var EyepieceRepository
+     */
+    private $eyepieceRepository;
+
+    public function __construct(EyepieceRepository $eyepieceRepository)
     {
         $this->middleware('auth');
+        $this->eyepieceRepository = $eyepieceRepository;
     }
 
     /**
@@ -45,7 +52,7 @@ class TelescopeController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->only(['name', 'aperture', 'focal_length']);
+        $input = $request->only(['name', 'aperture', 'focal_length', 'max_magnification']);
 
         $validator = TelescopeValidator::make($input);
 
@@ -66,17 +73,13 @@ class TelescopeController extends Controller
      */
     public function show($id)
     {
-        $telescopes = Auth::user()->getTelescopes();
+        $data = [
+            'telescopes' => Auth::user()->getTelescopes(),
+            'selectedTelescope' => Telescope::find($id),
+            'eyepieces' => $this->eyepieceRepository->getJSONList()
+        ];
 
-        $selectedTelescope = Telescope::find($id);
-
-        $eyepieces = Eyepiece::with('productLine', 'manufacturer')
-            ->orderBy('manufacturer_id', 'ASC')
-            ->orderBy('product_line_id', 'ASC')
-            ->orderBy('focal_length', 'ASC')
-            ->get();
-
-        return view('telescope.show', compact('selectedTelescope', 'telescopes', 'eyepieces'));
+        return view('telescope.show', $data);
     }
 
     /**
@@ -108,7 +111,7 @@ class TelescopeController extends Controller
             abort(401);
         }
 
-        $input = $request->only(['name', 'aperture', 'focal_length']);
+        $input = $request->only(['name', 'aperture', 'focal_length', 'max_magnification']);
 
         $telescope->update($input);
 

@@ -53,6 +53,20 @@
                                 </div>
                             </div>
 
+                            <div class="form-group{{ $errors->has('max_magnification') ? ' has-error' : '' }}">
+                                <label for="max_magnification" class="col-md-4 control-label">Max magnification per inch (usually 50x for excellent optics)</label>
+
+                                <div class="col-md-6">
+                                    <input id="max_magnification" type="text" class="form-control" name="max_magnification" value="{{ $telescope->getMaxMagnification() }}" required>
+
+                                    @if ($errors->has('max_magnification'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('max_magnification') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">

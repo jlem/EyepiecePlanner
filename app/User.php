@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
 
-class User extends Authenticatable implements UserInterface
+class User extends Authenticatable
 {
     use Notifiable;
 

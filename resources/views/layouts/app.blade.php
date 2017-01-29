@@ -19,6 +19,8 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+
+    @yield('page-data')
 </head>
 <body>
     <div id="app">

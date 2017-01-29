@@ -14,3 +14,12 @@ require('./bootstrap');
  */
 
 //Vue.component('example', require('./components/Example.vue'));
+Vue.component('eyepiece-list', require('./components/EyepieceList.vue'));
+
+//new Vue({
+//	el: '#app',
+//	data: {
+//		eyepieces: window.eyepieces,
+//		telescope: window.telescope
+//	}
+//});
