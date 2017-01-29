@@ -86,18 +86,18 @@
                                placeholder="Search for eyepieces to compare..."
                                class="form-control input-lg"
                                v-model="query"
-                               v-on:keyUp="search(query)" />
+                               v-on:keyUp="search(eyepieces, query)" />
                         <div v-cloak v-if="searchResults.length" class="search-results">
                             <div class="selection-tools">
                                 <button v-on:click="clearSearch()" type="button" class="btn btn-xs btn-success pull-right">Done</button>
                                 <button v-if="selectedEyepieces.length" v-on:click="clearSelection()" type="button" class="btn btn-xs btn-danger">
-                                    Clear Selection <span class="badge">@{{ selectedEyepiecesMap.length }}</span>
+                                    Clear Selection <span class="badge">@{{ selectedEyepieces.length }}</span>
                                 </button>
                             </div>
                             <div class="search-result"
                                  v-for="eyepiece in searchResults"
-                                 v-bind:class="{ selected: isSelected(selectedEyepiecesMap, eyepiece) }"
-                                 v-on:click="select(eyepiece, $event)">
+                                 v-bind:class="{ selected: isSelected(selectedEyepieces, eyepiece) }"
+                                 v-on:click="select(selectedEyepieces, eyepiece)">
                                 @{{ getEyepieceDescription(eyepiece) }}
                             </div>
                         </div>
