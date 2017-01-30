@@ -12,29 +12,37 @@
                     <th v-if="telescope">True FoV<span class="asterisk">*</span></th>
                     <th>Apparent Field</th>
                     <th>Eye Relief</th>
+                    <th>Field Stop</th>
                     <th>Barrel Size</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(eyepiece, index) in selectedEyepieces" v-bind:class="{ warning: showWarning(eyepiece, telescope) }">
-                    <td><span v-cloak>{{ eyepiece.manufacturer_name }}</span></td>
-                    <td><span v-cloak>{{ eyepiece.product_name }}</span></td>
-                    <td><span v-cloak>{{ eyepiece.focal_length | mm}}</span></td>
+                    <td>{{ eyepiece.manufacturer_name }}</td>
+                    <td>{{ eyepiece.product_name }}</td>
+                    <td>{{ eyepiece.focal_length | mm }}</td>
                     <td v-if="telescope" v-bind:class="{ 'warning-magnification': isMagnificationTooHigh(eyepiece, telescope) }">
-                        <span v-cloak>{{ calculateMagnification(eyepiece, telescope) | numberFormat(2) | mag}}</span>
+                        {{ calculateMagnification(eyepiece, telescope) | numberFormat(2) | mag }}
                     </td>
                     <td v-if="telescope" v-bind:class="{ 'warning-magnification': isExitPupilTooLarge(eyepiece, telescope) }">
-                        <span v-cloak>{{ calculateExitPupil(eyepiece, telescope) | numberFormat(2) | mm}}</span>
+                        {{ calculateExitPupil(eyepiece, telescope) | numberFormat(2) | mm }}
                     </td>
-                    <td v-if="telescope"><span v-cloak>{{ calculateTrueFoV(eyepiece, telescope) | numberFormat(2) | deg}}</span></td>
-                    <td><span v-cloak>{{ eyepiece.apparent_field | deg }}</span></td>
-                    <td><span v-cloak>{{ eyepiece.eye_relief | mm }}</span></td>
-                    <td><span v-cloak>{{ eyepiece.barrel_size }}</span></td>
+                    <td v-if="telescope && eyepiece.field_stop">
+                        {{ calculateTrueFoVFieldStop(eyepiece, telescope) | numberFormat(2) | deg }}
+                    </td>
+                    <td v-if="telescope && !eyepiece.field_stop">
+                        {{ calculateTrueFoV(eyepiece, telescope) | numberFormat(2) | deg }}<span class="asterisk">†</span>
+                    </td>
+                    <td>{{ eyepiece.apparent_field | deg }}</td>
+                    <td>{{ eyepiece.eye_relief | mm }}</td>
+                    <td>{{ eyepiece.field_stop | mm }}</td>
+                    <td>{{ eyepiece.barrel_size }}</td>
                 </tr>
             </tbody>
         </table>
         <div v-if="telescope" >
-            <span class="asterisk">*</span> Values computed for your selected telescope. All other values are properties of the eyepiece.
+            <p><span class="asterisk">*</span> Values computed for your selected telescope. All other values are properties of the eyepiece.</p>
+            <p><span class="asterisk">†</span> True FOV computed using less accurate apparent field method</p>
         </div>
     </div>
 </template>
@@ -69,6 +77,7 @@
         methods: {
             calculateMagnification: telescopeUtilities.calculateMagnification,
             calculateTrueFoV: telescopeUtilities.calculateTrueFoV,
+            calculateTrueFoVFieldStop: telescopeUtilities.calculateTrueFoVFieldStop,
             calculateExitPupil: telescopeUtilities.calculateExitPupil,
             calculateMaxMagnification: telescopeUtilities.calculateMaxMagnification,
             calculateLowestMagnification: telescopeUtilities.calculateLowestMagnification,
