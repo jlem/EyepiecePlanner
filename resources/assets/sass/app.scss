@@ -1,14 +1,14 @@
-
-// Fonts
-
-// Variables
-@import "variables";
-
-// Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "variables";
+@import "functions";
+@import "forms";
 
 [v-cloak] {
   display: none;
+}
+
+body {
+  background: url(../background.jpg) fixed bottom center;
 }
 
 h1 {
@@ -18,23 +18,28 @@ h1 {
 .asterisk {
   font-weight: bold;
   vertical-align: super;
-  color: $brand-danger;
+  color: #6e2a65;
 }
 
-.search {
-  position: relative;
-  margin-bottom: 15px;
+.eyepiece-comparison {
+  margin-top: 30px;
 }
 
-.search input {
-  padding-left: 60px;
+.search-example {
+  opacity: 0;
+  color: $brand-pink;
+  font-size: 14px;
+  margin-top: 6px;
+  font-weight: bold;
+  transition: opacity 0.2s ease;
 }
 
-.search-icon {
-  font-size: 30px;
-  position: absolute;
-  top: 8px;
-  left: 12px;
+.search-field:focus ~ .search-example {
+  opacity: 1;
+}
+
+.search-field:valid ~ .search-example {
+  opacity: 0;
 }
 
 .search-results {
@@ -93,4 +98,27 @@ h1 {
 
 .comparison-telescope-form {
   position: relative;
+  margin-top: 100px;
+}
+
+.eyepiece-table {
+  width: 100%;
+  color: #fff;
+  border-collapse: separate;
+  border-spacing: 1px;
+}
+
+.eyepiece-table th,
+.eyepiece-table td {
+  background: rgba(33, 23, 50, 0.6);
+  padding: 4px 8px;
+  color: #7e7b9c;
+}
+
+.eyepiece-table th {
+  color: #fff;
+}
+
+.eyepiece-table tr:hover td {
+  background: rgba(35, 25, 52, 0.8);
 }

@@ -3,110 +3,92 @@
 @section('content')
     <div class="container" id="comparison">
 
-        <!-- Heading -->
-        <div>
-            <h1>Eyepiece Comparison</h1>
-        </div>
-
         <!-- Telescope Information -->
-        <h3>1. Add telescope information</h3>
         <div class="row">
-            <div class="panel">
-                <div class="panel-body comparison-telescope-form">
-                    <form v-cloak>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Aperture (mm)</label>
-                                <input type="text" class="form-control" v-model="telescope.aperture" />
-                            </div>
+            <div class="comparison-telescope-form">
+                <form v-cloak autocomplete="off">
+                    <div class="col-md-3">
+                        <div class="form-group animated-field">
+                            <input type="text" role="search"  v-model="telescope.aperture" required autocomplete="off"/>
+                            <label>Telescope Aperture (mm)</label>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Focal Length (mm)</label>
-                                <input type="text" class="form-control" v-model="telescope.focal_length" />
-                            </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group animated-field">
+                            <input type="text" role="search" v-model="telescope.focal_length" required autocomplete="off" />
+                            <label>Telescope Focal Length (mm)</label>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Pupil size (mm) <a href="#" v-on:click="togglePupilReference()">(chart)</a></label>
-                                <input type="text" class="form-control" v-model="telescope.max_pupil" />
-                            </div>
-                            <div class="pupil-reference" v-if="pupilReference" v-on:click="togglePupilReference()" v-cloak>
-                                <dl class="dl-horizontal">
-                                    <dt>Age 20</dt>
-                                    <dd>8 mm</dd>
-                                    <dt>Age 30</dt>
-                                    <dd>7 mm</dd>
-                                    <dt>Age 40</dt>
-                                    <dd>6 mm</dd>
-                                    <dt>Age 50</dt>
-                                    <dd>5 mm</dd>
-                                    <dt>Age 60</dt>
-                                    <dd>4.1 mm</dd>
-                                    <dt>Age 70</dt>
-                                    <dd>3.2 mm</dd>
-                                    <dt>Age 80</dt>
-                                    <dd>2.5 mm</dd>
-                                </dl>
-                            </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group animated-field">
+                            <input type="text" role="search" v-model="telescope.max_pupil" required autocomplete="off" />
+                            <label>Pupil size (mm) <a href="#" v-on:click="togglePupilReference()">(chart)</a></label>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Max Magnification Per Inch</label>
-                                <input type="text" class="form-control" v-model="telescope.max_magnification" />
-                            </div>
+                        <div class="pupil-reference" v-if="pupilReference" v-on:click="togglePupilReference()" v-cloak>
+                            <dl class="dl-horizontal">
+                                <dt>Age 20</dt>
+                                <dd>8 mm</dd>
+                                <dt>Age 30</dt>
+                                <dd>7 mm</dd>
+                                <dt>Age 40</dt>
+                                <dd>6 mm</dd>
+                                <dt>Age 50</dt>
+                                <dd>5 mm</dd>
+                                <dt>Age 60</dt>
+                                <dd>4.1 mm</dd>
+                                <dt>Age 70</dt>
+                                <dd>3.2 mm</dd>
+                                <dt>Age 80</dt>
+                                <dd>2.5 mm</dd>
+                            </dl>
                         </div>
-                        {{--<div class="col-md-4">--}}
-                            {{--<div class="form-group">--}}
-                                {{--<label>Max Useful Magnification</label>--}}
-                                {{--<input type="text" class="form-control" v-bind:value="calculateMaxMagnification(telescope) | numberFormat(2) | mag" disabled />--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="col-md-4">--}}
-                            {{--<div class="form-group">--}}
-                                {{--<label>Lowest "Useful" Magnification</label>--}}
-                                {{--<input type="text" class="form-control" v-bind:value="calculateLowestMagnification(telescope) | numberFormat(2) | mag" disabled />--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    </form>
-                </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group animated-field">
+                            <input type="text" role="search" v-model="telescope.max_magnification" required autocomplete="off" />
+                            <label>Max Magnification Per Inch</label>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
         <!-- Eyepiece Search -->
-        <h3>2. Search for eyepieces to compare</h3>
-        <div class="row">
-            <div class="panel">
-                <div class="panel-body">
-
-                    <!-- Eyepiece Search Field -->
-                    <div class="search">
+        <div class="row eyepiece-comparison">
+            <div class="col-xs-12">
+                <!-- Eyepiece Search Field -->
+                <div class="animated-field">
+                    <input type="text"
+                           name="query"
+                           required
+                           role="search"
+                           class="search-field"
+                           v-model="query"
+                           v-on:keyUp="search(eyepieces, query)" />
+                    <label>
                         <i class="search-icon glyphicon glyphicon-search"></i>
-                        <input type="text"
-                               name="query"
-                               placeholder="Examples: 'Delite', 'Explore Scientific', '30mm'"
-                               class="form-control input-lg"
-                               v-model="query"
-                               v-on:keyUp="search(eyepieces, query)" />
-                        <div v-cloak v-if="searchResults.length" class="search-results">
-                            <div class="selection-tools">
-                                <button v-on:click="clearSearch()" type="button" class="btn btn-success pull-right">Done</button>
-                                <button v-if="selectedEyepieces.length" v-on:click="clearSelection()" type="button" class="btn btn-danger">
-                                    Clear Selection <span class="badge">@{{ selectedEyepieces.length }}</span>
-                                </button>
-                            </div>
-                            <div class="search-result"
-                                 v-for="eyepiece in searchResults"
-                                 v-bind:class="{ selected: isSelected(selectedEyepieces, eyepiece) }"
-                                 v-on:click="select(selectedEyepieces, eyepiece)">
-                                @{{ getEyepieceDescription(eyepiece) }}
-                            </div>
+                        Search for eyepieces to compare...
+                    </label>
+                    <div class="search-example">Examples: <em>"Delite"</em>, <em>"Explore Scientific"</em>, <em>"30mm"</em></div>
+                    <div v-cloak v-if="searchResults.length" class="search-results">
+                        <div class="selection-tools">
+                            <button v-on:click="clearSearch()" type="button" class="btn btn-success pull-right">Done</button>
+                            <button v-if="selectedEyepieces.length" v-on:click="clearSelection()" type="button" class="btn btn-danger">
+                                Clear Selection <span class="badge">@{{ selectedEyepieces.length }}</span>
+                            </button>
+                        </div>
+                        <div class="search-result"
+                             v-for="eyepiece in searchResults"
+                             v-bind:class="{ selected: isSelected(selectedEyepieces, eyepiece) }"
+                             v-on:click="select(selectedEyepieces, eyepiece)">
+                            @{{ getEyepieceDescription(eyepiece) }}
                         </div>
                     </div>
-
-                    <!-- Eyepiece List -->
-                    <eyepiece-list v-if="selectedEyepieces.length" :eyepieces="selectedEyepieces" :telescope="telescope"></eyepiece-list>
                 </div>
+            </div>
+                <!-- Eyepiece List -->
+            <div class="col-md-12">
+                <eyepiece-list v-if="selectedEyepieces.length" :eyepieces="selectedEyepieces" :telescope="telescope"></eyepiece-list>
             </div>
         </div>
     </div>

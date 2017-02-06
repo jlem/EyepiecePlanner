@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- Eyepiece List -->
-        <table v-cloak class="table table-bordered">
+        <table v-cloak class="eyepiece-table">
             <thead>
                 <tr>
                     <th>Manufacturer</th>
@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(eyepiece, index) in selectedEyepieces" v-bind:class="{ warning: showWarning(eyepiece, telescope) }">
+                <tr v-for="(eyepiece, index) in eyepieces">
                     <td>{{ eyepiece.manufacturer_name }}</td>
                     <td>{{ eyepiece.product_name }}</td>
                     <td>{{ eyepiece.focal_length | mm }}</td>
@@ -55,36 +55,10 @@
 
     'use strict';
 
-    // Search
-    const search = (eyepieces, query) => (!query) ? [] : eyepieces.filter(eyepiece => telescopeUtilities.getEyepieceDescription(eyepiece).toLowerCase().indexOf(query.toLowerCase()) > -1);
-    const showWarning = (eyepiece, telescope) => (!telescope) ? false :  telescopeUtilities.isMagnificationTooHigh(eyepiece, telescope) || telescopeUtilities.isExitPupilTooLarge(eyepiece, telescope);
-
     // View Model
     export default {
         props: ['eyepieces', 'telescope'],
-        data: function () {
-            return {
-                searchResults: [],
-                pupilReference: false,
-                query: null
-            }
-        },
-        computed: {
-            selectedEyepieces: function () {
-                return this.eyepieces;
-            }
-        },
-        methods: {
-            calculateMagnification: telescopeUtilities.calculateMagnification,
-            calculateTrueFoV: telescopeUtilities.calculateTrueFoV,
-            calculateTrueFoVFieldStop: telescopeUtilities.calculateTrueFoVFieldStop,
-            calculateExitPupil: telescopeUtilities.calculateExitPupil,
-            calculateMaxMagnification: telescopeUtilities.calculateMaxMagnification,
-            calculateLowestMagnification: telescopeUtilities.calculateLowestMagnification,
-            isMagnificationTooHigh: telescopeUtilities.isMagnificationTooHigh,
-            isExitPupilTooLarge: telescopeUtilities.isExitPupilTooLarge,
-            showWarning,
-        },
+        methods: telescopeUtilities,
         filters: formatters
     };
 </script>

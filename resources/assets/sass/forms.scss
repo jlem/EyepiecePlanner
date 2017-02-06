@@ -1,0 +1,47 @@
+.animated-field {
+  position: relative;
+  height: 75px;
+
+  input {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    background: none;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    font-size: 22px;
+    padding: 10px;
+    color: #fff;
+    border: 2px solid rgba($brand-purple, 0.4);
+    transition: opacity 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  input:focus {
+    border: 2px solid $brand-pink;
+    box-shadow: 0 0 30px rgba(103, 61, 110, 0.3);
+  }
+
+  label {
+    width: 100%;
+    left: 12px;
+    top: 17px;
+    position: absolute;
+    font-size: 16px;
+    color: tint($brand-purple, 10%);
+    font-weight: normal;
+    transition: font 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  }
+
+  input:focus + label,
+  input:valid + label {
+    font-size: 14px;
+    color: $brand-purple;
+    font-weight: bold;
+    transform: translate(-12px, -40px);
+  }
+
+  input:focus + label {
+    color: $brand-pink;
+  }
+}
