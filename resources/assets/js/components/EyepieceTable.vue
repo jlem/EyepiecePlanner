@@ -94,7 +94,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="eyepiece in sortedEyepieces">
+            <tr v-for="eyepiece in sortedEyepieces" v-on:click="selectRow(eyepiece)" v-bind:class="{ selected: selectedRows[eyepiece.id] }">
                 <td>{{ eyepiece.name }}</td>
                 <td>{{ eyepiece.focal_length | mm }}</td>
                 <td v-if="telescope">
@@ -172,6 +172,10 @@
         background-color: #f4f4f4;
     }
 
+    tr.selected {
+        background-color: darkseagreen;
+    }
+
     th label {
         display: block;
     }
@@ -201,14 +205,15 @@
                 .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.eye_relief), 'eye_relief'))
                 .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.field_stop), 'field_stop'))
                 .sort(utils.compare.bind(this, this.sortKey, this.sortAscending));
-    }
+    };
 
     // View Model
     export default {
-        props: ['eyepieces', 'telescope'],
+        props: ['eyepieces', 'telescope', 'onRowSelect'],
         data: () => {
             return {
                 sortKey: 'name',
+                selectedRows: {},
                 sortAscending: true,
                 filters: {
                     name: '',
@@ -222,11 +227,21 @@
                 }
             }
         },
+        created: function () {
+            this.selectedRows = this.eyepieces.reduce(function (acc, eyepiece) {
+                acc[eyepiece.id] = false;
+                return acc;
+            }, {});
+        },
         computed: {
             sortedEyepieces: updateEyepieces
         },
         methods: {
-            sortBy: sortBy
+            sortBy: sortBy,
+            selectRow: function (eyepiece) {
+                this.selectedRows[eyepiece.id] = !this.selectedRows[eyepiece.id];
+                this.onRowSelect(eyepiece, this.selectedRows[eyepiece.id]);
+            }
         },
         filters: formatters,
     };

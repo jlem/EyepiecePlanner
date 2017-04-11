@@ -1,7 +1,7 @@
 <template>
     <div>
         <telescope-form :changes="onTelescopeChange" :telescopes="telescopes"></telescope-form>
-        <eyepiece-table :eyepieces="computedEyepieces" :telescope="true"></eyepiece-table>
+        <eyepiece-table :eyepieces="computedEyepieces" :telescope="true" :on-row-select="onRowSelect"></eyepiece-table>
     </div>
 </template>
 
@@ -42,6 +42,9 @@
             computeEyepieces.call(this);
         },
         methods: {
+            onRowSelect: function (eyepiece, deselected) {
+                console.log('eyepiece selected', deselected);
+            },
             onTelescopeChange: debounce(function (telescope) {
                 setTelescope.call(this, telescope);
                 computeEyepieces.call(this);
