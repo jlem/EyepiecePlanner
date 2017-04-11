@@ -1,1 +1,74 @@
-!function(e){function t(i){if(n[i])return n[i].exports;var c=n[i]={i:i,l:!1,exports:{}};return e[i].call(c.exports,c,c.exports,t),c.l=!0,c.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,t,n){Object.defineProperty(e,t,{configurable:!1,enumerable:!0,get:n})},t.n=function(e){var n=e&&e.__esModule?function(){return e["default"]}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=3)}([function(e,t,n){"use strict";var i=function(e,t){return t?t+e:null},c=function(e,t){return parseFloat(e.toFixed(t))},a=i.bind(null," mm"),r=i.bind(null,"°"),u=i.bind(null,"x");t.a={numberFormat:c,mm:a,deg:r,mag:u}},function(e,t,n){"use strict";var i=function(e,t){return t.focal_length/e.focal_length},c=function(e,t){return e.apparent_field/i(e,t)},a=function(e,t){return e.field_stop/t.focal_length*57.3},r=function(e,t){return t.aperture/i(e,t)},u=function(e){return e.aperture/25.4*e.max_magnification},o=function(e){return e.aperture/e.max_pupil},l=function(e,t){return i(e,t)>u(t)},f=function(e,t){return r(e,t)>t.max_pupil},s=function(e){return e.manufacturer_name+" "+e.product_name+" "+e.focal_length+"mm "};t.a={calculateMagnification:i,calculateTrueFoV:c,calculateTrueFoVFieldStop:a,calculateExitPupil:r,calculateMaxMagnification:u,calculateLowestMagnification:o,isMagnificationTooHigh:l,isExitPupilTooLarge:f,getEyepieceDescription:s}},function(e,t,n){"use strict";var i=function(e,t,n){return t.findIndex(function(t){return t[e]===n[e]})},c=i.bind(null,"id"),a=function(e,t){return i("id",e,t)>-1},r=function(e,t){return e.push(t),e},u=function(e,t,n){return t.splice(e(t,n),1),t},o=u.bind(null,c);t.a={findIndexByProperty:i,findIndexById:c,isSelected:a,addSelection:r,removeSelection:u,removeSelectionById:o}},function(e,t,n){"use strict";var i=n(1),c=n(0),a=n(2),r="#comparison",u=function(e,t){return t?e.filter(function(e){return i.a.getEyepieceDescription(e).toLowerCase().indexOf(t.toLowerCase())>-1}):[]};new Vue({el:r,data:{telescope:window.telescope,eyepieces:window.eyepieces,selectedEyepieces:[],searchResults:[],pupilReference:!1,query:null},methods:{calculateMagnification:i.a.calculateMagnification,calculateTrueFoV:i.a.calculateTrueFoV,calculateExitPupil:i.a.calculateExitPupil,calculateMaxMagnification:i.a.calculateMaxMagnification,calculateLowestMagnification:i.a.calculateLowestMagnification,isMagnificationTooHigh:i.a.isMagnificationTooHigh,isExitPupilTooLarge:i.a.isExitPupilTooLarge,getEyepieceDescription:i.a.getEyepieceDescription,isSelected:a.a.isSelected,select:function(e,t){this.selectedEyepices=a.a.isSelected(e,t)?a.a.removeSelectionById(e,t):a.a.addSelection(e,t)},clearSelection:function(){this.selectedEyepieces=[]},search:function(e,t){this.searchResults=u(e,t)},clearSearch:function(){this.query=null,this.search(this.query)},togglePupilReference:function(){this.pupilReference=!this.pupilReference}},filters:c.a})}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// identity function for calling harmory imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+
+/******/ 	// define getter function for harmory exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		Object.defineProperty(exports, name, {
+/******/ 			configurable: false,
+/******/ 			enumerable: true,
+/******/ 			get: getter
+/******/ 		});
+/******/ 	};
+
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports) {
+
+eval("//import telescopeUtilities from \"./telescope-utils\";\n//import formatters from \"./formatters\";\n//import utils from \"./utils\";\n//\n//'use strict';\n//\n//const ELEMENT = '#comparison';\n//\n//// Search\n//const search = (eyepieces, query) => (!query) ? [] : eyepieces.filter(eyepiece => telescopeUtilities.getEyepieceDescription(eyepiece).toLowerCase().indexOf(query.toLowerCase()) > -1);\n//\n//// View Model\n//new Vue({\n//\tel: ELEMENT,\n//\tdata: {\n//\t\ttelescope: window.telescope,\n//\t\teyepieces: window.eyepieces,\n//\t\tselectedEyepieces: [],\n//\t\tsearchResults: [],\n//\t\tpupilReference: false,\n//\t\tquery: null\n//\t},\n//\tmethods: {\n//\t\tgetEyepieceDescription: telescopeUtilities.getEyepieceDescription,\n//\t\tisSelected: utils.isSelected,\n//\t\tselect: function (selectedEyepieces, eyepiece) {\n//\t\t\tthis.selectedEyepices = utils.isSelected(selectedEyepieces, eyepiece)\n//\t\t\t\t? utils.removeSelectionById(selectedEyepieces, eyepiece)\n//\t\t\t\t: utils.addSelection(selectedEyepieces, eyepiece);\n//\t\t},\n//\t\tclearSelection: function () {\n//\t\t\tthis.selectedEyepieces = [];\n//\t\t},\n//\t\tsearch: function (eyepieces, query) {\n//\t\t\tthis.searchResults = search(eyepieces, query);\n//\t\t},\n//\t\tclearSearch: function () {\n//\t\t\tthis.query = null;\n//\t\t\tthis.search(this.query);\n//\t\t},\n//\t\ttogglePupilReference: function () {\n//\t\t\tthis.pupilReference = !this.pupilReference;\n//\t\t}\n//\t},\n//\tfilters: formatters\n//});\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiMC5qcyIsInNvdXJjZXMiOlsid2VicGFjazovLy9yZXNvdXJjZXMvYXNzZXRzL2pzL2V5ZXBpZWNlLWZvcm0uanM/YjQ0NCJdLCJzb3VyY2VzQ29udGVudCI6WyIvL2ltcG9ydCB0ZWxlc2NvcGVVdGlsaXRpZXMgZnJvbSBcIi4vdGVsZXNjb3BlLXV0aWxzXCI7XG4vL2ltcG9ydCBmb3JtYXR0ZXJzIGZyb20gXCIuL2Zvcm1hdHRlcnNcIjtcbi8vaW1wb3J0IHV0aWxzIGZyb20gXCIuL3V0aWxzXCI7XG4vL1xuLy8ndXNlIHN0cmljdCc7XG4vL1xuLy9jb25zdCBFTEVNRU5UID0gJyNjb21wYXJpc29uJztcbi8vXG4vLy8vIFNlYXJjaFxuLy9jb25zdCBzZWFyY2ggPSAoZXllcGllY2VzLCBxdWVyeSkgPT4gKCFxdWVyeSkgPyBbXSA6IGV5ZXBpZWNlcy5maWx0ZXIoZXllcGllY2UgPT4gdGVsZXNjb3BlVXRpbGl0aWVzLmdldEV5ZXBpZWNlRGVzY3JpcHRpb24oZXllcGllY2UpLnRvTG93ZXJDYXNlKCkuaW5kZXhPZihxdWVyeS50b0xvd2VyQ2FzZSgpKSA+IC0xKTtcbi8vXG4vLy8vIFZpZXcgTW9kZWxcbi8vbmV3IFZ1ZSh7XG4vL1x0ZWw6IEVMRU1FTlQsXG4vL1x0ZGF0YToge1xuLy9cdFx0dGVsZXNjb3BlOiB3aW5kb3cudGVsZXNjb3BlLFxuLy9cdFx0ZXllcGllY2VzOiB3aW5kb3cuZXllcGllY2VzLFxuLy9cdFx0c2VsZWN0ZWRFeWVwaWVjZXM6IFtdLFxuLy9cdFx0c2VhcmNoUmVzdWx0czogW10sXG4vL1x0XHRwdXBpbFJlZmVyZW5jZTogZmFsc2UsXG4vL1x0XHRxdWVyeTogbnVsbFxuLy9cdH0sXG4vL1x0bWV0aG9kczoge1xuLy9cdFx0Z2V0RXllcGllY2VEZXNjcmlwdGlvbjogdGVsZXNjb3BlVXRpbGl0aWVzLmdldEV5ZXBpZWNlRGVzY3JpcHRpb24sXG4vL1x0XHRpc1NlbGVjdGVkOiB1dGlscy5pc1NlbGVjdGVkLFxuLy9cdFx0c2VsZWN0OiBmdW5jdGlvbiAoc2VsZWN0ZWRFeWVwaWVjZXMsIGV5ZXBpZWNlKSB7XG4vL1x0XHRcdHRoaXMuc2VsZWN0ZWRFeWVwaWNlcyA9IHV0aWxzLmlzU2VsZWN0ZWQoc2VsZWN0ZWRFeWVwaWVjZXMsIGV5ZXBpZWNlKVxuLy9cdFx0XHRcdD8gdXRpbHMucmVtb3ZlU2VsZWN0aW9uQnlJZChzZWxlY3RlZEV5ZXBpZWNlcywgZXllcGllY2UpXG4vL1x0XHRcdFx0OiB1dGlscy5hZGRTZWxlY3Rpb24oc2VsZWN0ZWRFeWVwaWVjZXMsIGV5ZXBpZWNlKTtcbi8vXHRcdH0sXG4vL1x0XHRjbGVhclNlbGVjdGlvbjogZnVuY3Rpb24gKCkge1xuLy9cdFx0XHR0aGlzLnNlbGVjdGVkRXllcGllY2VzID0gW107XG4vL1x0XHR9LFxuLy9cdFx0c2VhcmNoOiBmdW5jdGlvbiAoZXllcGllY2VzLCBxdWVyeSkge1xuLy9cdFx0XHR0aGlzLnNlYXJjaFJlc3VsdHMgPSBzZWFyY2goZXllcGllY2VzLCBxdWVyeSk7XG4vL1x0XHR9LFxuLy9cdFx0Y2xlYXJTZWFyY2g6IGZ1bmN0aW9uICgpIHtcbi8vXHRcdFx0dGhpcy5xdWVyeSA9IG51bGw7XG4vL1x0XHRcdHRoaXMuc2VhcmNoKHRoaXMucXVlcnkpO1xuLy9cdFx0fSxcbi8vXHRcdHRvZ2dsZVB1cGlsUmVmZXJlbmNlOiBmdW5jdGlvbiAoKSB7XG4vL1x0XHRcdHRoaXMucHVwaWxSZWZlcmVuY2UgPSAhdGhpcy5wdXBpbFJlZmVyZW5jZTtcbi8vXHRcdH1cbi8vXHR9LFxuLy9cdGZpbHRlcnM6IGZvcm1hdHRlcnNcbi8vfSk7XG5cblxuXG4vLyBXRUJQQUNLIEZPT1RFUiAvL1xuLy8gcmVzb3VyY2VzL2Fzc2V0cy9qcy9leWVwaWVjZS1mb3JtLmpzIl0sIm1hcHBpbmdzIjoiQUFBQTs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OzsiLCJzb3VyY2VSb290IjoiIn0=");
+
+/***/ }
+/******/ ]);

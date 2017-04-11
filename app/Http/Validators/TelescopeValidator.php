@@ -12,7 +12,7 @@ class TelescopeValidator
             'name' => 'required|max:64',
             'aperture' => 'required|numeric|min:1|max:10000',
             'focal_length' => 'required|numeric|min:1|max:150000',
-            'max_magnification' => 'required|numeric|min:1'
+            'max_eyepiece_size' => 'required|in:1.25,2,3'
         ];
 
         return Validator::make($data, $rules);

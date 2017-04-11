@@ -2,7 +2,7 @@
 
 namespace EPP\Http\Controllers;
 
-use EPP\Eyepiece;
+use EPP\Eyepiece\Eyepiece;
 use EPP\Eyepiece\EyepieceRepository;
 use EPP\Manufacturer;
 use EPP\ProductLine;
@@ -31,9 +31,7 @@ class EyepieceController extends Controller
      */
     public function index()
     {
-        $eyepieces = $this->eyepieceRepository->getJSONList();
-
-        return view('eyepiece.index', compact('eyepieces'));
+        return view('eyepiece.index');
     }
 
     /**

@@ -13,13 +13,7 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-//Vue.component('example', require('./components/Example.vue'));
+Vue.component('eyepiece-table', require('./components/EyepieceTable.vue'));
 Vue.component('eyepiece-list', require('./components/EyepieceList.vue'));
-
-//new Vue({
-//	el: '#app',
-//	data: {
-//		eyepieces: window.eyepieces,
-//		telescope: window.telescope
-//	}
-//});
+Vue.component('eyepiece-filter', require('./components/EyepieceFilter.vue'));
+Vue.component('telescope-form', require('./components/TelescopeForm.vue'));

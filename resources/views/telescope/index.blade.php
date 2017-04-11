@@ -27,16 +27,20 @@
                 <table class="table table-bordered">
                     <tr>
                         <th>Name</th>
-                        <th>Aperture (mm)</th>
-                        <th>Focal Length (mm)</th>
+                        <th>Aperture</th>
+                        <th>Focal Length</th>
+                        <th>Focal Ratio</th>
+                        <th>Max Eyepiece Size</th>
                         <th></th>
                     </tr>
                     @foreach($telescopes as $telescope)
                         <tr>
-                            <td width="35%"><a href="/telescope/{{ $telescope->getID() }}">{{ $telescope->getName() }}</a></td>
-                            <td width="25%">{{ $telescope->getAperture() }}</td>
-                            <td width="25%">{{ $telescope->getFocalLength() }}</td>
-                            <td width="15%">
+                            <td width="30%"><a href="/telescope/{{ $telescope->getID() }}">{{ $telescope->getName() }}</a></td>
+                            <td width="15%">{{ $telescope->getAperture() }}mm</td>
+                            <td width="15%">{{ $telescope->getFocalLength() }}mm</td>
+                            <td width="15%">{{ $telescope->getFocalRatio() }}</td>
+                            <td width="15%"> {{ $telescope->getMaxEyepieceSize() }}"</td>
+                            <td width="10%">
                                 <form action="/telescope/{{ $telescope->getID() }}" method="POST">
                                     <input type="hidden" name="_method" value="DELETE" />
                                     {{ csrf_field() }}

@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'pupil_size'
     ];
 
     /**
@@ -60,5 +60,10 @@ class User extends Authenticatable
         }
 
         return false;
+    }
+
+    public function getPupilSize()
+    {
+        return $this->pupil_size;
     }
 }

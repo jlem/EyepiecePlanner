@@ -7,12 +7,33 @@
   display: none;
 }
 
-body {
-  background: url(../background.jpg) fixed bottom center;
-}
-
 h1 {
   margin-bottom: 30px;
+}
+
+.content {
+  display: flex;
+}
+
+.sidebar {
+  width: 300px;
+  min-width: 300px;
+  border-right: 1px solid #e2e2e2;
+  padding: 15px;
+}
+
+.panel {
+  flex: 1;
+  padding: 15px;
+}
+
+.navbar {
+  margin-bottom: 0;
+}
+
+.container {
+  width: 1200px;
+  padding: 0;
 }
 
 .asterisk {
@@ -98,27 +119,5 @@ h1 {
 
 .comparison-telescope-form {
   position: relative;
-  margin-top: 100px;
-}
-
-.eyepiece-table {
-  width: 100%;
-  color: #fff;
-  border-collapse: separate;
-  border-spacing: 1px;
-}
-
-.eyepiece-table th,
-.eyepiece-table td {
-  background: rgba(33, 23, 50, 0.6);
-  padding: 4px 8px;
-  color: #7e7b9c;
-}
-
-.eyepiece-table th {
-  color: #fff;
-}
-
-.eyepiece-table tr:hover td {
-  background: rgba(35, 25, 52, 0.8);
+  margin-top: 25px;
 }

@@ -46,9 +46,11 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         <li><a href="/eyepiece">Eyepieces</a></li>
-                        <li><a href="/">Compare</a></li>
                         @if(Auth::check())
                             <li><a href="/telescope">My Telescopes</a></li>
+                        @endif
+                        @if(Auth::check() && Auth::user()->isAdmin())
+                            <li><a href="/eyepiece/create">Add Eyepiece</a></li>
                             <li><a href="/manufacturer">Manufacturers</a></li>
                         @endif
                     </ul>
@@ -89,6 +91,18 @@
     </div>
 
     <!-- Scripts -->
+    <script>
+        window.eyepieces = JSON.parse('{!! $eyepieces !!}');
+        window.telescopes = JSON.parse('{!! $telescopes_json !!}');
+
+        // Add custom telescope
+        window.telescopes.push({
+            name: 'Custom Telescope',
+            aperture: 203,
+            focal_length: 1200,
+            max_eyepiece_size: "2"
+        });
+    </script>
     <script src="/js/app.js"></script>
     @yield('page-script')
     <script>

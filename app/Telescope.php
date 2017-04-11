@@ -13,7 +13,8 @@ class Telescope extends Model
         'name',
         'aperture',
         'focal_length',
-        'max_magnification'
+        'max_magnification',
+        'max_eyepiece_size'
     ];
 
     public function user()
@@ -52,9 +53,19 @@ class Telescope extends Model
         return $this->focal_length;
     }
 
+    public function getFocalRatio()
+    {
+        return number_format(($this->getFocalLength() / $this->getAperture()), 1);
+    }
+
     public function getMaxMagnification()
     {
         return $this->max_magnification;
+    }
+
+    public function getMaxEyepieceSize()
+    {
+        return $this->max_eyepiece_size;
     }
 
     public function calculateMaxMagnification()

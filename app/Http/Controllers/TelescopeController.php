@@ -52,12 +52,12 @@ class TelescopeController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->only(['name', 'aperture', 'focal_length', 'max_magnification']);
+        $input = $request->only(['name', 'aperture', 'focal_length', 'max_eyepiece_size']);
 
         $validator = TelescopeValidator::make($input);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->witherrors($validator);
         }
 
         Auth::user()->telescopes()->create($input);
@@ -111,7 +111,13 @@ class TelescopeController extends Controller
             abort(401);
         }
 
-        $input = $request->only(['name', 'aperture', 'focal_length', 'max_magnification']);
+        $input = $request->only(['name', 'aperture', 'focal_length', 'max_eyepiece_size']);
+
+        $validator = TelescopeValidator::make($input);
+
+        if ($validator->fails()) {
+            return redirect()->back()->witherrors($validator);
+        }
 
         $telescope->update($input);
 

@@ -1,7 +1,7 @@
 .animated-field {
   position: relative;
-  height: 75px;
 
+  select,
   input {
     width: 100%;
     position: relative;
@@ -12,36 +12,41 @@
     border: none;
     font-size: 22px;
     padding: 10px;
-    color: #fff;
-    border: 2px solid rgba($brand-purple, 0.4);
+    border-radius: 3px;
+    border: 1px solid #e2e2e2;
     transition: opacity 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
   }
 
-  input:focus {
-    border: 2px solid $brand-pink;
-    box-shadow: 0 0 30px rgba(103, 61, 110, 0.3);
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 10px;
   }
 
   label {
     width: 100%;
-    left: 12px;
-    top: 17px;
+    top: 15px;
+    left: 10px;
     position: absolute;
     font-size: 16px;
     color: tint($brand-purple, 10%);
     font-weight: normal;
-    transition: font 0.2s ease, transform 0.2s ease, color 0.2s ease;
+    transition: font 0.2s ease, transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
   }
 
+  select:valid,
+  input:focus,
+  input:valid {
+    padding-top: 18px;
+    padding-bottom: 2px;
+  }
+
+  select:valid + label,
   input:focus + label,
   input:valid + label {
-    font-size: 14px;
-    color: $brand-purple;
-    font-weight: bold;
-    transform: translate(-12px, -40px);
-  }
-
-  input:focus + label {
-    color: $brand-pink;
+    font-size: 12px;
+    opacity: 0.5;
+    transform: translateY(-10px);
   }
 }
