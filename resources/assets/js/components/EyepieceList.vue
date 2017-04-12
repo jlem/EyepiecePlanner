@@ -1,7 +1,7 @@
 <template>
     <div>
         <telescope-form :changes="onTelescopeChange" :telescopes="telescopes"></telescope-form>
-        <eyepiece-table :eyepieces="computedEyepieces" :telescope="true" :on-row-select="onRowSelect"></eyepiece-table>
+        <eyepiece-table :eyepieces="computedEyepieces" :telescope="true"></eyepiece-table>
     </div>
 </template>
 
@@ -16,7 +16,8 @@
     };
 
     let computeEyepieces = function () {
-        this.computedEyepieces = telescopeUtils.computeEyepieceProperties(this.eyepieces, this.selectedTelescope);
+        let eyepieces = this.isComparing ? this.selectedEyepieces : this.eyepieces;
+        this.computedEyepieces = telescopeUtils.computeEyepieceProperties(eyepieces, this.selectedTelescope);
     };
 
     // View Model
@@ -24,17 +25,7 @@
         props: ['eyepieces', 'telescopes'],
         data: function () {
             return {
-                computedEyepieces: [],
-                filters: {
-                    name: '',
-                    tfov: '',
-                    apparent_field: '',
-                    exit_pupil: '',
-                    magnification: '',
-                    focal_length: '',
-                    eye_relief: '',
-                    field_stop: ''
-                }
+                computedEyepieces: []
             };
         },
         created: function () {
@@ -42,9 +33,6 @@
             computeEyepieces.call(this);
         },
         methods: {
-            onRowSelect: function (eyepiece, deselected) {
-                console.log('eyepiece selected', deselected);
-            },
             onTelescopeChange: debounce(function (telescope) {
                 setTelescope.call(this, telescope);
                 computeEyepieces.call(this);

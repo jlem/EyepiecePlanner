@@ -1,6 +1,10 @@
 <template>
-    <table v-cloak class="eyepiece-table">
-        <thead>
+    <div>
+        <button class="btn btn-primary" v-if="hasSelected() && !isComparing" v-on:click="compareEyepieces()">Compare selected eyepieces</button>
+        <button class="btn btn-default" v-if="hasSelected() > 0 && !isComparing" v-on:click="clearSelected()">Clear Selected</button>
+        <button class="btn btn-primary" v-if="hasSelected() > 0 && isComparing" v-on:click="cancelComparison()">Cancel Comparison</button>
+        <table v-cloak class="eyepiece-table">
+            <thead>
             <tr>
                 <th>
                     <label v-on:click="sortBy('name')">
@@ -92,9 +96,9 @@
                 </th>
                 <th>Barrel Size</th>
             </tr>
-        </thead>
-        <tbody>
-            <tr v-for="eyepiece in sortedEyepieces" v-on:click="selectRow(eyepiece)" v-bind:class="{ selected: selectedRows[eyepiece.id] }">
+            </thead>
+            <tbody>
+            <tr v-for="eyepiece in sortedEyepieces" v-on:click="selectRow(eyepiece)" v-bind:class="{ selected: selectedRows[eyepiece.id] && !isComparing }">
                 <td>{{ eyepiece.name }}</td>
                 <td>{{ eyepiece.focal_length | mm }}</td>
                 <td v-if="telescope">
@@ -111,8 +115,9 @@
                 <td>{{ eyepiece.field_stop | mm }}</td>
                 <td>{{ eyepiece.barrel_size }}</td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <style>
@@ -168,11 +173,24 @@
         opacity: 1;
     }
 
+    tr {
+        cursor: pointer;
+    }
+
+    tr:hover {
+        background-color: #fafafa;
+    }
+
     tr:nth-child(odd) {
         background-color: #f4f4f4;
     }
 
-    tr.selected {
+    tr:nth-child(odd):hover {
+        background-color: #efefef;
+    }
+
+    tr.selected,
+    tr.selected:nth-child(odd):hover {
         background-color: darkseagreen;
     }
 
@@ -194,8 +212,13 @@
         this.sortKey = sortKey;
     };
 
+    const isSelected = function (selectedRows, eyepiece) {
+        return !this.isComparing ? true : selectedRows[eyepiece.id];
+    };
+
     const updateEyepieces = function () {
         return this.eyepieces
+                .filter(isSelected.bind(this, this.selectedRows))
                 .filter(telescopeUtils.contains.bind(null, this.filters.name, 'name'))
                 .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.focal_length), 'focal_length'))
                 .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.magnification), 'magnification'))
@@ -207,14 +230,22 @@
                 .sort(utils.compare.bind(this, this.sortKey, this.sortAscending));
     };
 
+    const resetSelectedRows = function () {
+        this.selectedRows = this.eyepieces.reduce(function (acc, eyepiece) {
+            acc[eyepiece.id] = false;
+            return acc;
+        }, {});
+    };
+
     // View Model
     export default {
-        props: ['eyepieces', 'telescope', 'onRowSelect'],
+        props: ['eyepieces', 'telescope'],
         data: () => {
             return {
                 sortKey: 'name',
                 selectedRows: {},
                 sortAscending: true,
+                isComparing: false,
                 filters: {
                     name: '',
                     focal_length: '',
@@ -227,20 +258,27 @@
                 }
             }
         },
-        created: function () {
-            this.selectedRows = this.eyepieces.reduce(function (acc, eyepiece) {
-                acc[eyepiece.id] = false;
-                return acc;
-            }, {});
-        },
+        created: resetSelectedRows,
         computed: {
             sortedEyepieces: updateEyepieces
         },
         methods: {
-            sortBy: sortBy,
+            hasSelected: function () {
+                return Object.keys(this.selectedRows).filter(key => this.selectedRows[key]).length;
+            },
+            sortBy,
             selectRow: function (eyepiece) {
                 this.selectedRows[eyepiece.id] = !this.selectedRows[eyepiece.id];
-                this.onRowSelect(eyepiece, this.selectedRows[eyepiece.id]);
+            },
+            compareEyepieces: function () {
+                this.isComparing = true;
+            },
+            cancelComparison: function () {
+                this.isComparing = false;
+                this.clearSelected();
+            },
+            clearSelected: function () {
+                resetSelectedRows.call(this);
             }
         },
         filters: formatters,
