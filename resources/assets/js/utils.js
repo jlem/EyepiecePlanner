@@ -19,10 +19,16 @@ let parseFilterValue = function (value) {
 	const MATCHES_RANGE = /(.+)-(.*)/; // important - we want to match this pattern even when nothing has been typed after '-', so we capture 0 or more characters
 	const MATCHES_LESS_THAN = /<(.*)/; // important - we want to match this pattern even when nothing has been typed after '<', so we capture 0 or more characters
 	const MATCHES_GREATER_THAN = />(.*)/; // important - we want to match this pattern even when nothing has been typed after '>', so we capture 0 or more characters
+	const MATCHES_APPROXIMATE = /~(.+)/;
 	let min = '';
 	let max = '';
 
-	if (MATCHES_RANGE.test(value)) {
+	if (MATCHES_APPROXIMATE.test(value)) {
+		let matchedValue = +value.match(MATCHES_APPROXIMATE)[1].trim();
+		min = (matchedValue * .9) + ''; // dirty - need to convert back to a string since it's converted back to a number later
+		max = (matchedValue * 1.1) + '';
+	}
+	else if (MATCHES_RANGE.test(value)) {
 		let matches = value.match(MATCHES_RANGE);
 		min = matches[1].trim();
 		max = matches[2].trim();
@@ -35,7 +41,7 @@ let parseFilterValue = function (value) {
 		let matches = value.match(MATCHES_GREATER_THAN);
 		min = matches[1].trim();
 	}
-	else {
+	else if (!isNaN(value)) {
 		min = value.trim();
 		max = min;
 	}
