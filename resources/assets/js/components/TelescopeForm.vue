@@ -114,7 +114,27 @@
             }
         },
         created: function () {
-            this.selectTelescope.call(this, this.telescopes[0]);
+            const TELESCOPE_REGEX = /t=(.+),(.+),(.+)?;/;
+            let hash = window.location.hash;
+            let telescope = this.telescopes[0];
+
+            if (TELESCOPE_REGEX.test(hash)) {
+                let matches = hash.match(TELESCOPE_REGEX);
+
+                // Create a new telescope from the hash values
+                telescope = {
+                    name: 'Custom Telescope',
+                    aperture: +matches[1],
+                    focal_length: +matches[2],
+                    max_eyepiece_size: matches[3]
+                };
+
+                // The custom telescope will always be the last telescope, so we'll update that with the hash values
+                this.telescopes[this.telescopes.length - 1] = telescope;
+            }
+
+            // Select our initial telescope
+            this.selectTelescope.call(this, telescope);
         },
         watch: {
             selectedTelescope: {

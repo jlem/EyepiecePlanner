@@ -5,6 +5,9 @@
                 <li v-bind:class="{ active: isActiveTab('all') }" v-on:click="showTab('all')">All Eyepieces</li>
                 <li v-if="getSelectedCount() > 0" v-bind:class="{ active: isActiveTab('compare') }" v-on:click="showTab('compare')">Compare Selected ({{ getSelectedCount() }})</li>
             </ul>
+            <div class="share" v-if="getSelectedCount() > 0 && isActiveTab('compare')" style="text-align: center">
+                <label onclick="this.nextSibling.select()"><i class="glyphicon glyphicon-share"></i> Share</label><input onclick="this.select()" readonly type="text" v-bind:value="getShareUrl()">
+            </div>
         </div>
         <table v-cloak class="eyepiece-table">
             <thead>
@@ -126,13 +129,38 @@
 </template>
 
 <style>
+    .share {
+        float: left;
+        margin-left: 20px;
+    }
+
+    .share label {
+        border: 1px solid #de4100;
+        border-radius: 3px 0 0 3px;
+        background: orangered;
+        color: #fff;
+        padding: 3px 8px;
+        margin: 0;
+    }
+
+    .share input {
+        margin: 0;
+        width: 350px;
+        color: #676c73;
+        padding: 3px 8px;
+        background: #f4f4f4;
+        border: 1px solid #e2e2e2;
+        border-left: none;
+        border-radius: 0 3px 3px 0;
+    }
+
     .select i {
         opacity: 0.2;
     }
 
     .deselect-all i {
         opacity: 1;
-        color: red;
+        color: orangered;
     }
 
     .table-tabs {
@@ -141,6 +169,7 @@
     }
 
     .table-tabs ul {
+        float: left;
         list-style-type: none;
         padding: 0;
         margin: 0;
@@ -316,7 +345,20 @@
                 filters: refreshDataFilters()
             }
         },
-        created: resetSelectedRows,
+        created: function () {
+            resetSelectedRows.call(this);
+
+            let EYEPIECE_REGEX = /ep=(.*)/
+            let hash = window.location.hash;
+            if (EYEPIECE_REGEX.test(hash)) {
+                let matches = hash.match(EYEPIECE_REGEX);
+                let eyepieceIds = matches[1].split(',');
+                eyepieceIds.forEach(id => {
+                    this.selectedRows[id] = true;
+                });
+                this.showTab('compare');
+            }
+        },
         computed: {
             sortedEyepieces: updateEyepieces
         },
@@ -334,7 +376,6 @@
             },
             selectRow: function (eyepiece) {
                 this.selectedRows[eyepiece.id] = !this.selectedRows[eyepiece.id];
-
                 if (this.isActiveTab('compare') && this.getSelectedCount() == 0) {
                     this.showTab('all');
                 }
@@ -347,8 +388,17 @@
             },
             clearFilters: function () {
                 this.filters = refreshDataFilters();
+            },
+            getShareUrl: function () {
+                let url = 'https://eyepieceplanner.com';
+                let telescope = '/#t=' + this.telescope.aperture + ',' + this.telescope.focal_length + ',' + this.telescope.max_eyepiece_size;
+                let eyepieces = ';ep=' + Object.keys(this.selectedRows).filter(key => this.selectedRows[key]).join(',');
+                return url + telescope + eyepieces;
+            },
+            copyShareLink: function () {
+                window.prompt("Copy the following share URL:", this.getShareUrl());
             }
         },
-        filters: formatters,
+        filters: formatters
     };
 </script>
