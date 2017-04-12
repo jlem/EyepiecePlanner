@@ -1,11 +1,15 @@
 <template>
     <div>
-        <button class="btn btn-primary" v-if="hasSelected() && !isComparing" v-on:click="compareEyepieces()">Compare selected eyepieces</button>
-        <button class="btn btn-default" v-if="hasSelected() > 0 && !isComparing" v-on:click="clearSelected()">Clear Selected</button>
-        <button class="btn btn-primary" v-if="hasSelected() > 0 && isComparing" v-on:click="cancelComparison()">Cancel Comparison</button>
+        <div class="table-tabs">
+            <ul>
+                <li v-bind:class="{ active: isActiveTab('all') }" v-on:click="showTab('all')">All Eyepieces</li>
+                <li v-if="getSelectedCount() > 0" v-bind:class="{ active: isActiveTab('compare') }" v-on:click="showTab('compare')">Compare Selected ({{ getSelectedCount() }})</li>
+            </ul>
+        </div>
         <table v-cloak class="eyepiece-table">
             <thead>
             <tr>
+                <th v-bind:class="[ {'deselect-all': getSelectedCount() > 0}, 'select']" v-on:click="clearSelected()"><i class="glyphicon glyphicon-remove-circle"></i></th>
                 <th>
                     <label v-on:click="sortBy('name')">
                         Name
@@ -98,7 +102,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="eyepiece in sortedEyepieces" v-on:click="selectRow(eyepiece)" v-bind:class="{ selected: selectedRows[eyepiece.id] && !isComparing }">
+            <tr v-for="eyepiece in sortedEyepieces" v-on:click="selectRow(eyepiece)" v-bind:class="{ selected: selectedRows[eyepiece.id] && !isActiveTab('compare') }">
+                <td class="select" width="30px"><i class="glyphicon glyphicon-ok-circle"></i></td>
                 <td>{{ eyepiece.name }}</td>
                 <td>{{ eyepiece.focal_length | mm }}</td>
                 <td v-if="telescope">
@@ -121,6 +126,45 @@
 </template>
 
 <style>
+    .select i {
+        opacity: 0.2;
+    }
+
+    .deselect-all i {
+        opacity: 1;
+        color: red;
+    }
+
+    .table-tabs {
+        border-bottom: 3px solid #3d4044;
+        height: 35px;
+    }
+
+    .table-tabs ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        height: 30px;
+    }
+
+    .table-tabs ul li {
+        border-radius: 3px 3px 0 0;
+        padding: 5px 10px;
+        border: 1px solid #e2e2e2;
+        border-bottom: none;
+        margin-right: 5px;
+        float: left;
+        cursor: pointer;
+    }
+
+    .table-tabs ul li.active {
+        border: none;
+        padding-bottom: 8px;
+        background: #3d4044;
+        color: #fff;
+        cursor: default;
+    }
+
     table.eyepiece-table {
         width: 100%;
         border-spacing: 0;
@@ -189,9 +233,17 @@
         background-color: #efefef;
     }
 
-    tr.selected,
-    tr.selected:nth-child(odd):hover {
-        background-color: darkseagreen;
+    tr.selected {
+        background-color: #e9ffe9;
+    }
+
+    tr.selected:nth-child(odd) {
+        background-color: #dbf1db;
+    }
+
+    tr.selected .select i {
+        opacity: 1;
+        color: darkseagreen;
     }
 
     th label {
@@ -213,7 +265,7 @@
     };
 
     const isSelected = function (selectedRows, eyepiece) {
-        return !this.isComparing ? true : selectedRows[eyepiece.id];
+        return !this.isActiveTab('compare') ? true : selectedRows[eyepiece.id];
     };
 
     const updateEyepieces = function () {
@@ -246,6 +298,7 @@
                 selectedRows: {},
                 sortAscending: true,
                 isComparing: false,
+                activeTab: 'all',
                 filters: {
                     name: '',
                     focal_length: '',
@@ -263,22 +316,28 @@
             sortedEyepieces: updateEyepieces
         },
         methods: {
-            hasSelected: function () {
+            sortBy,
+            isActiveTab: function (tabName) {
+                return tabName === this.activeTab;
+            },
+            showTab: function (tabName) {
+                this.activeTab = tabName;
+            },
+            getSelectedCount: function () {
                 return Object.keys(this.selectedRows).filter(key => this.selectedRows[key]).length;
             },
-            sortBy,
             selectRow: function (eyepiece) {
                 this.selectedRows[eyepiece.id] = !this.selectedRows[eyepiece.id];
-            },
-            compareEyepieces: function () {
-                this.isComparing = true;
-            },
-            cancelComparison: function () {
-                this.isComparing = false;
-                this.clearSelected();
+
+                if (this.isActiveTab('compare') && this.getSelectedCount() == 0) {
+                    this.showTab('all');
+                }
             },
             clearSelected: function () {
                 resetSelectedRows.call(this);
+                if (this.isActiveTab('compare')) {
+                    this.showTab('all');
+                }
             }
         },
         filters: formatters,
