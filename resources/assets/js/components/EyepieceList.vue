@@ -1,7 +1,7 @@
 <template>
     <div>
         <telescope-form :changes="onTelescopeChange" :telescopes="telescopes"></telescope-form>
-        <eyepiece-table :eyepieces="computedEyepieces" :telescope="true"></eyepiece-table>
+        <eyepiece-table :eyepieces="computedEyepieces" :telescope="selectedTelescope"></eyepiece-table>
     </div>
 </template>
 

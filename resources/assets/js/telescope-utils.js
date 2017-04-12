@@ -32,7 +32,7 @@ const eyepieceFitsTelescope = (telescope, eyepiece) => {
 };
 
 const matchesRange = (range, property, eyepiece) => utils.matchesRange(range.min, range.max, eyepiece[property]);
-const contains = (value, property, eyepiece) => eyepiece[property].includes(value);
+const contains = (value, property, eyepiece) => eyepiece[property].toLowerCase().includes(value.toLowerCase());
 
 export default {
 	calculateMagnification,
