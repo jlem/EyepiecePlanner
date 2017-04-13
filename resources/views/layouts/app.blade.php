@@ -49,7 +49,7 @@
                             <li><a href="/telescope">My Telescopes</a></li>
                         @endif
                         @if(Auth::check() && Auth::user()->isAdmin())
-                            <li><a href="/eyepiece/create">Add Eyepiece</a></li>
+                            <li><a href="/eyepiece">Manage Eyepiece</a></li>
                             <li><a href="/manufacturer">Manufacturers</a></li>
                         @endif
                     </ul>

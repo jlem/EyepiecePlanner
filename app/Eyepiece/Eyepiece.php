@@ -37,6 +37,11 @@ class Eyepiece extends Model
         return sprintf('%s %smm %s', $this->getManufacturer()->getName(), $this->getFocalLength(), $this->getProductLine()->getName());
     }
 
+    public function getProductName()
+    {
+        return sprintf('%s %s', $this->getManufacturer()->getName(), $this->getProductLine()->getName());
+    }
+
     public function getFocalLength()
     {
         return $this->focal_length;

@@ -7,9 +7,21 @@ class EyepieceRepository
         $this->model = $model;
     }
 
-    public function getJSONList()
+    public function getAllAlt()
     {
-        $eyepieces = $this->model->with(['productLine', 'manufacturer'])
+        return $this->model->with(['productLine', 'manufacturer'])
+            ->select(['eyepieces.*'])
+            ->join('product_lines', 'product_lines.id', '=', 'eyepieces.product_line_id')
+            ->join('manufacturers', 'manufacturers.id', '=', 'eyepieces.manufacturer_id')
+            ->orderBy('manufacturers.name', 'ASC')
+            ->orderBy('product_lines.name', 'ASC')
+            ->orderBy('eyepieces.focal_length', 'ASC')
+            ->get();
+    }
+
+    public function getAll()
+    {
+        return $this->model->with(['productLine', 'manufacturer'])
             ->join('product_lines', 'product_lines.id', '=', 'eyepieces.product_line_id')
             ->join('manufacturers', 'manufacturers.id', '=', 'eyepieces.manufacturer_id')
             ->select([
@@ -25,9 +37,12 @@ class EyepieceRepository
             ->orderBy('manufacturers.name', 'ASC')
             ->orderBy('product_lines.name', 'ASC')
             ->orderBy('eyepieces.focal_length', 'ASC')
-            ->get()
-            ->toJson();
+            ->get();
+    }
 
+    public function getJSONList()
+    {
+        $eyepieces = $this->getAll()->toJson();
         return str_replace('")', '&quot;)', $eyepieces);
     }
 }

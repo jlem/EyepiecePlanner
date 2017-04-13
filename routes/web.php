@@ -10,9 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'EyepieceController@index');
-Route::get('/recommendations', 'RecommendationsController@showForm');
-Route::post('/recommendations', 'RecommendationsController@getRecommendations');
+Route::get('/', 'HomeController@index');
 Route::resource('/telescope', 'TelescopeController');
 Route::get('/profile', 'ProfileController@showForm');
 Route::post('/profile', 'ProfileController@submit');

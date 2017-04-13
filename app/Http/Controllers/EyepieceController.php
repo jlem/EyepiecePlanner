@@ -20,7 +20,7 @@ class EyepieceController extends Controller
 
     public function __construct(EyepieceRepository $eyepieceRepository)
     {
-        $this->middleware('admin')->except(['index', 'show']);
+        $this->middleware('admin');
         $this->eyepieceRepository = $eyepieceRepository;
     }
 
@@ -31,7 +31,8 @@ class EyepieceController extends Controller
      */
     public function index()
     {
-        return view('eyepiece.index');
+        $eps = $this->eyepieceRepository->getAllAlt();
+        return view('eyepiece.index-admin', compact('eps'));
     }
 
     /**
