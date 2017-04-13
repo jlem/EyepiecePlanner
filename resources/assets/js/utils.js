@@ -10,9 +10,21 @@ const matchesRange = (min, max, value) => {
 	return isMin && isMax;
 };
 
-const compare = function (key, sortAscending, a, b) {
-	let comparison = sortAscending ? a[key] > b[key] : a[key] < b[key];
-	return comparison ? 1 : -1;
+const compare = function (key, alternativeKey, sortAscending, a, b) {
+	if (a[key] > b[key]) {
+		return sortAscending ? 1 : -1;
+	} else if (a[key] < b[key]) {
+		return sortAscending ? -1 : 1;
+	} else {
+		// In the event of a tie, sort by the given subKey
+		if (a[alternativeKey] > b[alternativeKey]) {
+			return 1;
+		} else if (a[alternativeKey] < b[alternativeKey]) {
+			return -1;
+		} else {
+			return 0;
+		}
+	}
 };
 
 let parseFilterValue = function (value) {

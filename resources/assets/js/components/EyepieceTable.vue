@@ -214,7 +214,7 @@
                 .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.apparent_field), 'apparent_field'))
                 .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.eye_relief), 'eye_relief'))
                 .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.field_stop), 'field_stop'))
-                .sort(utils.compare.bind(this, this.sort.key, this.sort.ascending));
+                .sort(utils.compare.bind(this, this.sort.key, 'focal_length', this.sort.ascending));
     };
 
     const resetSelectedRows = function () {
