@@ -14,92 +14,36 @@
                 <tr>
                     <th width="30px" v-bind:class="[ {'deselect-all': getSelectedCount() > 0}, 'select']" v-on:click="clearSelected()"><i class="glyphicon glyphicon-remove-circle"></i></th>
                     <th width="20%">
-                        <label v-on:click="sortBy('name')">
-                            Name
-                            <i v-if="sortKey != 'name'" class="sort glyphicon glyphicon-minus"></i>
-                            <i v-if="sortKey == 'name' && sortAscending" class="sort sort-active glyphicon glyphicon-triangle-top"></i>
-                            <i v-if="sortKey == 'name' && !sortAscending" class="sort sort-active glyphicon glyphicon-triangle-bottom"></i>
-                        </label>
-                        <input type="text" v-model="filters.name">
-                        <i v-if="filters.name == ''" class="glyphicon glyphicon-search"></i>
-                        <i v-if="filters.name != ''" class="glyphicon glyphicon-remove" v-on:click="filters.name = ''"></i>
+                        <table-column-header sort-key="name" :sort-criteria="sort" v-on:sort="sortBy">Name</table-column-header>
+                        <table-column-search v-model="filters.name"></table-column-search>
                     </th>
                     <th width="10%">
-                        <label v-on:click="sortBy('focal_length')">
-                            Focal Length
-                            <i v-if="sortKey != 'focal_length'" class="sort glyphicon glyphicon-minus"></i>
-                            <i v-if="sortKey == 'focal_length' && sortAscending" class="sort sort-active glyphicon glyphicon-triangle-top"></i>
-                            <i v-if="sortKey == 'focal_length' && !sortAscending" class="sort sort-active glyphicon glyphicon-triangle-bottom"></i>
-                        </label>
-                        <input type="text" v-model="filters.focal_length">
-                        <i v-if="filters.focal_length == ''" class="glyphicon glyphicon-search"></i>
-                        <i v-if="filters.focal_length != ''" class="glyphicon glyphicon-remove" v-on:click="filters.focal_length = ''"></i>
+                        <table-column-header sort-key="focal_length" :sort-criteria="sort" v-on:sort="sortBy">Focal Length</table-column-header>
+                        <table-column-search v-model="filters.focal_length"></table-column-search>
                     </th>
                     <th width="10%" v-if="telescope">
-                        <label v-on:click="sortBy('magnification')">
-                            Magnification
-                            <i v-if="sortKey != 'magnification'" class="sort glyphicon glyphicon-minus"></i>
-                            <i v-if="sortKey == 'magnification' && sortAscending" class="sort sort-active glyphicon glyphicon-triangle-top"></i>
-                            <i v-if="sortKey == 'magnification' && !sortAscending" class="sort sort-active glyphicon glyphicon-triangle-bottom"></i>
-                        </label>
-                        <input type="text" v-model="filters.magnification">
-                        <i v-if="filters.magnification == ''" class="glyphicon glyphicon-search"></i>
-                        <i v-if="filters.magnification != ''" class="glyphicon glyphicon-remove" v-on:click="filters.magnification = ''"></i>
+                        <table-column-header sort-key="magnification" :sort-criteria="sort" v-on:sort="sortBy">Magnification</table-column-header>
+                        <table-column-search v-model="filters.magnification"></table-column-search>
                     </th>
                     <th width="10%" v-if="telescope">
-                        <label v-on:click="sortBy('exit_pupil')">
-                            Exit Pupil
-                            <i v-if="sortKey != 'exit_pupil'" class="sort glyphicon glyphicon-minus"></i>
-                            <i v-if="sortKey == 'exit_pupil' && sortAscending" class="sort sort-active glyphicon glyphicon-triangle-top"></i>
-                            <i v-if="sortKey == 'exit_pupil' && !sortAscending" class="sort sort-active glyphicon glyphicon-triangle-bottom"></i>
-                        </label>
-                        <input type="text" v-model="filters.exit_pupil">
-                        <i v-if="filters.exit_pupil == ''" class="glyphicon glyphicon-search"></i>
-                        <i v-if="filters.exit_pupil != ''" class="glyphicon glyphicon-remove" v-on:click="filters.exit_pupil = ''"></i>
+                        <table-column-header sort-key="exit_pupil" :sort-criteria="sort" v-on:sort="sortBy">Exit Pupil</table-column-header>
+                        <table-column-search v-model="filters.exit_pupil"></table-column-search>
                     </th>
                     <th width="10%" v-if="telescope">
-                        <label v-on:click="sortBy('tfov')">
-                            True FoV
-                            <i v-if="sortKey != 'tfov'" class="sort glyphicon glyphicon-minus"></i>
-                            <i v-if="sortKey == 'tfov' && sortAscending" class="sort sort-active glyphicon glyphicon-triangle-top"></i>
-                            <i v-if="sortKey == 'tfov' && !sortAscending" class="sort sort-active glyphicon glyphicon-triangle-bottom"></i>
-                        </label>
-                        <input type="text" v-model="filters.tfov">
-                        <i v-if="filters.tfov == ''" class="glyphicon glyphicon-search"></i>
-                        <i v-if="filters.tfov != ''" class="glyphicon glyphicon-remove" v-on:click="filters.tfov = ''"></i>
+                        <table-column-header sort-key="tfov" :sort-criteria="sort" v-on:sort="sortBy">True FOV</table-column-header>
+                        <table-column-search v-model="filters.tfov"></table-column-search>
                     </th>
                     <th width="10%">
-                        <label v-on:click="sortBy('apparent_field')">
-                            Apparent Field
-                            <i v-if="sortKey != 'apparent_field'" class="sort glyphicon glyphicon-minus"></i>
-                            <i v-if="sortKey == 'apparent_field' && sortAscending" class="sort sort-active glyphicon glyphicon-triangle-top"></i>
-                            <i v-if="sortKey == 'apparent_field' && !sortAscending" class="sort sort-active glyphicon glyphicon-triangle-bottom"></i>
-                        </label>
-                        <input type="text" v-model="filters.apparent_field">
-                        <i v-if="filters.apparent_field == ''" class="glyphicon glyphicon-search"></i>
-                        <i v-if="filters.apparent_field != ''" class="glyphicon glyphicon-remove" v-on:click="filters.apparent_field = ''"></i>
+                        <table-column-header sort-key="apparent_field" :sort-criteria="sort" v-on:sort="sortBy">Apparent Field</table-column-header>
+                        <table-column-search v-model="filters.apparent_field"></table-column-search>
                     </th>
                     <th width="10%">
-                        <label v-on:click="sortBy('eye_relief')">
-                            Eye Relief
-                            <i v-if="sortKey != 'eye_relief'" class="sort glyphicon glyphicon-minus"></i>
-                            <i v-if="sortKey == 'eye_relief' && sortAscending" class="sort sort-active glyphicon glyphicon-triangle-top"></i>
-                            <i v-if="sortKey == 'eye_relief' && !sortAscending" class="sort sort-active glyphicon glyphicon-triangle-bottom"></i>
-                        </label>
-                        <input type="text" v-model="filters.eye_relief">
-                        <i v-if="filters.eye_relief == ''" class="glyphicon glyphicon-search"></i>
-                        <i v-if="filters.eye_relief != ''" class="glyphicon glyphicon-remove" v-on:click="filters.eye_relief = ''"></i>
+                        <table-column-header sort-key="eye_relief" :sort-criteria="sort" v-on:sort="sortBy">Eye Relief</table-column-header>
+                        <table-column-search v-model="filters.eye_relief"></table-column-search>
                     </th>
                     <th width="10%">
-                        <label v-on:click="sortBy('field_stop')">
-                            Field Stop
-                            <i v-if="sortKey != 'field_stop'" class="sort glyphicon glyphicon-minus"></i>
-                            <i v-if="sortKey == 'field_stop' && sortAscending" class="sort sort-active glyphicon glyphicon-triangle-top"></i>
-                            <i v-if="sortKey == 'field_stop' && !sortAscending" class="sort sort-active glyphicon glyphicon-triangle-bottom"></i>
-                        </label>
-                        <input type="text" v-model="filters.field_stop">
-                        <i v-if="filters.field_stop == ''" class="glyphicon glyphicon-search"></i>
-                        <i v-if="filters.field_stop != ''" class="glyphicon glyphicon-remove" v-on:click="filters.field_stop = ''"></i>
+                        <table-column-header sort-key="field_stop" :sort-criteria="sort" v-on:sort="sortBy">Field Stop</table-column-header>
+                        <table-column-search v-model="filters.field_stop"></table-column-search>
                     </th>
                     <th width="10%">Barrel Size</th>
                 </tr>
@@ -206,44 +150,9 @@
         border: 1px solid #e2e2e2;
     }
 
-    .eyepiece-table th input {
-        width: 100%;
-        font-weight: normal;
-    }
-
     .eyepiece-table th {
         background-color: #fff;
         position: relative;
-    }
-
-    th label {
-        cursor: pointer;
-    }
-
-    .sort {
-        color: #aec7d8;
-    }
-    .sort-active {
-        color: orangered;
-    }
-
-    .glyphicon-search,
-    .glyphicon-remove {
-        position: absolute;
-        right: 15px;
-        top: 37px;
-    }
-    .glyphicon-search {
-        opacity: 0.5;
-    }
-
-    .glyphicon-remove {
-        cursor: pointer;
-        opacity: 0.75;
-    }
-
-    .glyphicon-remove:hover {
-        opacity: 1;
     }
 
     tr:hover {
@@ -274,10 +183,6 @@
         opacity: 1;
         color: darkseagreen;
     }
-
-    th label {
-        display: block;
-    }
 </style>
 
 <script type="text/ecmascript-6">
@@ -289,8 +194,8 @@
     import { debounce } from 'lodash';
 
     const sortBy = function (sortKey) {
-        this.sortAscending = (this.sortKey == sortKey) ? !this.sortAscending : true;
-        this.sortKey = sortKey;
+        this.sort.ascending = (this.sort.key == sortKey) ? !this.sort.ascending : true;
+        this.sort.key = sortKey;
     };
 
     const isSelected = function (selectedRows, eyepiece) {
@@ -309,7 +214,7 @@
                 .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.apparent_field), 'apparent_field'))
                 .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.eye_relief), 'eye_relief'))
                 .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.field_stop), 'field_stop'))
-                .sort(utils.compare.bind(this, this.sortKey, this.sortAscending));
+                .sort(utils.compare.bind(this, this.sort.key, this.sort.ascending));
     };
 
     const resetSelectedRows = function () {
@@ -337,9 +242,11 @@
         props: ['eyepieces', 'telescope'],
         data: () => {
             return {
-                sortKey: 'name',
+                sort: {
+                    key: 'name',
+                    ascending: true
+                },
                 selectedRows: {},
-                sortAscending: true,
                 isComparing: false,
                 activeTab: 'all',
                 filters: refreshDataFilters()

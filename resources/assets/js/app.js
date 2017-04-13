@@ -13,6 +13,8 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('table-column-header', require('./components/TableColumnHeader.vue'));
+Vue.component('table-column-search', require('./components/TableColumnSearch.vue'));
 Vue.component('eyepiece-table', require('./components/EyepieceTable.vue'));
 Vue.component('eyepiece-list', require('./components/EyepieceList.vue'));
 Vue.component('eyepiece-filter', require('./components/EyepieceFilter.vue'));
