@@ -121,3 +121,41 @@
         @endif
     </div>
 </div>
+
+
+<!-- Price Input -->
+
+<div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+    <label for="price" class="col-md-4 control-label">Price ($)</label>
+
+    <div class="col-md-6">
+        <input autocomplete="off" id="price" type="text" class="form-control" name="price" value="{{ old('price', isset($eyepiece) ? $eyepiece->getPrice() : null) }}">
+
+        @if ($errors->has('price'))
+            <span class="help-block">
+                <strong>{{ $errors->first('price') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
+
+
+<!-- Region Input -->
+
+<div class="form-group{{ $errors->has('region') ? ' has-error' : '' }}">
+    <label for="region" class="col-md-4 control-label">Region</label>
+
+    <div class="col-md-6">
+        <select id="region" name="region" required>
+            @foreach($regions as $value => $label)
+                <option @if(old('region') === $value || (isset($eyepiece) && $eyepiece->getRegion() === $value)) selected="selected" @endif value="{{ $value }}">{{ $label }}</option>
+            @endforeach
+        </select>
+
+        @if ($errors->has('region'))
+            <span class="help-block">
+                <strong>{{ $errors->first('region') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>

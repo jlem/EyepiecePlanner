@@ -30,6 +30,8 @@ class EyepieceRepository
                 'eyepieces.focal_length',
                 'eyepieces.eye_relief',
                 'eyepieces.field_stop',
+                'eyepieces.price',
+                'eyepieces.region',
                 'eyepieces.barrel_size',
                 'manufacturers.name as manufacturer_name',
                 'product_lines.name as product_name'
@@ -42,7 +44,6 @@ class EyepieceRepository
 
     public function getJSONList()
     {
-        $eyepieces = $this->getAll()->toJson();
-        return str_replace('")', '&quot;)', $eyepieces);
+        return str_replace('")', '&quot;)', $this->getAll()->toJson());
     }
 }

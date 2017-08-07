@@ -15,7 +15,9 @@ require('./bootstrap');
 
 Vue.component('table-column-header', require('./components/TableColumnHeader.vue'));
 Vue.component('table-column-search', require('./components/TableColumnSearch.vue'));
+Vue.component('eyepiece-tabs', require('./components/EyepieceTabs.vue'));
 Vue.component('eyepiece-table', require('./components/EyepieceTable.vue'));
 Vue.component('eyepiece-list', require('./components/EyepieceList.vue'));
 Vue.component('eyepiece-filter', require('./components/EyepieceFilter.vue'));
 Vue.component('telescope-form', require('./components/TelescopeForm.vue'));
+Vue.component('share', require('./components/Share.vue'));

@@ -11,10 +11,12 @@ class TelescopeJSONTransformer
     {
         return $collection->map(function (Telescope $telescope) {
             return [
+                'id' => $telescope->getID(),
                 'name' => str_replace('"', '\"', $telescope->getName()),
                 'aperture' => $telescope->getAperture(),
                 'focal_length' => $telescope->getFocalLength(),
-                'max_eyepiece_size' => $telescope->getMaxEyepieceSize()
+                'max_eyepiece_size' => $telescope->getMaxEyepieceSize(),
+                'is_custom' => false
             ];
         });
     }

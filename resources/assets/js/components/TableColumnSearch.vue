@@ -1,16 +1,19 @@
 <template>
-    <div>
+    <div class="search-container">
         <input class="field-search" type="text" :value="value" @input="emitValue($event.target.value)">
         <i v-if="value == ''" class="glyphicon glyphicon-search"></i>
         <i v-if="value != ''" class="glyphicon glyphicon-remove" @click="emitValue('')"></i>
     </div>
 </template>
 <style>
+    .search-container {
+        position: relative;
+    }
     .glyphicon-search,
     .glyphicon-remove {
         position: absolute;
-        right: 15px;
-        top: 37px;
+        right: 4px;
+        top: 6px;
     }
     .glyphicon-search {
         opacity: 0.5;

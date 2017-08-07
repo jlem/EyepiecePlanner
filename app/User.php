@@ -2,6 +2,7 @@
 
 namespace EPP;
 
+use EPP\EyepieceSet\EyepieceSet;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Collection;
@@ -38,6 +39,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function eyepieceSets()
+    {
+        return $this->hasMany(EyepieceSet::class);
+    }
+
+    public function getID()
+    {
+        return $this->getKey();
+    }
+
     /**
      * @return Collection
      */
@@ -65,5 +76,10 @@ class User extends Authenticatable
     public function getPupilSize()
     {
         return $this->pupil_size;
+    }
+
+    public function getEyepieceSets()
+    {
+        return $this->eyepieceSets;
     }
 }

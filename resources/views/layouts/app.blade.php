@@ -95,12 +95,15 @@
         window.telescopes = JSON.parse('{!! $telescopes_json !!}');
 
         // Add custom telescope
-        window.telescopes.push({
-            name: 'Custom Telescope',
-            aperture: 203,
-            focal_length: 1200,
-            max_eyepiece_size: "2"
-        });
+        if (window.telescopes.length === 0) {
+            window.telescopes.push({
+                name: 'Custom Telescope',
+                aperture: 203,
+                focal_length: 1200,
+                max_eyepiece_size: "2",
+                is_custom: false
+            });
+        }
     </script>
     <script src="/js/app.js"></script>
     @yield('page-script')

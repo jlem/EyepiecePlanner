@@ -1,28 +1,32 @@
 <template>
     <div class="container">
         <ul class="telescopes">
-            <li v-bind:class="[{ active: telescope.name == selectedTelescope.name }, 'telescope-tab']"
+            <li v-bind:class="[{ active: telescope.name === selectedTelescope.name }, 'telescope-tab']"
                 v-for="(telescope, index) in telescopes"
-                v-on:click="selectTelescope(telescope)">
-                    {{ telescope.name }}
+                @click="selectTelescope(telescope)">
+                {{ telescope.name }}<span class="unsaved-indicator" v-if="telescope.is_custom && telescope.name !== selectedTelescope.name">*</span>
+                <i v-if="telescope.is_custom && telescope.name === selectedTelescope.name"
+                   v-on:click="removeTelescope(telescope, $event)"
+                   class="remove-telescope glyphicon glyphicon-remove-circle"></i>
             </li>
         </ul>
+        <button class="btn btn-success" v-on:click="startCreateMode($event)"><i class="glyphicon glyphicon-plus"></i> Add Telescope</button>
         <div class="telescope-form">
             <div class="telescope-form-field">
                 <div class="animated-field">
-                    <input type="text" role="search"  v-model="selectedTelescope.aperture" required autocomplete="off"/>
+                    <input type="text" role="search" v-model="selectedTelescope.aperture" @input="updateTelescope(selectedTelescope)" required autocomplete="off"/>
                     <label>Telescope Aperture (mm)</label>
                 </div>
             </div>
             <div class="telescope-form-field">
                 <div class="animated-field">
-                    <input type="text" role="search" v-model="selectedTelescope.focal_length" required autocomplete="off" />
+                    <input type="text" role="search" v-model="selectedTelescope.focal_length" @input="updateTelescope(selectedTelescope)" required autocomplete="off" />
                     <label>Telescope Focal Length (mm)</label>
                 </div>
             </div>
             <div class="telescope-form-field">
                 <div class="animated-field">
-                    <select v-model="selectedTelescope.max_eyepiece_size" required>
+                    <select v-model="selectedTelescope.max_eyepiece_size" @change="updateTelescope(selectedTelescope)">
                         <option value=""></option>
                         <option value="1.25">1.25"</option>
                         <option value="2">2"</option>
@@ -50,6 +54,7 @@
     }
 
     .telescopes {
+        display: inline-block;
         position: relative;
         z-index: 1;
         list-style-type: none;
@@ -61,10 +66,11 @@
     .telescope-tab {
         display:inline-block;
         margin-right: 5px;
+        font-size: 18px;
         border: 1px solid #e2e2e2;
         border-radius: 3px 3px 0 0;
         border-bottom: 0;
-        padding: 5px 10px;
+        padding: 8px 13px;
         cursor: pointer;
     }
 
@@ -74,6 +80,30 @@
         border-bottom: 3px solid #3d4044;
         color: #fff;
         cursor: default;
+    }
+
+    .telescope-tab.active input {
+        color: black;
+    }
+
+    .unsaved-indicator {
+        font-size: 25px;
+        font-weight: bold;
+        opacity: 0.75;
+        color: red;
+        line-height: 5px;
+    }
+
+    .remove-telescope {
+        position: relative;
+        margin-left: 8px;
+        top: 3px;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+
+    .remove-telescope:hover {
+        opacity: 1;
     }
 
     .animated-field {
@@ -101,17 +131,53 @@
 <script type="text/ecmascript-6">
     'use strict';
 
+    import { mapGetters, mapActions } from 'vuex';
+
     export default {
-        props: ['changes', 'telescopes'],
+        props: ['telescopes'],
         data: function () {
             return {
-                selectedTelescope: {}
+                isCreateMode: false
             }
         },
         methods: {
-            selectTelescope: function (telescope) {
-                this.selectedTelescope = telescope;
-            }
+            startCreateMode: function ($event) {
+                $event.stopImmediatePropagation(); // We have to do this because front-end development is a wasteland
+                let name = window.prompt('Give this telescope a name');
+
+                if (!name) {
+                    return;
+                }
+
+                this.isCreateMode = true;
+
+                let telescope = {
+                    name,
+                    aperture: 0,
+                    focal_length: 0,
+                    max_eyepiece_size: '1.25',
+                    is_custom: true
+                };
+
+                this.addTelescope(telescope);
+                this.selectTelescope(telescope);
+            },
+            removeTelescope: function (telescope, $event) {
+                $event.stopImmediatePropagation(); // We have to do this because front-end development is a wasteland
+                this.$store.dispatch('removeTelescope', telescope);
+                this.$store.dispatch('selectTelescope', this.telescopes[this.telescopes.length - 1]);
+            },
+            ...mapActions([
+                'addTelescope',
+                'updateTelescope',
+                'saveTelescope',
+                'selectTelescope'
+            ])
+        },
+        computed: {
+            ...mapGetters([
+                'selectedTelescope'
+            ])
         },
         created: function () {
             const TELESCOPE_REGEX = /t=(.+),(.+),(.+)?;/;
@@ -129,20 +195,10 @@
                     max_eyepiece_size: matches[3]
                 };
 
-                // The custom telescope will always be the last telescope, so we'll update that with the hash values
-                this.telescopes[this.telescopes.length - 1] = telescope;
+                this.saveTelescope(telescope);
             }
 
-            // Select our initial telescope
-            this.selectTelescope.call(this, telescope);
-        },
-        watch: {
-            selectedTelescope: {
-                handler: function () {
-                    this.changes(this.selectedTelescope);
-                },
-                deep: true
-            }
+            this.selectTelescope(telescope);
         }
     };
 </script>

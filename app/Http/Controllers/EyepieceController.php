@@ -6,6 +6,7 @@ use EPP\Eyepiece\Eyepiece;
 use EPP\Eyepiece\EyepieceRepository;
 use EPP\Manufacturer;
 use EPP\ProductLine;
+use EPP\Region\Region;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
@@ -42,13 +43,14 @@ class EyepieceController extends Controller
      */
     public function create()
     {
+        $regions = Region::strings('ucwords');
         $manufacturers = Manufacturer::with(['productLines' => function ($query) {
             $query->orderby('name', 'ASC');
         }])
             ->orderBy('name', 'ASC')
             ->get();
 
-        return view('eyepiece.create', compact('manufacturers'));
+        return view('eyepiece.create', compact('manufacturers', 'regions'));
     }
 
     /**
@@ -72,6 +74,7 @@ class EyepieceController extends Controller
             Session::put('add-eyepiece', [
                 'product_line_id' => intval($input['product_line_id']),
                 'apparent_field' => floatval($input['apparent_field']),
+                'region' => intval($input['region']),
             ]);
             return redirect('/eyepiece/create');
         } else {
@@ -106,13 +109,14 @@ class EyepieceController extends Controller
     {
         $eyepiece = Eyepiece::find($id);
 
+        $regions = Region::strings('strtoupper');
         $manufacturers = Manufacturer::with(['productLines' => function ($query) {
             $query->orderby('name', 'ASC');
         }])
             ->orderBy('name', 'ASC')
             ->get();
 
-        return view('eyepiece.edit', compact('eyepiece', 'manufacturers'));
+        return view('eyepiece.edit', compact('eyepiece', 'manufacturers', 'regions'));
     }
 
     /**

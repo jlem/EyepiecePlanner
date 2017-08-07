@@ -16,7 +16,7 @@ require('laravel-elixir-vue-2');
 elixir((mix) => {
     mix
 		.sass('app.scss')
-		.webpack('eyepiece-form.js')
+		.webpack('eyepiece-index.js')
 		.webpack('app.js')
 		.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');
 });

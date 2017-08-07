@@ -29,6 +29,10 @@
                             <dd>{{ $eyepiece->getEyeRelief() }} mm</dd>
                             <dt>Barrel Size</dt>
                             <dd>{{ $eyepiece->getBarrelSize() }} in.</dd>
+                            <dt>Price</dt>
+                            <dd>${{ $eyepiece->getPrice() }}</dd>
+                            <dt>Region</dt>
+                            <dd>{{ $eyepiece->getRegionLabel() }}</dd>
                         </dl>
                     </div>
                 </div>

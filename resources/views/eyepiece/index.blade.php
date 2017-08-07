@@ -2,17 +2,9 @@
 
 @section('content')
     <div class="panel">
-        <eyepiece-list :eyepieces="eyepieces" :telescopes="telescopes"></eyepiece-list>
+        <eyepiece-list :eyepieces="eyepieces" :telescopes="telescopes" :list-config="listConfig"></eyepiece-list>
     </div>
 @endsection
 @section('page-script')
-    <script>
-        new Vue({
-            el: "#app",
-            data: {
-                eyepieces: window.eyepieces,
-                telescopes: window.telescopes
-            }
-        });
-    </script>
+    <script src="/js/eyepiece-index.js"></script>
 @endsection
