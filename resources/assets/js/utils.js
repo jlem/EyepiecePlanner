@@ -27,11 +27,12 @@ const compare = function (key, alternativeKey, sortAscending, a, b) {
 	}
 };
 
-let parseFilterValue = function (value) {
+let makeRange = function (value) {
 	const MATCHES_RANGE = /(.+)-(.*)/; // important - we want to match this pattern even when nothing has been typed after '-', so we capture 0 or more characters
 	const MATCHES_LESS_THAN = /<(.*)/; // important - we want to match this pattern even when nothing has been typed after '<', so we capture 0 or more characters
 	const MATCHES_GREATER_THAN = />(.*)/; // important - we want to match this pattern even when nothing has been typed after '>', so we capture 0 or more characters
 	const MATCHES_APPROXIMATE = /~(.+)/;
+
 	let min = '';
 	let max = '';
 
@@ -69,5 +70,5 @@ export default {
 	removeSelection,
 	matchesRange,
 	compare,
-	parseFilterValue
+	makeRange
 };

@@ -186,14 +186,14 @@
                 .filter(filterSelection.bind(null, this.selectedEyepieceIDs, this.config))
                 .filter(telescopeUtils.eyepieceFitsTelescope.bind(null, this.telescope))
                 .filter(telescopeUtils.contains.bind(null, this.filters.name, 'name'))
-                .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.focal_length), 'focal_length'))
-                .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.magnification), 'magnification'))
-                .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.exit_pupil), 'exit_pupil'))
-                .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.tfov), 'tfov'))
-                .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.apparent_field), 'apparent_field'))
-                .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.eye_relief), 'eye_relief'))
-                .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.field_stop), 'field_stop'))
-                .filter(telescopeUtils.matchesRange.bind(null, utils.parseFilterValue(this.filters.price), 'price'))
+                .filter(telescopeUtils.matchesRange.bind(null, utils.makeRange(this.filters.focal_length), 'focal_length'))
+                .filter(telescopeUtils.matchesRange.bind(null, utils.makeRange(this.filters.magnification), 'magnification'))
+                .filter(telescopeUtils.matchesRange.bind(null, utils.makeRange(this.filters.exit_pupil), 'exit_pupil'))
+                .filter(telescopeUtils.matchesRange.bind(null, utils.makeRange(this.filters.tfov), 'tfov'))
+                .filter(telescopeUtils.matchesRange.bind(null, utils.makeRange(this.filters.apparent_field), 'apparent_field'))
+                .filter(telescopeUtils.matchesRange.bind(null, utils.makeRange(this.filters.eye_relief), 'eye_relief'))
+                .filter(telescopeUtils.matchesRange.bind(null, utils.makeRange(this.filters.field_stop), 'field_stop'))
+                .filter(telescopeUtils.matchesPrice.bind(null, utils.makeRange(this.filters.price)))
                 .filter(telescopeUtils.contains.bind(null, this.filters.region, 'region'))
                 .sort(utils.compare.bind(this, this.sort.key, 'focal_length', this.sort.ascending));
     };
@@ -226,7 +226,6 @@
             }
         },
         created: function () {
-            console.log(this.config);
             this.$store.dispatch('setSelectedEyepieces', this.selectedEyepieceIDs);
         },
         computed: {

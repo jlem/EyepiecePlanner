@@ -31,7 +31,29 @@ const eyepieceFitsTelescope = (telescope, eyepiece) => {
 		telescope.max_eyepiece_size === '3'
 };
 
-const matchesRange = (range, property, eyepiece) => utils.matchesRange(range.min, range.max, eyepiece[property]);
+const matchesRange = (inputRange, property, eyepiece) => utils.matchesRange(inputRange.min, inputRange.max, eyepiece[property]);
+const matchesPrice = (inputRange, eyepiece) => {
+	if (inputRange.min === '' && inputRange.max === '') {
+		return true; // No filtering should be done, allow everything to pass through
+	}
+
+	if (eyepiece.price.length === 0) {
+		return false; // Unknown prices should not match
+	}
+
+	let prices = eyepiece.price.split('-');
+
+	if (prices.length === 1) { // Check just the one price against the range
+		return utils.matchesRange(inputRange.min, inputRange.max, +prices[0].trim());
+	} else { // Check both prices against the input ranges, and vice-verse
+		let priceRange = utils.makeRange(eyepiece.price);
+		return utils.matchesRange(priceRange.min, priceRange.max, +inputRange.min) ||
+		utils.matchesRange(priceRange.min, priceRange.max, +inputRange.max) ||
+		utils.matchesRange(inputRange.min, inputRange.max, +priceRange.min) ||
+		utils.matchesRange(inputRange.min, inputRange.max, +priceRange.max);
+	}
+};
+
 const contains = (value, property, eyepiece) => eyepiece[property].toLowerCase().includes(value.toLowerCase());
 
 export default {
@@ -47,5 +69,6 @@ export default {
 	computeEyepieceProperties,
 	eyepieceFitsTelescope,
 	matchesRange,
+	matchesPrice,
 	contains
 };

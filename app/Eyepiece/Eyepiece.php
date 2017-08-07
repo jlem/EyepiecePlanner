@@ -83,7 +83,13 @@ class Eyepiece extends Model
     // Magic mutator
     public function setPriceAttribute($value)
     {
-        $this->attributes['price'] = number_format(floatval($value), 2);
+        $priceRange = explode('-', $value);
+
+        foreach($priceRange as $key => $price) {
+            $priceRange[$key] = number_format(floatval($price), 2);
+        }
+
+        $this->attributes['price'] = implode(' - ', $priceRange);
     }
 
     public function getPrice()
@@ -119,7 +125,7 @@ class Eyepiece extends Model
     public function toArray()
     {
         $eyepiece = parent::toArray();
-        $eyepiece['price'] = floatval($eyepiece['price']);
+        $eyepiece['price'] = $eyepiece['price'] ?: '';
         $eyepiece['region'] = $this->getRegionLabel();
         return $eyepiece;
     }
