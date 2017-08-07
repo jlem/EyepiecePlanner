@@ -4,7 +4,7 @@
             <thead>
                 <tr>
                     <th v-if="config.allowSelection" width="30px" v-bind:class="[ {'deselect-all': selectedEyepieceIDs.length > 0}, 'select']" v-on:click="clearSelected()"><i class="glyphicon glyphicon-remove-circle"></i></th>
-                    <th width="19%">
+                    <th width="16%">
                         <table-column-header sort-key="name" :sort-criteria="sort" v-on:sort="sortBy">Name</table-column-header>
                         <table-column-search v-model="filters.name"></table-column-search>
                     </th>
@@ -36,7 +36,7 @@
                         <table-column-header sort-key="field_stop" :sort-criteria="sort" v-on:sort="sortBy">Field Stop</table-column-header>
                         <table-column-search v-model="filters.field_stop"></table-column-search>
                     </th>
-                    <th width="6%">
+                    <th width="9%">
                         <table-column-header sort-key="price" :sort-criteria="sort" v-on:sort="sortBy">Price</table-column-header>
                         <table-column-search v-model="filters.price"></table-column-search>
                     </th>
