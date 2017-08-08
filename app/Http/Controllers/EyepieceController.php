@@ -132,7 +132,11 @@ class EyepieceController extends Controller
 
         $input['manufacturer_id'] = ProductLine::find($input['product_line_id'])->manufacturer_id;
 
-        $input = array_filter($input);
+        foreach($input as $key => $value) {
+            if ($value === "") {
+                $input[$key] = null;
+            }
+        }
 
         Eyepiece::find($id)->update($input);
 
