@@ -54,7 +54,7 @@
                             </tr>
                             @foreach($manufacturer->getProductLines() as $productLine)
                                 <tr>
-                                    <td width=100%">{{ $productLine->getName() }}</td>
+                                    <td width=100%"><a href="/product-line/{{ $productLine->getID() }}">{{ $productLine->getName() }}</a></td>
                                 </tr>
                             @endforeach
                         </table>

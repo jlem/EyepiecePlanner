@@ -12,18 +12,16 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <table class="table">
-                            <tr>
-                                <th>Manufacturer</th>
-                                <th>Name</th>
-                            </tr>
-                            @foreach($productLines as $productLine)
-                                <tr>
-                                    <td width="25%"><a href="/manufacturer/{{ $productLine->getManufacturer()->getID() }}">{{ $productLine->getManufacturer()->getName() }}</a></td>
-                                    <td width="75%">{{ $productLine->getName() }}</td>
-                                </tr>
+                        @foreach($manufacturers as $manufacturer)
+                            <h2 class="manufacturer-name">
+                                <a href="/manufacturer/{{ $manufacturer->getID() }}">{{ $manufacturer->getName() }}</a>
+                            </h2>
+                            @foreach($manufacturer->getProductLines() as $productLine)
+                                <div>
+                                    <a href="/product-line/{{ $productLine->getID() }}">{{ $productLine->getName() }}</a>
+                                </div>
                             @endforeach
-                        </table>
+                        @endforeach
                     </div>
                 </div>
             </div>

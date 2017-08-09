@@ -22,9 +22,10 @@ class ProductLineController extends Controller
      */
     public function index()
     {
-        $productLines = ProductLine::all();
+        // Query the manufacturers instead of product lines so that the index can group the product lines by manufacturer
+        $manufacturers = Manufacturer::with('productLines')->get();
 
-        return view('product-line.index', compact('productLines'));
+        return view('product-line.index', compact('manufacturers'));
     }
 
     /**
@@ -91,7 +92,7 @@ class ProductLineController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $input = $request->only(['name', 'manufacturer_id']);
+        $input = $request->only(['name']);
 
         ProductLine::find($id)->update($input);
 
