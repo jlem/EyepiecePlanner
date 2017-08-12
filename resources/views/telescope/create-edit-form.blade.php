@@ -1,5 +1,6 @@
 {{ csrf_field() }}
 
+<!-- NAME FIELD -->
 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
     <label for="name" class="col-md-4 control-label">Name</label>
 
@@ -14,6 +15,7 @@
     </div>
 </div>
 
+<!-- APERTURE FIELD -->
 <div class="form-group{{ $errors->has('aperture') ? ' has-error' : '' }}">
     <label for="aperture" class="col-md-4 control-label">Aperture (mm)</label>
 
@@ -28,20 +30,22 @@
     </div>
 </div>
 
-<div class="form-group{{ $errors->has('focal_length') ? ' has-error' : '' }}">
-    <label for="focal_length" class="col-md-4 control-label">Focal Length (mm)</label>
+<!-- FOCAL RATIO FIELD -->
+<div class="form-group{{ $errors->has('focal_ratio') ? ' has-error' : '' }}">
+    <label for="focal_ratio" class="col-md-4 control-label">Focal Ratio</label>
 
     <div class="col-md-6">
-        <input id="focal_length" type="text" class="form-control" name="focal_length" value="{{ old('focal_length') || isset($telescope) ? $telescope->getFocalLength() : null }}" required>
+        <input id="focal_ratio" type="text" class="form-control" name="focal_ratio" value="{{ old('focal_ratio') || isset($telescope) ? $telescope->getFocalRatio() : null }}" required>
 
-        @if ($errors->has('focal_length'))
+        @if ($errors->has('focal_ratio'))
             <span class="help-block">
-            <strong>{{ $errors->first('focal_length') }}</strong>
+            <strong>{{ $errors->first('focal_ratio') }}</strong>
         </span>
         @endif
     </div>
 </div>
 
+<!-- EYEPIECE SIZE FIELD -->
 <div class="form-group{{ $errors->has('max_eyepiece_size') ? ' has-error' : '' }}">
     <label for="max_eyepiece_size" class="col-md-4 control-label">Max Supported Eyepiece Size</label>
 
@@ -60,6 +64,7 @@
     </div>
 </div>
 
+<!-- SUBMIT -->
 <div class="form-group">
     <div class="col-md-6 col-md-offset-4">
         <button type="submit" class="btn btn-primary">

@@ -15,6 +15,7 @@ class TelescopeJSONTransformer
                 'name' => str_replace('"', '\"', $telescope->getName()),
                 'aperture' => $telescope->getAperture(),
                 'focal_length' => $telescope->getFocalLength(),
+                'focal_ratio' => $telescope->getFocalRatio(),
                 'max_eyepiece_size' => $telescope->getMaxEyepieceSize(),
                 'is_custom' => false
             ];

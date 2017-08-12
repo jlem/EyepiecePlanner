@@ -198,19 +198,17 @@
                 .sort(utils.compare.bind(this, this.sort.key, 'focal_length', this.sort.ascending));
     };
 
-    let refreshDataFilters = function () {
-        return {
-            name: '',
-            focal_length: '',
-            magnification: '',
-            exit_pupil: '',
-            tfov: '',
-            apparent_field: '',
-            eye_relief: '',
-            field_stop: '',
-            price: '',
-            region: ''
-        }
+    let defaultFilters = {
+        name: '',
+        focal_length: '',
+        magnification: '',
+        exit_pupil: '',
+        tfov: '',
+        apparent_field: '',
+        eye_relief: '',
+        field_stop: '',
+        price: '',
+        region: ''
     };
 
     // View Model
@@ -222,11 +220,12 @@
                     key: 'name',
                     ascending: true
                 },
-                filters: refreshDataFilters()
+                filters: null
             }
         },
         created: function () {
             this.$store.dispatch('setSelectedEyepieces', this.selectedEyepieceIDs);
+            this.clearFilters();
         },
         computed: {
             sortedEyepieces: updateEyepieces
@@ -244,9 +243,15 @@
                 this.$store.dispatch('setSelectedEyepieces', []);
             },
             clearFilters: function () {
-                this.filters = refreshDataFilters();
+                this.filters = Object.assign({}, defaultFilters);
             }
         },
-        filters: formatters
+        filters: formatters,
+        watch: {
+            config: function () {
+                // If the config changes (e.g. each time a tab is selected), we're going to clear the existing filters
+                this.clearFilters();
+            }
+        }
     };
 </script>

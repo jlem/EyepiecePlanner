@@ -11,7 +11,7 @@ class TelescopeValidator
         $rules = [
             'name' => 'required|max:64',
             'aperture' => 'required|numeric|min:1|max:10000',
-            'focal_length' => 'required|numeric|min:1|max:150000',
+            'focal_ratio' => 'required|numeric|min:1|max:50',
             'max_eyepiece_size' => 'required|in:1.25,2,3'
         ];
 

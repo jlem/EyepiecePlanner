@@ -5,6 +5,7 @@ import * as types from './mutation-types';
 const defaultTelescope = {
 	aperture: null,
 	focal_length: null,
+	focal_ratio: null,
 	max_eyepiece_size: null
 }
 
@@ -101,7 +102,9 @@ const mutations = {
 			throw new Error('Telescope does not exist');
 		}
 
+		// Need to individual property value assignment so as to keep data binding intact.
 		storedTelescope.focal_length = telescope.focal_length;
+		storedTelescope.focal_ratio =  telescope.focal_ratio;
 		storedTelescope.aperture = telescope.aperture;
 		storedTelescope.max_eyepiece_size = telescope.max_eyepiece_size;
 	}

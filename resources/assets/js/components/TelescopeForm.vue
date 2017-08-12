@@ -20,7 +20,13 @@
             </div>
             <div class="telescope-form-field">
                 <div class="animated-field">
-                    <input type="text" role="search" v-model="selectedTelescope.focal_length" @input="updateTelescope(selectedTelescope)" required autocomplete="off" />
+                    <input type="text" role="search" v-model="selectedTelescope.focal_ratio" @input="updateFocalRatio(selectedTelescope)" required autocomplete="off" />
+                    <label>Telescope Focal Ratio</label>
+                </div>
+            </div>
+            <div class="telescope-form-field">
+                <div class="animated-field">
+                    <input type="text" role="search" v-model="selectedTelescope.focal_length" @input="updateFocalLength(selectedTelescope)" required autocomplete="off" />
                     <label>Telescope Focal Length (mm)</label>
                 </div>
             </div>
@@ -154,8 +160,9 @@
                 let telescope = {
                     name,
                     aperture: 0,
+                    focal_ratio: 0,
                     focal_length: 0,
-                    max_eyepiece_size: '1.25',
+                    max_eyepiece_size: '2',
                     is_custom: true
                 };
 
@@ -166,6 +173,14 @@
                 $event.stopImmediatePropagation(); // We have to do this because front-end development is a wasteland
                 this.$store.dispatch('removeTelescope', telescope);
                 this.$store.dispatch('selectTelescope', this.telescopes[this.telescopes.length - 1]);
+            },
+            updateFocalLength: function(telescope) {
+                telescope.focal_ratio = telescope.focal_length / telescope.aperture;
+                this.updateTelescope(telescope);
+            },
+            updateFocalRatio: function(telescope) {
+                telescope.focal_length = telescope.focal_ratio * telescope.aperture;
+                this.updateTelescope(telescope);
             },
             ...mapActions([
                 'addTelescope',

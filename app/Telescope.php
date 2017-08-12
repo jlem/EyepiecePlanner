@@ -13,6 +13,7 @@ class Telescope extends Model
         'name',
         'aperture',
         'focal_length',
+        'focal_ratio',
         'max_magnification',
         'max_eyepiece_size'
     ];
@@ -48,6 +49,11 @@ class Telescope extends Model
         return MMToInch::convert($this->getAperture(), MMToInch::NEAREST_QUARTER);
     }
 
+    public function setFocalRatioAttribute($value) {
+        $this->attributes['focal_ratio'] = $value;
+        $this->attributes['focal_length'] = $value * $this->getAperture();
+    }
+
     public function getFocalLength()
     {
         return $this->focal_length;
@@ -55,7 +61,7 @@ class Telescope extends Model
 
     public function getFocalRatio()
     {
-        return number_format(($this->getFocalLength() / $this->getAperture()), 1);
+        return $this->focal_ratio;
     }
 
     public function getMaxMagnification()
