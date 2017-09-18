@@ -1,123 +1,171 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
 @import "variables";
 @import "functions";
 @import "forms";
 
 [v-cloak] {
-  display: none;
+	display: none;
 }
 
-h1 {
-  margin-bottom: 30px;
+body,
+html {
+	font-family: 'PT Sans', sans-serif !important;
+	height: 100%;
+	position: relative;
+	background: #0b0f17 url("/pagebg.jpg") no-repeat top center;
+}
+
+h1,
+h2 {
+	margin-bottom: 30px;
+	color: #fff;
 }
 
 .content {
-  display: flex;
+	display: flex;
 }
 
 .sidebar {
-  width: 300px;
-  min-width: 300px;
-  border-right: 1px solid #e2e2e2;
-  padding: 15px;
+	width: 300px;
+	min-width: 300px;
+	border-right: 1px solid #e2e2e2;
+	padding: 15px;
 }
 
-.panel {
-  flex: 1;
-  padding: 15px;
+.content-panel {
+	flex: 1;
+	padding: 50px;
 }
 
 .navbar {
-  margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .container {
-  width: 1200px;
-  padding: 0;
+	width: 1200px;
+	padding: 0;
 }
 
 .asterisk {
-  font-weight: bold;
-  vertical-align: super;
-  color: #6e2a65;
+	font-weight: bold;
+	vertical-align: super;
+	color: #6e2a65;
 }
 
 .eyepiece-comparison {
-  margin-top: 30px;
+	margin-top: 30px;
 }
 
 .search-example {
-  opacity: 0;
-  color: $brand-pink;
-  font-size: 14px;
-  margin-top: 6px;
-  font-weight: bold;
-  transition: opacity 0.2s ease;
+	opacity: 0;
+	color: $primary;
+	font-size: 14px;
+	margin-top: 6px;
+	font-weight: bold;
+	transition: opacity 0.2s ease;
 }
 
 .search-field:focus ~ .search-example {
-  opacity: 1;
+	opacity: 1;
 }
 
 .search-field:valid ~ .search-example {
-  opacity: 0;
+	opacity: 0;
 }
 
 .search-results {
-  position: absolute;
-  z-index: 2;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  padding: 10px;
+	position: absolute;
+	z-index: 2;
+	background: #fff;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	width: 400px;
+	padding: 10px;
 }
 
 .selected {
-  background: #b1dda3;
-  font-weight: bold;
+	background: #b1dda3;
+	font-weight: bold;
 }
 
 .search-result {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .selection-tools {
-  height: 50px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+	height: 50px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .warning-magnification {
-  color: red;
-  font-weight: bold;
+	color: red;
+	font-weight: bold;
 }
 
 .pupil-reference {
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  border-radius: 3px;
-  position: absolute;
-  width: 150px;
-  top: 25px;
-  right: 0;
-  z-index: 2;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	background: #fff;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	padding: 10px;
+	border-radius: 3px;
+	position: absolute;
+	width: 150px;
+	top: 25px;
+	right: 0;
+	z-index: 2;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 
-  .dl-horizontal {
-    margin-bottom: 0;
+	.dl-horizontal {
+		margin-bottom: 0;
 
-    dt {
-      width: 55px;
-    }
+		dt {
+			width: 55px;
+		}
 
-    dd {
-      margin-left: 70px;
-    }
-  }
+		dd {
+			margin-left: 70px;
+		}
+	}
 }
 
 .comparison-telescope-form {
-  position: relative;
-  margin-top: 25px;
+	position: relative;
+	margin-top: 25px;
+}
+
+.tab-list {
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	border-bottom: 3px solid $primary;
+}
+
+.tab {
+	display: inline-block;
+	vertical-align: top;
+	font-size: 18px;
+	border-radius: 3px 3px 0 0;
+	padding: 10px 30px;
+	background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.08));
+	color: #fff;
+	border-bottom: none;
+	margin-right: 5px;
+	cursor: pointer;
+
+	&:hover {
+		background: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.12));
+	}
+}
+
+.active-tab {
+	font-weight: bold;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+	border: none;
+	background: $primary-gradient;
+	color: #fff;
+	cursor: default;
+
+	&:hover {
+		background: $primary-gradient;
+	}
 }

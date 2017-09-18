@@ -1,0 +1,32 @@
+<table class="epp-table">
+    <thead>
+        <th v-if="computedConfig.selection.enabled" width="30px" :class="[ {'deselect-all': selections.length > 0}, 'select']" @click="computedConfig.selection.onClearSelections()"><i class="glyphicon glyphicon-remove-circle"></i></th>
+        <th v-for="column in computedConfig.columns" :width="column.width">
+            <table-column-header
+                :sort-key="column.dataKey"
+                :sort-criteria="sortState"
+                :tooltip="column.tooltip"
+                @sort="sortData">{{ column.label }}</table-column-header>
+            <component v-if="column.filterOptions" :is="getColumnFilterComponent(column)" v-model="column.filterOptions.config.values"></component>
+        </th>
+    </thead>
+    <tbody>
+        <tr @click="computedConfig.onRowClick(row, $event)" v-if="computedData.length" v-for="row in computedData" :class="getRowClass(row)" >
+            <td v-if="computedConfig.selection.enabled" class="select" @click="computedConfig.selection.onSelect(row, $event)">
+                <i class="glyphicon glyphicon-ok-circle"></i>
+            </td>
+            <td v-for="column in computedConfig.columns">
+                <span v-if="!column.formatFn && !column.component">{{ row[column.dataKey] }}</span>
+                <span v-if="column.formatFn && !column.component">{{ column.formatFn(row[column.dataKey]) }}</span>
+                <span v-if="column.component">
+                    <component :is="column.component" :props="column.componentData(row)"></component>
+                </span>
+            </td>
+        </tr>
+        <tr v-if="!computedData.length">
+            <td class="no-results" :colspan="getColumnCount()">
+                There are no results
+            </td>
+        </tr>
+    </tbody>
+</table>

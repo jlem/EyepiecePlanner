@@ -1,0 +1,71 @@
+@import '../../../sass/_variables.scss';
+
+.epp-table {
+    width: 100%;
+	font-size: 16px;
+
+	th,
+	td {
+		color: #d6c7d1;
+		padding: 12px;
+
+		&.no-results {
+			text-align: center;
+			padding: 30px;
+		}
+	}
+
+	th {
+		padding-top: 20px;
+		padding-bottom: 20px;
+		position: relative;
+		background: $primary_gradient_transparent;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	}
+
+	tr {
+		background-color: rgba(255, 255, 255, 0.05);
+	}
+
+	tr:hover {
+		td {
+			color: #fff;
+		}
+		background-color: rgba(255, 255, 255, 0.1);
+	}
+
+	tr:nth-child(odd) {
+		background-color: rgba(255, 255, 255, 0.08);
+	}
+
+	tr:nth-child(odd):hover {
+		background-color: rgba(255, 255, 255, 0.12);
+	}
+
+	tr.selected {
+		background: $primary-gradient;
+
+		&:hover {
+			background: $primary-gradient-hover;
+		}
+	}
+
+	.select {
+		cursor: pointer;
+
+		&:hover i {
+			color: #fff;
+			opacity: 1;
+		}
+	}
+
+	tr.clickable {
+		cursor: pointer;
+	}
+
+	tr.selected .select i {
+		opacity: 1;
+		color: #fff;
+		text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	}
+}

@@ -1,52 +1,52 @@
 .animated-field {
-  position: relative;
+	position: relative;
 
-  select,
-  input {
-    width: 100%;
-    position: relative;
-    z-index: 1;
-    background: none;
-    outline: none;
-    box-shadow: none;
-    border: none;
-    font-size: 22px;
-    padding: 10px;
-    border-radius: 3px;
-    border: 1px solid #e2e2e2;
-    transition: opacity 0.2s ease, border 0.2s ease, box-shadow 0.2s ease;
-  }
+	select,
+	input {
+		color: #fff;
+		width: 100%;
+		position: relative;
+		z-index: 1;
+		background: transparent;
+		outline: none;
+		box-shadow: none;
+		border: none;
+		font-size: 22px;
+		padding: 8px 0;
+		transition: opacity 0.2s ease, box-shadow 0.2s ease;
+	}
 
-  select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    padding: 10px;
-  }
+	select {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		padding: 8px 0;
+	}
 
-  label {
-    width: 100%;
-    top: 15px;
-    left: 10px;
-    position: absolute;
-    font-size: 16px;
-    color: tint($brand-purple, 10%);
-    font-weight: normal;
-    transition: font 0.2s ease, transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
-  }
+	label {
+		width: 100%;
+		top: 15px;
+		position: absolute;
+		font-size: 18px;
+		color: tint($primary, 10%);
+		font-weight: normal;
+		transition: font 0.2s ease, transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+	}
 
-  select:valid,
-  input:focus,
-  input:valid {
-    padding-top: 18px;
-    padding-bottom: 2px;
-  }
+	select:valid,
+	input:hover,
+	input:focus,
+	input:valid {
+		padding-top: 14px;
+		padding-bottom: 2px;
+	}
 
-  select:valid + label,
-  input:focus + label,
-  input:valid + label {
-    font-size: 12px;
-    opacity: 0.5;
-    transform: translateY(-10px);
-  }
+	select:valid + label,
+	input:hover + label,
+	input:focus + label,
+	input:valid + label {
+		font-size: 12px;
+		opacity: 0.5;
+		transform: translateY(-14px);
+	}
 }

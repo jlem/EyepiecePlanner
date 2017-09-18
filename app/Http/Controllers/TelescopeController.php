@@ -3,7 +3,7 @@
 namespace EPP\Http\Controllers;
 
 use EPP\Eyepiece;
-use EPP\Eyepiece\EyepieceRepository;
+use EPP\Domain\Model\Eyepiece\EyepieceRepository;
 use EPP\Telescope;
 use EPP\Http\Validators\TelescopeValidator;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ use Auth;
 class TelescopeController extends Controller
 {
     /**
-     * @var EyepieceRepository
+     * @var \EPP\Domain\Model\Eyepiece\EyepieceRepository
      */
     private $eyepieceRepository;
 

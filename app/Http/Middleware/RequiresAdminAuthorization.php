@@ -17,6 +17,7 @@ class RequiresAdminAuthorization
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        dd(Auth::user());
         if (!Auth::check($guard)) {
             return redirect('/home');
         }

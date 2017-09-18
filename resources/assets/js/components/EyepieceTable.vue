@@ -1,86 +1,79 @@
 <template>
-    <div>
-        <table v-cloak class="eyepiece-table">
-            <thead>
-                <tr>
-                    <th v-if="config.allowSelection" width="30px" v-bind:class="[ {'deselect-all': selectedEyepieceIDs.length > 0}, 'select']" v-on:click="clearSelected()"><i class="glyphicon glyphicon-remove-circle"></i></th>
-                    <th width="16%">
-                        <table-column-header sort-key="name" :sort-criteria="sort" v-on:sort="sortBy">Name</table-column-header>
-                        <table-column-search v-model="filters.name"></table-column-search>
-                    </th>
-                    <th width="9%">
-                        <table-column-header sort-key="focal_length" :sort-criteria="sort" v-on:sort="sortBy">Focal Length</table-column-header>
-                        <table-column-search v-model="filters.focal_length"></table-column-search>
-                    </th>
-                    <th width="9%" v-if="telescope">
-                        <table-column-header sort-key="magnification" :sort-criteria="sort" v-on:sort="sortBy">Magnification</table-column-header>
-                        <table-column-search v-model="filters.magnification"></table-column-search>
-                    </th>
-                    <th width="9%" v-if="telescope">
-                        <table-column-header sort-key="exit_pupil" :sort-criteria="sort" v-on:sort="sortBy">Exit Pupil</table-column-header>
-                        <table-column-search v-model="filters.exit_pupil"></table-column-search>
-                    </th>
-                    <th width="9%" v-if="telescope">
-                        <table-column-header sort-key="tfov" :sort-criteria="sort" v-on:sort="sortBy">True FOV</table-column-header>
-                        <table-column-search v-model="filters.tfov"></table-column-search>
-                    </th>
-                    <th width="9%">
-                        <table-column-header sort-key="apparent_field" :sort-criteria="sort" v-on:sort="sortBy">Apparent FOV</table-column-header>
-                        <table-column-search v-model="filters.apparent_field"></table-column-search>
-                    </th>
-                    <th width="9%">
-                        <table-column-header sort-key="eye_relief" :sort-criteria="sort" v-on:sort="sortBy">Eye Relief</table-column-header>
-                        <table-column-search v-model="filters.eye_relief"></table-column-search>
-                    </th>
-                    <th width="9%">
-                        <table-column-header sort-key="field_stop" :sort-criteria="sort" v-on:sort="sortBy">Field Stop</table-column-header>
-                        <table-column-search v-model="filters.field_stop"></table-column-search>
-                    </th>
-                    <th width="9%">
-                        <table-column-header sort-key="price" :sort-criteria="sort" v-on:sort="sortBy">Price</table-column-header>
-                        <table-column-search v-model="filters.price"></table-column-search>
-                    </th>
-                    <th width="6%">
-                        <table-column-header sort-key="region" :sort-criteria="sort" v-on:sort="sortBy">Region</table-column-header>
-                        <table-column-search v-model="filters.region"></table-column-search>
-                    </th>
-                    <th width="6%">Barrel Size</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="eyepiece in sortedEyepieces" v-bind:class="{ selected: isSelected(eyepiece) && config.highlightSelections }">
-                    <td v-if="config.allowSelection" class="select" v-on:click="selectEyepiece(eyepiece)">
-                        <i class="glyphicon glyphicon-ok-circle"></i>
-                    </td>
-                    <td>{{ eyepiece.name }}</td>
-                    <td>{{ eyepiece.focal_length | mm }}</td>
-                    <td v-if="telescope">
-                        {{ eyepiece.magnification | numberFormat(2) | mag }}
-                    </td>
-                    <td v-if="telescope">
-                        {{ eyepiece.exit_pupil | numberFormat(2) | mm }}
-                    </td>
-                    <td v-if="telescope">
-                        {{ eyepiece.tfov | numberFormat(2) | deg }}
-                    </td>
-                    <td>{{ eyepiece.apparent_field | deg }}</td>
-                    <td>{{ eyepiece.eye_relief | mm }}</td>
-                    <td>{{ eyepiece.field_stop | mm }}</td>
-                    <td>{{ eyepiece.price | price }}</td>
-                    <td>{{ eyepiece.region }}</td>
-                    <td>{{ eyepiece.barrel_size }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table v-cloak class="eyepiece-table">
+        <thead>
+            <tr>
+                <th v-if="config.allowSelection" width="30px" v-bind:class="[ {'deselect-all': selectedEyepieceIDs.length > 0}, 'select']" v-on:click="clearSelected()"><i class="glyphicon glyphicon-remove-circle"></i></th>
+                <th width="16%">
+                    <table-column-header sort-key="name" :sort-criteria="sort" v-on:sort="sortBy">Name</table-column-header>
+                    <table-column-search v-model="filters.name"></table-column-search>
+                </th>
+                <th width="9%">
+                    <table-column-header sort-key="focal_length" :sort-criteria="sort" v-on:sort="sortBy" tooltip="Focal Length">FL</table-column-header>
+                    <table-column-search v-model="filters.focal_length"></table-column-search>
+                </th>
+                <th width="9%" v-if="telescope">
+                    <table-column-header sort-key="magnification" :sort-criteria="sort" v-on:sort="sortBy" tooltip="Magnification">Mag</table-column-header>
+                    <table-column-search v-model="filters.magnification"></table-column-search>
+                </th>
+                <th width="9%" v-if="telescope">
+                    <table-column-header sort-key="exit_pupil" :sort-criteria="sort" v-on:sort="sortBy" tooltip="Exit Pupil">EP</table-column-header>
+                    <table-column-search v-model="filters.exit_pupil"></table-column-search>
+                </th>
+                <th width="9%" v-if="telescope">
+                    <table-column-header sort-key="tfov" :sort-criteria="sort" v-on:sort="sortBy" tooltip="True Field of View">TFOV</table-column-header>
+                    <table-column-search v-model="filters.tfov"></table-column-search>
+                </th>
+                <th width="9%">
+                    <table-column-header sort-key="apparent_field" :sort-criteria="sort" v-on:sort="sortBy" tooltip="Apparent Field of View">AFOV</table-column-header>
+                    <table-column-search v-model="filters.apparent_field"></table-column-search>
+                </th>
+                <th width="9%">
+                    <table-column-header sort-key="eye_relief" :sort-criteria="sort" v-on:sort="sortBy" tooltip="Eye Relief">ER</table-column-header>
+                    <table-column-search v-model="filters.eye_relief"></table-column-search>
+                </th>
+                <th width="9%">
+                    <table-column-header sort-key="field_stop" :sort-criteria="sort" v-on:sort="sortBy" tooltip="Field Stop Diameter">FS</table-column-header>
+                    <table-column-search v-model="filters.field_stop"></table-column-search>
+                </th>
+                <th width="9%">
+                    <table-column-header sort-key="price" :sort-criteria="sort" v-on:sort="sortBy">Cost</table-column-header>
+                    <table-column-search v-model="filters.price"></table-column-search>
+                </th>
+                <th width="6%">
+                    <table-column-header sort-key="region" :sort-criteria="sort" v-on:sort="sortBy" tooltip="Location">Loc</table-column-header>
+                    <table-column-search v-model="filters.region"></table-column-search>
+                </th>
+                <th width="6%">Size</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="eyepiece in sortedEyepieces" v-bind:class="{ selected: isSelected(eyepiece) && config.highlightSelections }">
+                <td v-if="config.allowSelection" class="select" v-on:click="selectEyepiece(eyepiece)">
+                    <i class="glyphicon glyphicon-ok-circle"></i>
+                </td>
+                <td>{{ eyepiece.name }}</td>
+                <td>{{ eyepiece.focal_length | mm }}</td>
+                <td v-if="telescope">
+                    {{ eyepiece.magnification | numberFormat(2) | mag }}
+                </td>
+                <td v-if="telescope">
+                    {{ eyepiece.exit_pupil | numberFormat(2) | mm }}
+                </td>
+                <td v-if="telescope">
+                    {{ eyepiece.tfov | numberFormat(2) | deg }}
+                </td>
+                <td>{{ eyepiece.apparent_field | deg }}</td>
+                <td>{{ eyepiece.eye_relief | mm }}</td>
+                <td>{{ eyepiece.field_stop | mm }}</td>
+                <td>{{ eyepiece.price | price }}</td>
+                <td>{{ eyepiece.region }}</td>
+                <td>{{ eyepiece.barrel_size }}</td>
+            </tr>
+        </tbody>
+    </table>
 </template>
 
 <style>
-    .share {
-        float: left;
-        margin-left: 20px;
-    }
-
     .share label {
         border: 1px solid #de4100;
         border-radius: 3px 0 0 3px;
@@ -109,7 +102,6 @@
         opacity: 1;
         color: orangered;
     }
-
 
     table.eyepiece-table {
         width: 100%;

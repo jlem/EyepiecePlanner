@@ -1,11 +1,10 @@
 <template>
-    <div class="share" v-if="selectedEyepieceIDs.length > 0">
+    <div class="share" v-if="selectedEyepieces.length > 0">
         <label onclick="this.nextSibling.select()"><i class="glyphicon glyphicon-share"></i> Share</label><input onclick="this.select()" readonly type="text" v-bind:value="shareUrl">
     </div>
 </template>
 <style>
     .share {
-        float: left;
         margin-left: 20px;
         text-align: center;
     }
@@ -32,12 +31,15 @@
     'use strict';
 
     export default {
-        props: ['telescope', 'selectedEyepieceIDs'],
+        props: ['telescope', 'selectedEyepieces'],
         computed: {
             shareUrl: function () {
                 let url = 'https://eyepieceplanner.com';
                 let telescope = '/#t=' + this.telescope.aperture + ',' + this.telescope.focal_length + ',' + this.telescope.max_eyepiece_size;
-                let eyepieces = ';ep=' + this.selectedEyepieceIDs.join(',');
+                let eyepieces = ';ep=' + this.selectedEyepieces.reduce((previousValue, currentValue) => {
+                    previousValue.push(currentValue.id);
+                    return previousValue;
+                }, []).join(',');
                 return url + telescope + eyepieces;
             }
         }

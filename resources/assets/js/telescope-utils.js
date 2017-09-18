@@ -1,7 +1,7 @@
 import utils from './utils';
 
-const calculateMagnification = (eyepiece, telescope) => telescope.focal_length / eyepiece.focal_length;
-const calculateTrueFoVFieldStop = (eyepiece, telescope) => eyepiece.field_stop / telescope.focal_length * 57.3;
+const calculateMagnification = (eyepiece, telescope) => telescope.effective_focal_length / eyepiece.focal_length;
+const calculateTrueFoVFieldStop = (eyepiece, telescope) => eyepiece.field_stop / telescope.effective_focal_length * 57.3;
 const calculateTrueFovApparentField = (eyepiece, telescope) => eyepiece.apparent_field / calculateMagnification(eyepiece, telescope);
 const calculateTrueFoV = (eyepiece, telescope) => eyepiece.field_stop ? calculateTrueFoVFieldStop(eyepiece, telescope) : calculateTrueFovApparentField(eyepiece, telescope);
 const calculateExitPupil = (eyepiece, telescope) => telescope.aperture / calculateMagnification(eyepiece, telescope);
@@ -11,8 +11,16 @@ const isMagnificationTooHigh = (eyepiece, telescope) => calculateMagnification(e
 const isExitPupilTooLarge = (eyepiece, telescope) => calculateExitPupil(eyepiece, telescope) > telescope.max_pupil;
 const getEyepieceName = eyepiece => eyepiece.manufacturer_name + ' ' + eyepiece.product_name;
 const getEyepieceDescription = eyepiece => getEyepieceName(eyepiece) + ' ' + eyepiece.focal_length + 'mm ';
+const calculateEffectiveTelescopeFocalLength = (telescope, magnificationModifiers) => {
+	if (magnificationModifiers.length === 0) {
+		return telescope.focal_length;
+	} else {
+		return telescope.focal_length * magnificationModifiers.reduce((previousValue, currentValue) => previousValue * currentValue, 1);
+	}
+}
 
-const computeEyepieceProperties = (eyepieces, telescope) => {
+const computeEyepieceProperties = (eyepieces, telescope, magnificationModifiers) => {
+	telescope.effective_focal_length = calculateEffectiveTelescopeFocalLength(telescope, magnificationModifiers);
 	return eyepieces.map((eyepiece) => {
 		let computedProperties = {
 			tfov: calculateTrueFoV(eyepiece, telescope),

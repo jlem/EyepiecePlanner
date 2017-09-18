@@ -17,7 +17,11 @@ Route::post('/profile', 'ProfileController@submit');
 Route::resource('/eyepiece', 'EyepieceController');
 Route::resource('/manufacturer', 'ManufacturerController');
 Route::resource('/product-line', 'ProductLineController');
+Route::get('/admin', 'AdminController@home');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('/api/region', 'API\RegionAPIController@index');
+Route::get('/api/region/{id}', 'API\RegionAPIController@details');

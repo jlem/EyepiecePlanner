@@ -1,4 +1,6 @@
-<?php namespace EPP\Eyepiece;
+<?php namespace EPP\Domain\Model\Eyepiece;
+
+use EPP\Domain\Model\Eyepiece\Eyepiece;
 
 class EyepieceRepository
 {

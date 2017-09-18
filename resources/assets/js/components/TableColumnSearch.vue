@@ -1,36 +1,53 @@
 <template>
     <div class="search-container">
-        <input class="field-search" type="text" :value="value" @input="emitValue($event.target.value)">
-        <i v-if="value == ''" class="glyphicon glyphicon-search"></i>
-        <i v-if="value != ''" class="glyphicon glyphicon-remove" @click="emitValue('')"></i>
+        <input class="field-search" :class="{ 'has-value': value }" type="text" :value="value" @input="emitValue($event.target.value)">
+        <i v-if="value == '' || value == null" class="search-icon search-icon-search glyphicon glyphicon-search"></i>
+        <i v-if="value != '' && value != null" class="search-icon search-icon-remove glyphicon glyphicon-remove" @click="emitValue('')"></i>
     </div>
 </template>
-<style>
+<style lang="sass">
+    @import "../../sass/_variables.scss";
+
     .search-container {
         position: relative;
     }
-    .glyphicon-search,
-    .glyphicon-remove {
+    .search-icon {
         position: absolute;
-        right: 4px;
-        top: 6px;
+        right: 6px;
+        top: 10px;
     }
-    .glyphicon-search {
+
+    .search-icon-search {
         opacity: 0.5;
     }
 
-    .glyphicon-remove {
+    .search-icon-search {
         cursor: pointer;
         opacity: 0.75;
     }
 
-    .glyphicon-remove:hover {
+    .search-icon-remove:hover {
         opacity: 1;
     }
 
     .field-search {
         width: 100%;
         font-weight: normal;
+        background: transparent;
+        padding: 5px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .has-value,
+    .field-search:focus {
+        color: $primary;
+        outline: none;
+        border-color: $primary;
+    }
+
+    .has-value + .glyphicon,
+    .field-search:focus + .glyphicon {
+        color: $primary;
     }
 </style>
 <script type="text/ecmascript-6">

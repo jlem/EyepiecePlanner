@@ -2,12 +2,12 @@
 
 namespace EPP\Http\Controllers;
 
-use EPP\Eyepiece\EyepieceRepository;
+use EPP\Domain\Model\Eyepiece\EyepieceRepository;
 
 class ComparisonController extends Controller
 {
     /**
-     * @var EyepieceRepository
+     * @var \EPP\Domain\Model\Eyepiece\EyepieceRepository
      */
     private $eyepieceRepository;
 

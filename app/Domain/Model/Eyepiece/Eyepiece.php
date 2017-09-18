@@ -1,9 +1,8 @@
-<?php namespace EPP\Eyepiece;
+<?php namespace EPP\Domain\Model\Eyepiece;
 
 use EPP\Manufacturer;
 use EPP\ProductLine;
 use EPP\Region\Region;
-use EPP\Telescope;
 use Illuminate\Database\Eloquent\Model;
 
 class Eyepiece extends Model
@@ -105,21 +104,6 @@ class Eyepiece extends Model
     public function getRegionLabel()
     {
         return $this->region ? (new Region($this->region))->string('strtoupper') : '';
-    }
-
-    public function calculateMagnification(Telescope $telescope)
-    {
-        return floatval(number_format($telescope->getFocalLength() / $this->getFocalLength(), 2));
-    }
-
-    public function calculateTrueFov(Telescope $telescope)
-    {
-        return floatval(number_format($this->getApparentField() / $this->calculateMagnification($telescope), 2));
-    }
-
-    public function calculateExitPupil(Telescope $telescope)
-    {
-        return floatval(number_format($telescope->getAperture() / $this->calculateMagnification($telescope), 1));
     }
 
     public function toArray()

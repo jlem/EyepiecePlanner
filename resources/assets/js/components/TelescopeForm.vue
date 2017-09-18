@@ -1,136 +1,185 @@
 <template>
-    <div class="container">
-        <ul class="telescopes">
-            <li v-bind:class="[{ active: telescope.name === selectedTelescope.name }, 'telescope-tab']"
-                v-for="(telescope, index) in telescopes"
-                @click="selectTelescope(telescope)">
-                {{ telescope.name }}<span class="unsaved-indicator" v-if="telescope.is_custom && telescope.name !== selectedTelescope.name">*</span>
-                <i v-if="telescope.is_custom && telescope.name === selectedTelescope.name"
-                   v-on:click="removeTelescope(telescope, $event)"
-                   class="remove-telescope glyphicon glyphicon-remove-circle"></i>
-            </li>
-        </ul>
-        <button class="btn btn-success" v-on:click="startCreateMode($event)"><i class="glyphicon glyphicon-plus"></i> Add Telescope</button>
-        <div class="telescope-form">
-            <div class="telescope-form-field">
-                <div class="animated-field">
-                    <input type="text" role="search" v-model="selectedTelescope.aperture" @input="updateTelescope(selectedTelescope)" required autocomplete="off"/>
-                    <label>Telescope Aperture (mm)</label>
+    <div class="telescope-form-overlay" v-if="isCreateEditMode">
+        <div class="modal-container">
+            <div class="telescope-form-modal">
+                <div class="telescope-form">
+                    <div class="telescope-form-field name-field">
+                        <input placeholder="Telescope Name" type="text" role="search" v-model="newTelescope.name" required autocomplete="off"/>
+                    </div>
+                    <div class="telescope-form-field aperture-field">
+                        <input placeholder="Aperture (mm)" type="text" role="search" v-model="newTelescope.aperture" @input="updateAperture(newTelescope)" required autocomplete="off"/>
+                    </div>
+                    <div class="telescope-form-field focal-ratio-field">
+                        <input placeholder="Focal Ratio" type="text" role="search" v-model="newTelescope.focal_ratio" @input="computeFocalLength(newTelescope)" required autocomplete="off" />
+                    </div>
+                    <div class="telescope-form-field focal-length-field">
+                        <input placeholder="Focal Length(mm)" type="text" role="search" v-model="newTelescope.focal_length" @input="computeFocalRatio(newTelescope)" required autocomplete="off" />
+                    </div>
+                    <div class="telescope-form-field eyepiece-size-field" v-bind:class="{selected: newTelescope.max_eyepiece_size !== ''}">
+                        <select v-model="newTelescope.max_eyepiece_size">
+                            <option value="" disabled selected hidden>Max eyepiece size...</option>
+                            <option value="1.25">1.25"</option>
+                            <option value="2">2"</option>
+                            <option value="3">3"</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="close-button" @click="closeEditModal()">
+                    <i class="glyphicon glyphicon-remove"></i> Cancel <span class="escape-hint">(esc)</span>
                 </div>
             </div>
-            <div class="telescope-form-field">
-                <div class="animated-field">
-                    <input type="text" role="search" v-model="selectedTelescope.focal_ratio" @input="updateFocalRatio(selectedTelescope)" required autocomplete="off" />
-                    <label>Telescope Focal Ratio</label>
-                </div>
-            </div>
-            <div class="telescope-form-field">
-                <div class="animated-field">
-                    <input type="text" role="search" v-model="selectedTelescope.focal_length" @input="updateFocalLength(selectedTelescope)" required autocomplete="off" />
-                    <label>Telescope Focal Length (mm)</label>
-                </div>
-            </div>
-            <div class="telescope-form-field">
-                <div class="animated-field">
-                    <select v-model="selectedTelescope.max_eyepiece_size" @change="updateTelescope(selectedTelescope)">
-                        <option value=""></option>
-                        <option value="1.25">1.25"</option>
-                        <option value="2">2"</option>
-                        <option value="3">3"</option>
-                    </select>
-                    <label>Max Eyepiece Size</label>
-                </div>
-            </div>
+            <button class="action-button" v-on:click="saveTelescope(newTelescope)"><i class="save-icon glyphicon glyphicon-ok"></i> Save Telescope</button>
         </div>
     </div>
 </template>
 
-<style type="text/css">
-    .container {
+<style lang="sass">
+    @import "../../sass/_variables.scss";
+
+    .save-icon {
+        margin-right: 10px;
+    }
+
+    .telescope-form-overlay {
+        z-index: 99999;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        background: rgba(0,0,0,0.5);
+        top: 0;
+        left: 0;
+    }
+
+    .modal-container{
+        width: 900px;
+        display: block;
+        margin: 100px auto 0 auto;
+    }
+
+    .telescope-form-modal {
+        border-radius: 3px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        width: 900px;
+        height: 563px;
+        background-image: linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)), url('/modalbg.jpg');
         position: relative;
+    }
+
+    .close-button {
+        position: absolute;
+        color: #fff;
+        border-radius: 0 2px 0 10px;
+        top: 0;
+        right: 0;
+        padding: 8px 15px;
+        border-left: 1px solid rgba(0, 0, 0, 0.5);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        cursor: pointer;
+        background: $primary_gradient_transparent;
+
+        &:hover {
+             background: $primary_gradient_transparent_hover;
+         }
+    }
+
+    .escape-hint {
+        opacity: 0.33;
     }
 
     .telescope-form {
-        background: #3d4044;
-        border: 1px solid #34373b;
-        border-radius: 3px;
-        box-sizing: content-box;
-        display: flex;
-        margin-bottom: 30px;
-    }
-
-    .telescopes {
-        display: inline-block;
-        position: relative;
-        z-index: 1;
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        top: 3px;
-    }
-
-    .telescope-tab {
-        display:inline-block;
-        margin-right: 5px;
-        font-size: 18px;
-        border: 1px solid #e2e2e2;
-        border-radius: 3px 3px 0 0;
-        border-bottom: 0;
-        padding: 8px 13px;
-        cursor: pointer;
-    }
-
-    .telescope-tab.active {
-        background: #3d4044;
-        border: 1px solid #34373b;
-        border-bottom: 3px solid #3d4044;
-        color: #fff;
-        cursor: default;
-    }
-
-    .telescope-tab.active input {
-        color: black;
-    }
-
-    .unsaved-indicator {
-        font-size: 25px;
-        font-weight: bold;
-        opacity: 0.75;
-        color: red;
-        line-height: 5px;
-    }
-
-    .remove-telescope {
-        position: relative;
-        margin-left: 8px;
-        top: 3px;
-        cursor: pointer;
-        opacity: 0.5;
-    }
-
-    .remove-telescope:hover {
-        opacity: 1;
-    }
-
-    .animated-field {
-        background: #fff;
-        border-radius: 3px;
+        padding-top: 65px;
+        width: 300px;
+        margin: 0 auto;
     }
 
     .telescope-form-field {
+        margin-left: 60px;
+        padding-left: 55px;
+        margin-bottom: 32px;
+    }
+
+    .name-field {
+        background: url('/telescope-form-sprite.png') no-repeat 0 0;
+    }
+
+    .aperture-field {
+        background: url('/telescope-form-sprite.png') no-repeat 0 -30px;
+    }
+
+    .focal-ratio-field {
+        background: url('/telescope-form-sprite.png') no-repeat 0 -60px;
+    }
+
+    .focal-length-field {
+        background: url('/telescope-form-sprite.png') no-repeat 0 -90px;
+    }
+
+    .eyepiece-size-field {
+        padding-left: 38px;
+        background: url('/telescope-form-sprite.png') no-repeat 0 -120px;
+    }
+
+    .telescope-form-field input,
+    .telescope-form-field select {
+        height: 30px;
+        font-size: 18px;
+        border: none;
+        width: 100%;
+        background: none;
+        border-bottom: 1px solid rgba(180, 112, 187, 0.1);
+        outline: none;
+        padding: 0;
+        color: #fff;
+    }
+
+    .telescope-form-field select {
+        font-size: 13px;
+        color: #bb70ae;
+    }
+
+    .telescope-form-field.selected select {
+        font-weight: normal;
+        font-size: 18px;
+        color: #fff;
+    }
+
+    ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        font-size: 15px;
+        /*color: #bb70ae;*/
+        color: #e4b162;
+    }
+    ::-moz-placeholder { /* Firefox 19+ */
+        font-size: 15px;
+        color: #bb70ae;
+    }
+    :-ms-input-placeholder { /* IE 10+ */
+        font-size: 15px;
+        color: #bb70ae;
+    }
+    :-moz-placeholder { /* Firefox 18- */
+        font-size: 15px;
+        color: #bb70ae;
+    }
+
+    .action-button {
+        outline: none;
+        width: 100%;
+        background: $primary-gradient;
+        color: #fff;
+        padding: 15px;
+        font-size: 18px;
+        border-radius: 0 0 3px 3px;
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.25);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.5);
         box-sizing: border-box;
-        padding: 10px 10px 10px 0;
-        border-radius: 3px;
-        flex: 1;
-    }
+        cursor: pointer;
 
-    .telescope-form-field input {
-        box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
-        border-radius: 3px;
-    }
-
-    .telescope-form-field:first-of-type {
-        padding-left: 10px;
+        &:hover {
+             background: $primary-gradient-hover;
+         }
     }
 </style>
 
@@ -140,80 +189,68 @@
     import { mapGetters, mapActions } from 'vuex';
 
     export default {
-        props: ['telescopes'],
         data: function () {
             return {
-                isCreateMode: false
+                newTelescope: {
+                    name: null,
+                    aperture: null,
+                    focal_ratio: null,
+                    focal_length: null,
+                    max_eyepiece_size: '',
+                    is_custom: true
+                },
+                defaultTelescope: {
+                    name: null,
+                    aperture: null,
+                    focal_ratio: null,
+                    focal_length: null,
+                    max_eyepiece_size: '',
+                    is_custom: true
+                }
             }
         },
+        created: function () {
+            window.addEventListener('keyup', this.escape.bind(this));
+        },
+        destroyed: function () {
+            window.removeEventListener('keyup', this.escape.bind(this));
+        },
         methods: {
+            escape: function (event) {
+                if(event.keyCode == 27) {
+                    this.closeEditModal();
+                }
+            },
             startCreateMode: function ($event) {
                 $event.stopImmediatePropagation(); // We have to do this because front-end development is a wasteland
-                let name = window.prompt('Give this telescope a name');
-
-                if (!name) {
-                    return;
-                }
-
-                this.isCreateMode = true;
-
-                let telescope = {
-                    name,
-                    aperture: 0,
-                    focal_ratio: 0,
-                    focal_length: 0,
-                    max_eyepiece_size: '2',
-                    is_custom: true
-                };
-
+            },
+            saveTelescope: function (telescope) {
+                telescope.is_custom = true;
                 this.addTelescope(telescope);
                 this.selectTelescope(telescope);
+                this.newTelescope = Object.assign({}, this.defaultTelescope);
+                this.closeEditModal();
             },
-            removeTelescope: function (telescope, $event) {
-                $event.stopImmediatePropagation(); // We have to do this because front-end development is a wasteland
-                this.$store.dispatch('removeTelescope', telescope);
-                this.$store.dispatch('selectTelescope', this.telescopes[this.telescopes.length - 1]);
+            updateAperture: function(telescope) {
+                this.computeFocalLength(telescope);
             },
-            updateFocalLength: function(telescope) {
+            computeFocalRatio: function(telescope) {
                 telescope.focal_ratio = telescope.focal_length / telescope.aperture;
-                this.updateTelescope(telescope);
             },
-            updateFocalRatio: function(telescope) {
+            computeFocalLength: function(telescope) {
                 telescope.focal_length = telescope.focal_ratio * telescope.aperture;
-                this.updateTelescope(telescope);
             },
             ...mapActions([
                 'addTelescope',
-                'updateTelescope',
-                'saveTelescope',
-                'selectTelescope'
+                'selectTelescope',
+                'closeEditModal'
             ])
         },
         computed: {
             ...mapGetters([
+                'isCreateEditMode',
                 'selectedTelescope'
             ])
-        },
-        created: function () {
-            const TELESCOPE_REGEX = /t=(.+),(.+),(.+)?;/;
-            let hash = window.location.hash;
-            let telescope = this.telescopes[0];
-
-            if (TELESCOPE_REGEX.test(hash)) {
-                let matches = hash.match(TELESCOPE_REGEX);
-
-                // Create a new telescope from the hash values
-                telescope = {
-                    name: 'Custom Telescope',
-                    aperture: +matches[1],
-                    focal_length: +matches[2],
-                    max_eyepiece_size: matches[3]
-                };
-
-                this.saveTelescope(telescope);
-            }
-
-            this.selectTelescope(telescope);
         }
     };
 </script>

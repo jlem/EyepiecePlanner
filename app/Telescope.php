@@ -7,8 +7,6 @@ use EPP\Conversion\MMToInch;
 
 class Telescope extends Model
 {
-    CONST MM_PER_INCH = 25.4;
-
     protected $fillable = [
         'name',
         'aperture',

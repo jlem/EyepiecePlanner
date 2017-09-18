@@ -2,8 +2,8 @@
 
 namespace EPP\Http\Controllers;
 
-use EPP\Eyepiece\Eyepiece;
-use EPP\Eyepiece\EyepieceRepository;
+use EPP\Domain\Model\Eyepiece\Eyepiece;
+use EPP\Domain\Model\Eyepiece\EyepieceRepository;
 use EPP\Manufacturer;
 use EPP\ProductLine;
 use EPP\Region\Region;
@@ -15,7 +15,7 @@ class EyepieceController extends Controller
 {
 
     /**
-     * @var EyepieceRepository
+     * @var \EPP\Domain\Model\Eyepiece\EyepieceRepository
      */
     private $eyepieceRepository;
 

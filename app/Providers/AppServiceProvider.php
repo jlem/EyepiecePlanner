@@ -2,7 +2,7 @@
 
 namespace EPP\Providers;
 
-use EPP\Eyepiece\EyepieceRepository;
+use EPP\Domain\Model\Eyepiece\EyepieceRepository;
 use EPP\EyepieceSet\EyepieceSetRepository;
 use EPP\Transformers\EyepieceSetJSONTransformer;
 use EPP\Transformers\TelescopeJSONTransformer;

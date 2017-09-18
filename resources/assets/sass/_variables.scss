@@ -1,38 +1,7 @@
-
-// Body
-$body-bg: #f5f8fa;
-
-// Borders
-$laravel-border-color: darken($body-bg, 10%);
-$list-group-border: $laravel-border-color;
-$navbar-default-border: $laravel-border-color;
-$panel-default-border: $laravel-border-color;
-$panel-inner-border: $laravel-border-color;
-
-// Brands
-$brand-primary: #3097D1;
-$brand-info: #8eb4cb;
-$brand-success: #2ab27b;
-$brand-warning: #cbb956;
-$brand-danger: #bf5329;
-
-// Typography
-$font-family-sans-serif: sans-serif;
-$font-size-base: 14px;
-$line-height-base: 1.6;
-$text-color: #636b6f;
-
-// Navbar
-$navbar-default-bg: #fff;
-
-// Buttons
-$btn-default-color: $text-color;
-
-// Inputs
-$input-border: lighten($text-color, 40%);
-$input-border-focus: lighten($brand-primary, 25%);
-$input-color-placeholder: lighten($text-color, 30%);
-
-// Colors
-$brand-purple: #463e6e;
-$brand-pink: #673d6e;
+$primary: #aa6dca;
+$primary-gradient: linear-gradient(25deg, rgba(104,70,163,1) 0%,rgba(191,102,214,1) 100%);
+$primary-gradient-hover: linear-gradient(25deg, rgb(117, 82, 186) 0%, rgb(210, 114, 237) 100%);
+$primary_gradient_transparent: linear-gradient(rgba(200, 165, 220, 0.15), rgba(200, 165, 220, 0.06));
+$primary_gradient_transparent_hover: linear-gradient(rgba(200, 165, 220, 0.2), rgba(200, 165, 220, 0.1));
+$success-gradient: linear-gradient(25deg, rgb(91, 128, 55) 0%, rgb(157, 212, 102) 100%);
+$success-gradient-hover: linear-gradient(25deg, rgb(109, 153, 66) 0%, rgb(177, 237, 116) 100%);
