@@ -37,7 +37,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ url('/#/') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
@@ -46,7 +46,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         @if(Auth::check())
-                            <li><a href="/telescope">My Telescopes</a></li>
+                            <li><a href="/#/telescopes">My Telescopes</a></li>
                         @endif
                         @if(Auth::check() && Auth::user()->isAdmin())
                             <li><a href="/eyepiece">Manage Eyepiece</a></li>

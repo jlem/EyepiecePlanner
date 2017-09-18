@@ -1,5 +1,8 @@
 <template>
-    <telescopes-table :telescopes="telescopes"></telescopes-table>
+    <div>
+        <h1>My Telescopes</h1>
+        <telescopes-table :telescopes="telescopes"></telescopes-table>
+    </div>
 </template>
 <style lang="sass"></style>
 <script type="text/ecmascript-6">

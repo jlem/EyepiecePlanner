@@ -116,7 +116,7 @@
     }
 
     .eyepiece-size-field {
-        padding-left: 38px;
+        padding-left: 48px;
         background: url('/telescope-form-sprite.png') no-repeat 0 -120px;
     }
 
@@ -134,32 +134,25 @@
     }
 
     .telescope-form-field select {
-        font-size: 13px;
-        color: #bb70ae;
+        color: $primary;
     }
 
     .telescope-form-field.selected select {
         font-weight: normal;
-        font-size: 18px;
         color: #fff;
     }
 
     ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-        font-size: 15px;
-        /*color: #bb70ae;*/
-        color: #e4b162;
+        color: $primary;
     }
     ::-moz-placeholder { /* Firefox 19+ */
-        font-size: 15px;
-        color: #bb70ae;
+        color: $primary;
     }
     :-ms-input-placeholder { /* IE 10+ */
-        font-size: 15px;
-        color: #bb70ae;
+        color: $primary;
     }
     :-moz-placeholder { /* Firefox 18- */
-        font-size: 15px;
-        color: #bb70ae;
+        color: $primary;
     }
 
     .action-button {

@@ -159,6 +159,8 @@
                     return Object.assign({}, telescope, calculations);
                 });
 
+                console.log(computedTelescopes);
+
                 return computedTelescopes;
             }
         }
