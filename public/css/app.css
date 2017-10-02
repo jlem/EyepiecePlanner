@@ -7688,6 +7688,26 @@ button.close {
   }
 }
 
+.epp-button {
+  background: -webkit-linear-gradient(65deg, #6846a3 0%, #bf66d6 100%);
+  background: linear-gradient(25deg, #6846a3 0%, #bf66d6 100%);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+  padding: 10px 18px;
+  border-radius: 3px;
+  position: relative;
+  top: 2px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.epp-button-icon {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-right: 5px;
+}
+
 .animated-field {
   position: relative;
 }
@@ -7715,19 +7735,6 @@ button.close {
   padding: 8px 0;
 }
 
-.animated-field label {
-  width: 100%;
-  top: 15px;
-  position: absolute;
-  font-size: 18px;
-  color: #b37ccf;
-  font-weight: normal;
-  -webkit-transition: font 0.2s ease, color 0.2s ease, opacity 0.2s ease, -webkit-transform 0.2s ease;
-  transition: font 0.2s ease, color 0.2s ease, opacity 0.2s ease, -webkit-transform 0.2s ease;
-  transition: font 0.2s ease, transform 0.2s ease, color 0.2s ease, opacity 0.2s ease;
-  transition: font 0.2s ease, transform 0.2s ease, color 0.2s ease, opacity 0.2s ease, -webkit-transform 0.2s ease;
-}
-
 .animated-field select:valid,
 .animated-field input:hover,
 .animated-field input:focus,
@@ -7746,12 +7753,52 @@ button.close {
   transform: translateY(-14px);
 }
 
+.header {
+  display: -webkit-box;
+  display: flex;
+  padding: 0 50px;
+  height: 75px;
+  background: #18181d;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.header .logo {
+  position: relative;
+  vertical-align: middle;
+  top: 1px;
+}
+
+.header .nav-link {
+  position: relative;
+  top: 2px;
+  text-decoration: none;
+  margin-left: 30px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header .nav-link:hover {
+  text-decoration: none;
+  color: #aa6dca;
+}
+
+.header .logout-link {
+  margin-left: 10px;
+}
+
 [v-cloak] {
   display: none;
 }
 
 body,
 html {
+  padding: 0;
+  margin: 0;
   font-family: 'PT Sans', sans-serif !important;
   height: 100%;
   position: relative;

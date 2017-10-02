@@ -1,3 +1,4 @@
+const randomString = length => Math.random().toString(36).substring(1, length);
 const isString = value => typeof value === 'string' || value instanceof String;
 const findIndexByProperty = (property, items, item) => items.findIndex(x => x[property] === item[property]);
 const findIndexById = findIndexByProperty.bind(null, 'id');
@@ -5,7 +6,7 @@ const isSelected = (items, item) => findIndexByProperty('id', items, item) > -1;
 const addSelection = (items, item) => { items.push(item); return items };
 const removeSelection = (locator, items, item) => { items.splice(locator(items, item), 1); return items };
 const matchesRange = (min, max, value) => {
-	value = value ? parseFloat(value.toFixed(2)) : value;
+	value = value ? parseFloat(parseFloat(value).toFixed(2)) : value;
 	let isMin = min === '' || value >= Number(min);
 	let isMax = max === '' || value <= Number(max);
 	return isMin && isMax;
@@ -86,5 +87,6 @@ export default {
 	matchesRange,
 	compare,
 	makeRange,
-	isString
+	isString,
+	randomString
 };

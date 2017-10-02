@@ -1,14 +1,19 @@
 <template>
     <div class="telescope-list">
         <ul class="tab-list">
-            <li :class="[{ 'active-tab': telescope.name === selectedTelescope.name }, 'tab']"
+            <li :class="[{ 'active-tab': telescope.id === selectedTelescope.id }, 'tab']"
                 v-for="(telescope, index) in telescopes"
                 @click="selectTelescope(telescope)">
-                    <div>{{ telescope.name }}</div>
-                    <i v-if="telescope.is_custom && telescope.name === selectedTelescope.name"
-                       v-on:click="removeTelescope(telescope, $event)"
-                       class="remove-telescope glyphicon glyphicon-remove-circle"></i>
-            </li><li class="add-button" @click="showEditModal()">
+                    <span>{{ telescope.name }}</span>
+                    <span v-if="telescope.id === selectedTelescope.id" class="action-buttons">
+                        <span @click="openCreateEditModal(telescope)" class="tab-action-button">
+                            <i class="glyphicon glyphicon-pencil" title="Edit Telescope" alt="Edit Telescope"></i>
+                        </span>
+                        <span @click="removeTelescope(telescope, $event)" class="tab-action-button">
+                            <i class="glyphicon glyphicon-remove" title="Delete Telescope" alt="Delete Telescope"></i>
+                        </span>
+                    </span>
+            </li><li class="tab add-tab" @click="openCreateEditModal()">
                 <i class="glyphicon glyphicon-plus"></i> Add Telescope
             </li>
         </ul>
@@ -35,6 +40,10 @@
 <style lang="sass">
     @import "../../sass/_variables.scss";
 
+    .telescope-list .active-tab {
+        padding-right: 10px;
+    }
+
     .telescope-info {
         display: flex;
     }
@@ -45,13 +54,52 @@
         text-align: center;
         margin-right: 5px;
         color: #fff;
-        padding-top: 20px;
-        padding-bottom: 20px;
+        padding: 20px;
         background: linear-gradient(rgba(200, 165, 220, 0.15), rgba(200, 165, 220, 0.06));
 
         &:last-of-type {
             margin-right: 0;
          }
+
+        .epp-button {
+            background: $primary-gradient-semitransparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+
+            &:hover {
+                 background: $primary-gradient-semitransparent-hover;
+             }
+
+            &:first-of-type {
+                margin-right: 20px;
+             }
+        }
+    }
+
+    .action-buttons {
+        margin-left: 25px;
+    }
+
+    .tab-action-button {
+        background: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+        padding: 5px 8px;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        color: $primary-light;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
+
+        &:hover {
+            color: #fff;
+             background: linear-gradient(rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.2));
+         }
+    }
+
+    .action-item {
+        display: flex;
     }
 
     .telescope-info-item-label {
@@ -64,22 +112,10 @@
         margin-bottom: 50px;
     }
     
-    .add-button {
-        float: right;
-        cursor: pointer;
-        display: inline-block;
-        background: $success-gradient;
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
-        color: #fff;
-        margin-top: 2px;
-        padding: 7px 15px 5px 15px;
-        font-size: 18px;
-        vertical-align: middle;
-        border-radius: 3px;
-        font-weight: bold;
-
+    .add-tab {
+        background: $primary-gradient-semitransparent;
         &:hover {
-            background: $success-gradient-hover;
+            background: $primary-gradient-semitransparent-hover;
          }
     }
 </style>
@@ -88,18 +124,28 @@
 
     import { mapGetters, mapActions } from 'vuex';
     import formatters from '../formatters';
+    import telescopeHttpService from '../services/telescope-http-service';
+    import utils from '../utils';
 
     export default {
         props: ['telescopes', 'selectedTelescope'],
         methods: {
             removeTelescope: function (telescope, $event) {
-                $event.stopImmediatePropagation(); // We have to do this because front-end development is a wasteland
+                $event.stopImmediatePropagation(); // prevent the click from falling through and selecting the telescope we just removed
                 this.$store.dispatch('removeTelescope', telescope);
                 this.$store.dispatch('selectTelescope', this.telescopes[this.telescopes.length - 1]);
+                if (this.auth.isAuthenticated) {
+                    telescopeHttpService.remove(telescope).then(() => {});
+                }
             },
             ...mapActions([
                 'selectTelescope',
-                'showEditModal'
+                'openCreateEditModal'
+            ])
+        },
+        computed: {
+            ...mapGetters([
+                'auth',
             ])
         },
         filters: formatters,
@@ -117,7 +163,8 @@
                     aperture: +matches[1],
                     focal_ratio: +matches[2],
                     focal_length: +matches[1] * +matches[2],
-                    max_eyepiece_size: matches[3]
+                    max_eyepiece_size: matches[3],
+                    id: utils.randomString(5)
                 };
 
                 this.saveTelescope(telescope);

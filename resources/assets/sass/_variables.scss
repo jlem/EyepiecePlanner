@@ -1,7 +1,12 @@
 $primary: #aa6dca;
+$primary-light: lighten($primary, 25%);
 $primary-gradient: linear-gradient(25deg, rgba(104,70,163,1) 0%,rgba(191,102,214,1) 100%);
 $primary-gradient-hover: linear-gradient(25deg, rgb(117, 82, 186) 0%, rgb(210, 114, 237) 100%);
+$primary-gradient-semitransparent: linear-gradient(25deg, rgba(104, 70, 163, 0.25) 0%,rgba(191, 102, 214, 0.25) 100%);
+$primary-gradient-semitransparent-hover: linear-gradient(25deg, rgba(117, 82, 186, 0.35) 0%, rgba(210, 114, 237, 0.35) 100%);
 $primary_gradient_transparent: linear-gradient(rgba(200, 165, 220, 0.15), rgba(200, 165, 220, 0.06));
 $primary_gradient_transparent_hover: linear-gradient(rgba(200, 165, 220, 0.2), rgba(200, 165, 220, 0.1));
+$success-gradient-transparent: linear-gradient(rgba(182, 255, 102, 0.2), rgba(182, 255, 102, 0.1));
+$success-gradient-transparent-hover: linear-gradient(rgba(182, 255, 102, 0.25), rgba(182, 255, 102, 0.15));
 $success-gradient: linear-gradient(25deg, rgb(91, 128, 55) 0%, rgb(157, 212, 102) 100%);
 $success-gradient-hover: linear-gradient(25deg, rgb(109, 153, 66) 0%, rgb(177, 237, 116) 100%);

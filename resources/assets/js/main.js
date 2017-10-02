@@ -1,35 +1,17 @@
-import VueRouter from 'vue-router';
+import Vue from 'vue';
+import bootstrap from './bootstrap'
 import store from './store';
-import { mapGetters } from 'vuex';
-
-import EyepieceList from './pages/EyepieceList.vue';
-import EyepieceDetails from './pages/EyepieceDetails.vue';
-import TelescopeList from './pages/TelescopeList.vue';
-import TelescopeDetails from './pages/TelescopeDetails.vue';
-
-const routes = [
-	{ path: '/', component: EyepieceList },
-	{ path: '/telescopes', component: TelescopeList },
-	{ path: '/telescopes/:id', component: TelescopeDetails, props: true },
-	{ path: '/eyepiece/:id', component: EyepieceDetails, props: true }
-];
-
-const router = new VueRouter({
-	routes
-});
+import router from './router';
 
 'use strict';
 
 new Vue({
+	el: '#app',
 	router,
 	store,
-	computed: {
-		...mapGetters([
-			'telescopes'
-		])
-	},
 	created: function () {
 		this.$store.dispatch('setTelescopes', window.telescopes);
 		this.$store.dispatch('selectTelescope', window.telescopes[0]);
+		this.$store.dispatch('setAuth', window.auth);
 	}
-}).$mount('#app');
+});

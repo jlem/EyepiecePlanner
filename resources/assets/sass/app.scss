@@ -2,7 +2,9 @@
 @import url('https://fonts.googleapis.com/css?family=PT+Sans');
 @import "variables";
 @import "functions";
+@import "buttons";
 @import "forms";
+@import "header";
 
 [v-cloak] {
 	display: none;
@@ -10,6 +12,8 @@
 
 body,
 html {
+	padding: 0;
+	margin: 0;
 	font-family: 'PT Sans', sans-serif !important;
 	height: 100%;
 	position: relative;

@@ -24,68 +24,32 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/#/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        @if(Auth::check())
-                            <li><a href="/#/telescopes">My Telescopes</a></li>
-                        @endif
-                        @if(Auth::check() && Auth::user()->isAdmin())
-                            <li><a href="/eyepiece">Manage Eyepiece</a></li>
-                            <li><a href="/manufacturer">Manufacturers</a></li>
-                        @endif
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">Login</a></li>
-                            <li><a href="{{ url('/register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ url('/logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-                    </ul>
-                </div>
+        <div class="header">
+            <div class="navigation">
+                <img class="logo" src="./logo.png" />
+                <a class="nav-link" href="/#/">Eyepeices</a>
+                @if(Auth::check() && Auth::user()->isAdmin())
+                    <a class="nav-link" href="/eyepiece">Manage Eyepiece</a>
+                    <a class="nav-link" href="/manufacturer">Manufacturers</a>
+                @endif
             </div>
-        </nav>
-
+            <div class="user-info">
+                @if(Auth::check())
+                    <span class="username epp-button"><i class="epp-button-icon usericon glyphicon glyphicon-user"></i> {{ Auth::user()->name }}</span>
+                    <a class="logout-link nav-link" href="{{ url('/logout') }}"
+                       onclick="event.preventDefault();
+                       document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+                @else
+                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/register">Register</a>
+                @endif
+            </div>
+        </div>
         @yield('content')
     </div>
 
@@ -93,19 +57,31 @@
     <script>
         window.eyepieces = JSON.parse('{!! $eyepieces !!}');
         window.telescopes = JSON.parse('{!! $telescopes_json !!}');
+        window.auth = JSON.parse('{!! $auth !!}');
 
         // Add custom telescope
         if (window.telescopes.length === 0) {
             window.telescopes.push({
-                name: 'Custom Telescope',
+                name: 'Example 8" F/5.9 telescope',
                 aperture: 203,
+                focal_ratio: 5.9,
                 focal_length: 1200,
                 max_eyepiece_size: "2",
+                id: Math.random().toString(36).substring(2, 5),
+                is_custom: false
+            });
+
+            window.telescopes.push({
+                name: 'Example 4" F/9 telescope',
+                aperture: 102,
+                focal_ratio: 9,
+                focal_length: 918,
+                max_eyepiece_size: "1.25",
+                id: Math.random().toString(36).substring(2, 5),
                 is_custom: false
             });
         }
     </script>
-    <script src="/js/app.js"></script>
     @yield('page-script')
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

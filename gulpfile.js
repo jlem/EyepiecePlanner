@@ -18,7 +18,6 @@ elixir((mix) => {
 		.sass('app.scss')
 		.webpack('eyepiece-index.js')
 		.webpack('main.js')
-		.webpack('app.js')
 		.webpack('admin.js')
-		.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');
+		//.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/','public/fonts/bootstrap');
 });

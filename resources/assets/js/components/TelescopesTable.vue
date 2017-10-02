@@ -17,10 +17,6 @@
             return {
                 config: {
                     defaultSortKey: 'name',
-                    onRowClick: function (row, $event) {
-                        $event.stopImmediatePropagation();
-                        this.$router.push({ path: `/telescopes/${row.id}` });
-                    }.bind(this),
                     columns: this.getColumns()
                 }
             }
@@ -32,7 +28,7 @@
                         label: 'Name',
                         tooltip: null,
                         dataKey: 'name',
-                        width: '10%',
+                        width: '22%',
                         filterOptions: {
                             type: 'search',
                             config: {
@@ -48,7 +44,7 @@
                         label: 'Aperture',
                         tooltip: null,
                         dataKey: 'aperture',
-                        width: '10%',
+                        width: '13%',
                         formatFn: formatters.mm,
                         filterOptions: {
                             type: 'search',
@@ -62,7 +58,7 @@
                         label: 'Focal Length',
                         tooltip: null,
                         dataKey: 'focal_length',
-                        width: '10%',
+                        width: '13%',
                         formatFn: formatters.mm,
                         filterOptions: {
                             type: 'search',
@@ -76,7 +72,7 @@
                         label: 'Focal Ratio',
                         tooltip: null,
                         dataKey: 'focal_ratio',
-                        width: '10%',
+                        width: '13%',
                         filterOptions: {
                             type: 'search',
                             config: {
@@ -93,7 +89,7 @@
                             label: 'Magnification',
                             tooltip: null,
                             dataKey: 'magnification',
-                            width: '10%',
+                            width: '13%',
                             formatFn: formatters.mag,
                             filterOptions: {
                                 type: 'search',
@@ -107,7 +103,7 @@
                             label: 'Exit Pupil',
                             tooltip: null,
                             dataKey: 'exit_pupil',
-                            width: '10%',
+                            width: '13%',
                             formatFn: formatters.mm,
                             filterOptions: {
                                 type: 'search',
@@ -121,7 +117,7 @@
                             label: 'True FOV',
                             tooltip: null,
                             dataKey: 'tfov',
-                            width: '10%',
+                            width: '13%',
                             formatFn: formatters.deg,
                             filterOptions: {
                                 type: 'search',
@@ -136,9 +132,7 @@
                     columns = columns.concat(eyepieceCalculationColumns);
                 }
 
-                columns = columns.concat(telescopeColumns);
-
-                return columns;
+                return columns.concat(telescopeColumns);
             }
         },
         computed: {

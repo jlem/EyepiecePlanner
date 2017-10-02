@@ -36,11 +36,11 @@ const mergeConfigDefaults = config => {
 
 	return {
 		defaultSortKey: config.defaultSortKey || 'name',
-		rowIsClickable: config.onRowClick !== null || typeof config.onRowClick !== 'undefined',
+		rowIsClickable: typeof config.onRowClick !== 'undefined',
 		onRowClick: config.onRowClick || function () {},
 		selection: Object.assign({}, selectionConfig, config.selection),
 		columns: config.columns || []
-	}
+	};
 }
 
 export default {
@@ -84,7 +84,7 @@ export default {
 		getRowClass(row) {
 			return {
 				selected: this.computedConfig.selection.enabled && this.computedConfig.selection.isSelectedFn(row) && this.computedConfig.selection.highlightSelections,
-				clickable: this.computedConfig.rowIsClickable !== null
+				clickable: this.computedConfig.rowIsClickable
 			};
 		}
 	},

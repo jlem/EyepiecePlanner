@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mag-options">
         <ul>
             <li v-for="option in magnificationOptions">
                 <input :id="option.value" v-model="option.selected" @change="updateMagnificationSelections()" type="checkbox">
@@ -9,13 +9,15 @@
         </ul>
     </div>
 </template>
-<style>
-    ul {
-        list-style-type: none;
-    }
+<style lang="sass">
+    .mag-options {
+        ul {
+            list-style-type: none;
+        }
 
-    label {
-        cursor: pointer;
+        label {
+            cursor: pointer;
+        }
     }
 </style>
 <script type="text/ecmascript-6">

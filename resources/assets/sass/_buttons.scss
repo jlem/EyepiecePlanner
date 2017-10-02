@@ -1,0 +1,18 @@
+.epp-button {
+	background: $primary-gradient;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4);
+	padding: 10px 18px;
+	border-radius: 3px;
+	position: relative;
+	top: 2px;
+	text-decoration: none;
+	color: #fff;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.epp-button-icon {
+	font-size: 15px;
+	color: rgba(255, 255, 255, 0.75);
+	margin-right: 5px;
+}

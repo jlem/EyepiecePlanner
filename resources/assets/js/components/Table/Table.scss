@@ -1,6 +1,7 @@
 @import '../../../sass/_variables.scss';
 
 .epp-table {
+	border-collapse: collapse;
     width: 100%;
 	font-size: 16px;
 
@@ -16,6 +17,7 @@
 	}
 
 	th {
+		text-align: left;
 		padding-top: 20px;
 		padding-bottom: 20px;
 		position: relative;

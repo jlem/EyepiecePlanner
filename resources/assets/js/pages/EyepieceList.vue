@@ -15,9 +15,9 @@
                     :data="computedEyepieces"
                     :selections="getSelections('eyepieces')">
             </epp-table>
-            <share
-                    :telescope="selectedTelescope"
-                    :selectedEyepieces="getSelections('eyepieces')"></share>
+            <!--<share-->
+                    <!--:telescope="selectedTelescope"-->
+                    <!--:selectedEyepieces="getSelections('eyepieces')"></share>-->
         </div>
     </div>
 </template>
