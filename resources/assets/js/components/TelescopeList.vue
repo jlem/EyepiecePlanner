@@ -138,8 +138,11 @@
                     telescopeHttpService.remove(telescope).then(() => {});
                 }
             },
+            selectTelescope: function (telescope) {
+                this.$store.dispatch('selectTelescope', telescope);
+                this.$emit('onTelescopeSelected', telescope);
+            },
             ...mapActions([
-                'selectTelescope',
                 'openCreateEditModal'
             ])
         },

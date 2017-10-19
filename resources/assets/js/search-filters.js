@@ -8,6 +8,10 @@ import utils from './utils';
  * @returns {boolean}
  */
 export const contains = (filterValue, dataKey, dataValue) => {
+	if (filterValue == null) {
+		return true;
+	}
+
 	if (!utils.isString(dataValue[dataKey])) {
 		throw new Error("Attempted to do a substring search on a non-string value. This error likely occurred because the `contains` search filter is the wrong filter to use for the given table column's data type.");
 	}

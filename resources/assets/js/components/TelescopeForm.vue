@@ -190,6 +190,7 @@
                 } else {
                     telescopeStoreService.addTelescope(telescope);
                 }
+                this.$emit('onTelescopeSaved', telescope);
                 this.closeModal();
             },
             updateAperture: function(telescope) {

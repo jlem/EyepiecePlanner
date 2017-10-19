@@ -1,14 +1,14 @@
 <template>
     <div>
-        <telescope-form></telescope-form>
-        <telescope-list :telescopes="telescopes" :selectedTelescope="selectedTelescope"></telescope-list>
+        <telescope-form @onTelescopeSaved="filterEyepieceSize($event)"></telescope-form>
+        <telescope-list :telescopes="telescopes" :selectedTelescope="selectedTelescope" @onTelescopeSelected="filterEyepieceSize($event)"></telescope-list>
         <div class="list-container">
             <eyepiece-tabs
                     :selectedTelescope="selectedTelescope"
                     :selections="getSelections('eyepieces')"
                     :tabs="listConfig"
                     :selected-tab="selectedTab"
-                    v-on:tab-selected="updateConfig">
+                    @tab-selected="updateConfig">
             </eyepiece-tabs>
             <epp-table
                     :config="config"
@@ -92,7 +92,7 @@
                                 type: 'search',
                                 config: {
                                     filterFn: contains,
-                                    values: ''
+                                    values: null
                                 },
                             }
                         },
@@ -217,7 +217,7 @@
                                 type: 'search',
                                 config: {
                                     filterFn: contains,
-                                    values: ''
+                                    values: null
                                 },
                             }
                         },
@@ -226,7 +226,33 @@
                             tooltip: 'Barrel Size',
                             dataKey: 'barrel_size',
                             width: '6%',
-                            filterOptions: null
+                            filterOptions: {
+                                type: 'search',
+                                config: {
+                                    filterFn: (telescopeMaxEyepieceSize, dataKey, dataValue) => {
+                                        let eyepieceSize = dataValue['barrel_size'];
+
+                                        if (telescopeMaxEyepieceSize == null || telescopeMaxEyepieceSize == '') {
+                                            return true; // Don't filter if search is empty
+                                        }
+
+                                        if (telescopeMaxEyepieceSize == '1.25' && eyepieceSize.includes('1.25')) {
+                                            return true; // Accepts eyepieces designated 1.25" or 1.25" & 2"
+                                        }
+
+                                        if (telescopeMaxEyepieceSize == '2' && eyepieceSize != '3') {
+                                            return true; // Accepts all but 3" eyepieces
+                                        }
+
+                                        if (telescopeMaxEyepieceSize == '3') {
+                                            return true; // Accepts all eyepieces
+                                        }
+
+                                        return false;
+                                    },
+                                    values: null
+                                }
+                            }
                         }
                     ]
                 }
@@ -253,8 +279,24 @@
             ])
         },
         methods: {
-            updateConfig: function(tab) {
+            updateConfig: function (tab) {
+                this.applyTabConfiguration(tab);
+                this.clearSearchFilters();
+            },
+            applyTabConfiguration: function (tab) {
                 this.config.selection = Object.assign(this.config.selection, tab.selection);
+            },
+            filterEyepieceSize: function (telescope) {
+                this.config.columns
+                    .find(c => c.dataKey == 'barrel_size')
+                    .filterOptions
+                    .config
+                    .values = telescope.max_eyepiece_size
+            },
+            clearSearchFilters: function () {
+                this.config.columns.forEach(column => {
+                    column.filterOptions.config.values = null;
+                });
             },
             getSharedEyepieces: function () {
                 let matches = window.location.hash.match(EYEPIECE_REGEX);

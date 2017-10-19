@@ -14,10 +14,12 @@
     .sort {
         position: relative;
         top: 3px;
+        left: 3px;
     }
 
     .sort-active {
         color: $primary;
+        font-size: 12px;
     }
 
     .field-tooltip {
