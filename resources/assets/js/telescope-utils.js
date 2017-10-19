@@ -1,4 +1,5 @@
 import utils from './utils';
+import formatters from './formatters';
 
 const calculateMagnification = (eyepiece, telescope) => telescope.effective_focal_length / eyepiece.focal_length;
 const calculateTrueFoVFieldStop = (eyepiece, telescope) => eyepiece.field_stop / telescope.effective_focal_length * 57.3;
@@ -23,9 +24,9 @@ const computeEyepieceProperties = (eyepieces, telescope, magnificationModifiers)
 	telescope.effective_focal_length = calculateEffectiveTelescopeFocalLength(telescope, magnificationModifiers);
 	return eyepieces.map((eyepiece) => {
 		let computedProperties = {
-			tfov: calculateTrueFoV(eyepiece, telescope),
-			magnification: calculateMagnification(eyepiece, telescope),
-			exit_pupil: calculateExitPupil(eyepiece, telescope),
+			tfov: formatters.numberFormat(calculateTrueFoV(eyepiece, telescope)),
+			magnification: formatters.numberFormat(calculateMagnification(eyepiece, telescope)),
+			exit_pupil: formatters.numberFormat(calculateExitPupil(eyepiece, telescope)),
 			name: getEyepieceName(eyepiece)
 		};
 
