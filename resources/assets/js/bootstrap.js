@@ -2,7 +2,6 @@ import Vue from 'vue';
 import VueResource from 'vue-resource';
 import TelescopesTable from './components/TelescopesTable.vue';
 import TableColumnHeader from './components/TableColumnHeader.vue';
-import TableColumnSearch from './components/TableColumnSearch.vue';
 import EyepieceTabs from './components/EyepieceTabs.vue';
 import EyepieceTable from './components/EyepieceTable.vue';
 import EyepieceFilter from './components/EyepieceFilter.vue';
@@ -14,13 +13,17 @@ import EppTable from './components/Table/Table.vue';
 import LinkCell from './components/Table/Cells/LinkCell.vue';
 import InfoSet from './components/InfoSet.vue';
 
+// Table Components / Filters
+import MultiSelect from './components/Table/Filters/MultiSelect/MultiSelect.vue';
+import AutoMultiSelect from './components/Table/Filters/AutoMultiSelect/AutoMultiSelect.vue';
+import Search from './components/Table/Filters/Search/Search.vue';
+
 // Register plugins
 Vue.use(VueResource);
 
 // Register components
 Vue.component('telescopes-table', TelescopesTable);
 Vue.component('table-column-header', TableColumnHeader);
-Vue.component('table-column-search', TableColumnSearch);
 Vue.component('eyepiece-tabs', EyepieceTabs);
 Vue.component('eyepiece-table', EyepieceTable);
 Vue.component('eyepiece-filter', EyepieceFilter);
@@ -31,6 +34,9 @@ Vue.component('share', Share);
 Vue.component('epp-table', EppTable);
 Vue.component('link-cell', LinkCell);
 Vue.component('info-set', InfoSet);
+Vue.component('search', Search);
+Vue.component('multi-select', MultiSelect);
+Vue.component('auto-multi-select', AutoMultiSelect);
 
 // Register Middleware
 Vue.http.interceptors.push((request, next) => {

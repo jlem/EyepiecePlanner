@@ -7,7 +7,17 @@
                 :sort-criteria="sortState"
                 :tooltip="column.tooltip"
                 @sort="sortData">{{ column.label }}</table-column-header>
-            <component v-if="column.filterOptions" :is="getColumnFilterComponent(column)" v-model="column.filterOptions.config.values"></component>
+            <!-- Filter component selection -->
+            <div v-if="column.filterOptions">
+                <search v-if="column.filterOptions.type == 'search'" v-model="column.filterOptions.config.values"></search>
+                <multi-select v-if="column.filterOptions.type == 'multi-select'" :options="column.filterOptions.config.options" @onSelect="column.filterOptions.config.values = $event"></multi-select>
+                <auto-multi-select
+                        v-if="column.filterOptions.type == 'auto-multi-select'"
+                        :options="column.filterOptions.config.options"
+                        :tooltip="column.filterOptions.config.tooltip"
+                        @onAutoToggle="column.filterOptions.config.onAutoToggle($event)"
+                        @onSelect="column.filterOptions.config.values = $event"></auto-multi-select>
+            </div>
         </th>
     </thead>
     <tbody>

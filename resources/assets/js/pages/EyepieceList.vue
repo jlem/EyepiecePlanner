@@ -1,7 +1,7 @@
 <template>
     <div>
-        <telescope-form @onTelescopeSaved="filterEyepieceSize($event)"></telescope-form>
-        <telescope-list :telescopes="telescopes" :selectedTelescope="selectedTelescope" @onTelescopeSelected="filterEyepieceSize($event)"></telescope-list>
+        <telescope-form @onTelescopeSaved="filterEyepiecesByFocuserSize($event)"></telescope-form>
+        <telescope-list :telescopes="telescopes" :selectedTelescope="selectedTelescope" @onTelescopeSelected="filterEyepiecesByFocuserSize($event)"></telescope-list>
         <div class="list-container">
             <eyepiece-tabs
                     :selectedTelescope="selectedTelescope"
@@ -227,29 +227,22 @@
                             dataKey: 'barrel_size',
                             width: '6%',
                             filterOptions: {
-                                type: 'search',
+                                type: 'auto-multi-select',
                                 config: {
-                                    filterFn: (telescopeMaxEyepieceSize, dataKey, dataValue) => {
-                                        let eyepieceSize = dataValue['barrel_size'];
-
-                                        if (telescopeMaxEyepieceSize == null || telescopeMaxEyepieceSize == '') {
-                                            return true; // Don't filter if search is empty
+                                    tooltip: 'Automatically filter eyepieces that will fit the focuser of the selected telescope.',
+                                    onAutoToggle: $event => {
+                                        if ($event.isAutoSelected) {
+                                            this.filterEyepiecesByFocuserSize(this.selectedTelescope);
                                         }
-
-                                        if (telescopeMaxEyepieceSize == '1.25' && eyepieceSize.includes('1.25')) {
-                                            return true; // Accepts eyepieces designated 1.25" or 1.25" & 2"
-                                        }
-
-                                        if (telescopeMaxEyepieceSize == '2' && eyepieceSize != '3') {
-                                            return true; // Accepts all but 3" eyepieces
-                                        }
-
-                                        if (telescopeMaxEyepieceSize == '3') {
-                                            return true; // Accepts all eyepieces
-                                        }
-
-                                        return false;
                                     },
+                                    options: [
+                                        { label: 'Auto', value: 'auto', isSelected: true },
+                                        { label: '1.25"', value: '1.25', isSelected: false },
+                                        { label: 'Dual Barrel', value: '1.25 & 2', isSelected: false },
+                                        { label: '2"', value: '2', isSelected: false },
+                                        { label: '3"', value: '3', isSelected: false }
+                                    ],
+                                    filterFn: (selectedFilterValues, dataKey, dataValue) => selectedFilterValues == null || selectedFilterValues.length == 0 || selectedFilterValues.includes(dataValue['barrel_size']),
                                     values: null
                                 }
                             }
@@ -286,12 +279,32 @@
             applyTabConfiguration: function (tab) {
                 this.config.selection = Object.assign(this.config.selection, tab.selection);
             },
-            filterEyepieceSize: function (telescope) {
-                this.config.columns
+            filterEyepiecesByFocuserSize: function (telescope) {
+                let filterOptions = this.config.columns
                     .find(c => c.dataKey == 'barrel_size')
                     .filterOptions
-                    .config
-                    .values = telescope.max_eyepiece_size
+                    .config;
+
+                // Check if auto is selected
+                let isAutoSelected = filterOptions.options.filter(o => o.value == 'auto' && o.isSelected).length > 0;
+
+                // Set selected values (try to automate this based on selection)
+                if (isAutoSelected) {
+                    filterOptions.values = this.mapFocuserSizeToFilterOptions(telescope.max_eyepiece_size);
+                }
+            },
+            mapFocuserSizeToFilterOptions: function (focuserSize) {
+                let selectedValues = [];
+                switch (focuserSize) {
+                    case '1.25':
+                        selectedValues = selectedValues.concat(['1.25', '1.25 & 2']); break;
+                    case '2':
+                        selectedValues = selectedValues.concat(['1.25', '2', '1.25 & 2']); break;
+                    case '3':
+                        selectedValues = selectedValues.concat(['1.25', '2', '1.25 & 2', '3']); break;
+                }
+
+                return selectedValues;
             },
             clearSearchFilters: function () {
                 this.config.columns.forEach(column => {

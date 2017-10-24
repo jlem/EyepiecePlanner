@@ -74,7 +74,7 @@ export default {
 		},
 		getColumnFilterComponent(column) {
 			if (!!column.filterOptions) {
-				return `table-column-${column.filterOptions.type}`;
+				return column.filterOptions.type;
 			}
 		},
 		getColumnCount() {

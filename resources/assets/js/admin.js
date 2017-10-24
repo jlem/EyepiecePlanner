@@ -19,7 +19,8 @@ import RegionList from './pages/admin/RegionList.vue';
 Vue.use(VueRouter);
 
 Vue.component('table-column-header', require('./components/TableColumnHeader.vue'));
-Vue.component('table-column-search', require('./components/TableColumnSearch.vue'));
+Vue.component('search', require('./components/Table/Filters/Search/Search.vue'));
+Vue.component('multi-select', require('./components/Table/Filters/MultiSelect/MultiSelect.vue'));
 Vue.component('eyepiece-tabs', require('./components/EyepieceTabs.vue'));
 Vue.component('eyepiece-table', require('./components/EyepieceTable.vue'));
 Vue.component('eyepiece-filter', require('./components/EyepieceFilter.vue'));

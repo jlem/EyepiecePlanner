@@ -1,0 +1,5 @@
+<div class="search-container">
+    <input class="field-search" :class="{ 'has-value': value }" type="text" :value="value" @input="emitValue($event.target.value)">
+    <i v-if="value == '' || value == null" class="search-icon search-icon-search glyphicon glyphicon-search"></i>
+    <i v-if="value != '' && value != null" class="search-icon search-icon-remove glyphicon glyphicon-remove" @click="emitValue('')"></i>
+</div>

@@ -1,6 +1,11 @@
 <template>
     <div>
-        <h1>{{ eyepiece.focal_length }}mm {{ eyepiece.manufacturer_name }} {{ eyepiece.product_name }}</h1>
+        <h1>
+            {{ eyepiece.focal_length }}mm {{ eyepiece.manufacturer_name }} {{ eyepiece.product_name }}
+            <span class="back-button" @click="navigateBackToEyepieceList()">
+                <i class="glyphicon glyphicon-menu-left"></i> Back to eyepiece list
+            </span>
+        </h1>
         <ul class="tab-list">
             <li class="tab active-tab">Eyepiece Information</li>
         </ul>
@@ -15,6 +20,28 @@
     .eyepiece-info {
         margin-bottom: 100px;
     }
+
+    .back-button {
+        position: relative;
+        top: -7px;
+        font-size: 13px;
+        cursor: pointer;
+        margin-left: 15px;
+        padding: 5px 8px;
+        background: linear-gradient(rgba(200, 165, 220, 0.15), rgba(200, 165, 220, 0.06));
+        color: #fff;
+        border-radius: 3px;
+
+        i {
+            vertical-align: baseline;
+            font-weight: bold;
+           color: #aa6dca;
+        }
+
+        &:hover {
+            background: linear-gradient(rgba(200, 165, 220, 0.2), rgba(200, 165, 220, 0.1));
+        }
+    }
 </style>
 <script type="text/ecmascript-6">
     'use strict';
@@ -23,6 +50,11 @@
 
     export default {
         props: ['id'],
+        methods: {
+            navigateBackToEyepieceList: function () {
+                this.$router.push({ path: `/` });
+            }
+        },
         computed: {
             eyepiece () {
                 return window.eyepieces.find(eyepiece => eyepiece.id === +this.id);

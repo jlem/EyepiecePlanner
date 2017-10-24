@@ -145,9 +145,9 @@
                     telescope.effective_focal_length = telescope.focal_length;
 
                     let calculations = {
-                        magnification: telescopeUtils.calculateMagnification(this.eyepiece, telescope),
-                        exit_pupil: telescopeUtils.calculateExitPupil(this.eyepiece, telescope),
-                        tfov: telescopeUtils.calculateTrueFoV(this.eyepiece, telescope)
+                        magnification: formatters.numberFormat(telescopeUtils.calculateMagnification(this.eyepiece, telescope)),
+                        exit_pupil: formatters.numberFormat(telescopeUtils.calculateExitPupil(this.eyepiece, telescope)),
+                        tfov: formatters.numberFormat(telescopeUtils.calculateTrueFoV(this.eyepiece, telescope))
                     };
 
                     return Object.assign({}, telescope, calculations);

@@ -20,7 +20,7 @@
                         <input type="text" role="search" v-model="telescopeModel.focal_length" @input="updateFocalRatio(telescopeModel)" required autocomplete="off" />
                     </div>
                     <div class="telescope-form-field" v-bind:class="{selected: telescopeModel.max_eyepiece_size !== ''}">
-                        <label>Max Eyepiece Size(mm)</label>
+                        <label>Focuser Size</label>
                         <select v-model="telescopeModel.max_eyepiece_size">
                             <option value="1.25">1.25"</option>
                             <option value="2">2"</option>

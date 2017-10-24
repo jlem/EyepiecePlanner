@@ -66,7 +66,7 @@
                 aperture: 203,
                 focal_ratio: 5.9,
                 focal_length: 1200,
-                max_eyepiece_size: "2",
+                max_eyepiece_size: "3",
                 id: Math.random().toString(36).substring(2, 5),
                 is_custom: false
             });

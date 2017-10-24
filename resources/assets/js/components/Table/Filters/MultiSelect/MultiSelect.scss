@@ -1,0 +1,120 @@
+@import "../../../../../sass/_variables.scss";
+
+.select-tooltip {
+	position: absolute;
+	bottom: 50px;
+	right: -8px;
+	width: 200px;
+	background: rgba(0,0,0,0.75);
+	color: #fff;
+	padding: 4px 8px;
+	border-radius: 3px;
+	display: none;
+	font-weight: normal;
+}
+
+.select-tooltip:after {
+	position: absolute;
+	bottom: -4px;
+	right: 8px;
+	display: block;
+	width: 10px;
+	height: 10px;
+	content: '▼';
+	color: rgba(0,0,0,0.75);
+}
+
+.multi-select {
+	border-radius: 2px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	position: relative;
+	font-weight: normal;
+}
+
+.multi-select-label {
+	padding: 5px;
+	cursor: pointer;
+	position: relative;
+
+	&:hover {
+		.select-tooltip {
+			display: block;
+		}
+	}
+}
+
+.multi-select-has-selections .multi-select-label {
+	background: $primary-gradient;
+	color: #fff;
+}
+
+.multi-select-open .multi-select-label {
+	color: #fff;
+}
+
+.multi-select-label-selector {
+	position: absolute;
+	right: 5px;
+	color: $primary;
+	font-size: 10px;
+}
+
+.multi-select-has-selections .multi-select-label-selector {
+	color: #fff;
+}
+
+.multi-select-label-arrow-top {
+	top: 7px;
+}
+
+.multi-select-label-arrow-bottom {
+	top: 15px;
+}
+
+.multi-select-options {
+	cursor: pointer;
+	border-radius: 2px 0 2px 2px;
+	position: absolute;
+	width: 150px;
+	background: #14141f;
+	right: -1px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.multi-select-option {
+	color: #d6c7d1;
+	cursor: pointer;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	padding: 8px;
+
+	&:hover {
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	&:last-of-type {
+		border-bottom: none;
+	}
+}
+
+.multi-select-option-icon {
+	opacity: 0.33;
+}
+
+.multi-select-option_is-selected {
+	font-weight: bold;
+	background: $primary-gradient;
+	color: #fff;
+
+	.multi-select-option-icon {
+		opacity: 1;
+		color: #fff;
+	}
+
+	&:hover {
+		background: $primary-gradient-hover;
+	}
+}
+
+.multi-select-open {
+	border: 1px solid $primary;
+}
