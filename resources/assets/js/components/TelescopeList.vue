@@ -31,7 +31,7 @@
                 {{ selectedTelescope.focal_length }}mm
             </div>
             <div class="telescope-info-item">
-                <div class="telescope-info-item-label">Max Eyepiece Size</div>
+                <div class="telescope-info-item-label">Focuser Size</div>
                 {{ selectedTelescope.max_eyepiece_size }}"
             </div>
         </div>
