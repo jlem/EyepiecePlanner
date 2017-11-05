@@ -12,7 +12,7 @@ const matchesRange = (min, max, value) => {
 	return isMin && isMax;
 };
 
-const compare = function (key, alternativeKey, sortAscending, a, b) {
+const compare = (key, alternativeKey, sortAscending, a, b) => {
 	if (a[key] > b[key]) {
 		return sortAscending ? 1 : -1;
 	} else if (a[key] < b[key]) {
@@ -34,7 +34,7 @@ const compare = function (key, alternativeKey, sortAscending, a, b) {
  * @param {string} value
  * @returns {min: Number, max: Number}
  */
-let makeRange = function (value) {
+const makeRange = value => {
 	const MATCHES_RANGE = /(.+)-(.*)/; // important - we want to match this pattern even when nothing has been typed after '-', so we capture 0 or more characters
 	const MATCHES_LESS_THAN = /<(.*)/; // important - we want to match this pattern even when nothing has been typed after '<', so we capture 0 or more characters
 	const MATCHES_GREATER_THAN = />(.*)/; // important - we want to match this pattern even when nothing has been typed after '>', so we capture 0 or more characters
@@ -77,6 +77,14 @@ let makeRange = function (value) {
 		min, max
 	};
 };
+
+/**
+ * Responsible for extracting eyepiece ID list, and telescope parameters from the URL
+ * @param {String} url
+ */
+const parseUrl = url => {
+
+}
 
 export default {
 	findIndexByProperty,

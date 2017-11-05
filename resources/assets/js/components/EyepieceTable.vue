@@ -74,26 +74,6 @@
 </template>
 
 <style>
-    .share label {
-        border: 1px solid #de4100;
-        border-radius: 3px 0 0 3px;
-        background: orangered;
-        color: #fff;
-        padding: 3px 8px;
-        margin: 0;
-    }
-
-    .share input {
-        margin: 0;
-        width: 350px;
-        color: #676c73;
-        padding: 3px 8px;
-        background: #f4f4f4;
-        border: 1px solid #e2e2e2;
-        border-left: none;
-        border-radius: 0 3px 3px 0;
-    }
-
     .select i {
         opacity: 0.2;
     }

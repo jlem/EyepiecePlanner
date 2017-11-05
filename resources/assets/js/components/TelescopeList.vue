@@ -143,7 +143,8 @@
                 this.$emit('onTelescopeSelected', telescope);
             },
             ...mapActions([
-                'openCreateEditModal'
+                'openCreateEditModal',
+                'addTelescope'
             ])
         },
         computed: {
@@ -153,8 +154,8 @@
         },
         filters: formatters,
         created: function () {
-            const TELESCOPE_REGEX = /t=(.+),(.+),(.+)?;/;
-            let hash = window.location.hash;
+            const TELESCOPE_REGEX = /t=(.+),(.+),(.+)/;
+            let hash = window.location.href;
             let telescope = this.telescopes[0];
 
             if (TELESCOPE_REGEX.test(hash)) {
@@ -170,7 +171,7 @@
                     id: utils.randomString(5)
                 };
 
-                this.saveTelescope(telescope);
+                this.addTelescope(telescope);
             }
 
             this.selectTelescope(telescope);

@@ -43,7 +43,7 @@ export default {
 		state.selectedEyepieceIDs.splice(state.selectedEyepieceIDs.indexOf(eyepiece.id), 1);
 	},
 	[types.SET_EYEPIECE_SELECTIONS] (state, eyepieceIDs) {
-		state.selectedEyepieceIDs = eyepieceIDs;
+		state.selections.eyepieces = eyepieceIDs;
 	},
 	[types.SET_SELECTED_TELESCOPE] (state, telescope) {
 		state.selectedTelescope = telescope;

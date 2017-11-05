@@ -4,20 +4,20 @@
         <telescope-list :telescopes="telescopes" :selectedTelescope="selectedTelescope" @onTelescopeSelected="filterEyepiecesByFocuserSize($event)"></telescope-list>
         <div class="list-container">
             <eyepiece-tabs
-                    :selectedTelescope="selectedTelescope"
-                    :selections="getSelections('eyepieces')"
-                    :tabs="listConfig"
-                    :selected-tab="selectedTab"
-                    @tab-selected="updateConfig">
+                :selectedTelescope="selectedTelescope"
+                :selections="getSelections('eyepieces')"
+                :tabs="listConfig"
+                :selected-tab="selectedTab"
+                @tab-selected="applyTabConfigToTable">
             </eyepiece-tabs>
             <epp-table
-                    :config="config"
-                    :data="computedEyepieces"
-                    :selections="getSelections('eyepieces')">
+                :config="config"
+                :data="computedEyepieces"
+                :selections="getSelections('eyepieces')">
             </epp-table>
-            <!--<share-->
-                    <!--:telescope="selectedTelescope"-->
-                    <!--:selectedEyepieces="getSelections('eyepieces')"></share>-->
+            <share
+                :telescope="selectedTelescope"
+                :selectedEyepieces="getSelections('eyepieces')"></share>
         </div>
     </div>
 </template>
@@ -32,7 +32,17 @@
     import { mapGetters, mapActions } from 'vuex';
     import formatters from '../formatters';
 
-    const EYEPIECE_REGEX = /ep=(.*)/;
+    /**
+     * Regex explanation so you understand this later:
+     * ep=(.+?) capture everything after finding a match for ep=, but don't be greedy about it
+     * (?:&|$) start non-capturing group with alternate match for ampersand (&) or line end ($)
+     * The presence of this pattern immediately after the (.+) capture group will allow matching where the query param may or may not be the last one
+     * and also prohibits the capturing of characters should it NOT be the last one
+     *
+     * @see https://regex101.com/r/IGamJL/2
+     * @type {RegExp}
+     */
+    const EYEPIECE_REGEX = /ep=(.+?)(?:&|$)/;
 
     // View Model
     export default {
@@ -45,7 +55,6 @@
                         showCount: false,
                         hiddenFn: () => false,
                         selection: {
-                            enabled: true,
                             filterSelections: false,
                             highlightSelections: true
                         }
@@ -53,9 +62,8 @@
                     {
                         tab: 'Compare',
                         showCount: true,
-                        hiddenFn: (state) => state.selections.eyepieces.length === 0,
+                        hiddenFn: state => state.selections.eyepieces.length === 0,
                         selection: {
-                            enabled: true,
                             filterSelections: true,
                             highlightSelections: false
                         }
@@ -63,24 +71,20 @@
                 ],
                 config: {
                     defaultSortKey: 'name',
-                    onRowClick: function (row, $event) {
+                    onRowClick: (row, $event) => {
                         $event.stopImmediatePropagation();
-                        this.$router.push({ path: `eyepiece/${row.id}` });
-                    }.bind(this),
+                        this.$router.push({ path: `eyepiece/${row.id}`, query: null });
+                    },
                     selection: {
                         enabled: true,
                         highlightSelections: true,
                         filterSelections: false,
-                        isSelectedFn: function (item) {
-                            return this.getSelections('eyepieces').findIndex(selection => selection.id === item.id) > -1;
-                        }.bind(this),
-                        onSelect: function (item, $event) {
+                        isSelectedFn: item => this.getSelections('eyepieces').findIndex(selection => selection.id === item.id) > -1,
+                        onSelect: (item, $event) => {
                             $event.stopImmediatePropagation();
                             this.toggleSelection({ group: 'eyepieces', lookupKey: 'id', item });
-                        }.bind(this),
-                        onClearSelections: function () {
-                            this.clearSelections('eyepieces');
-                        }.bind(this)
+                        },
+                        onClearSelections: this.clearSelections.bind(this, 'eyepieces')
                     },
                     columns: [
                         {
@@ -251,16 +255,19 @@
                 }
             }
         },
-        created: function () {
+        created() {
+            let config = this.listConfig[0];
+
             if (this.isSharing()) {
+                config = this.listConfig[1];
                 this.setSelectedEyepieces(this.getSharedEyepieces());
-                this.selectTab(this.listConfig[1]); // tab[1] is comparison tab - need to find a more elegant solution to this
-            } else {
-                this.selectTab(this.listConfig[0]); // tab[0] is the all eyepieces tab - need to find a more elegant solution to this
             }
+
+            this.applyTabConfigToTable(config);
+            this.selectTab(config);
         },
         computed: {
-            computedEyepieces: function () {
+            computedEyepieces() {
                 return telescopeUtils.computeEyepieceProperties(this.eyepieces, this.selectedTelescope, this.magnificationModifiers);
             },
             ...mapGetters([
@@ -272,14 +279,11 @@
             ])
         },
         methods: {
-            updateConfig: function (tab) {
-                this.applyTabConfiguration(tab);
+            applyTabConfigToTable(tab) {
+                this.config.selection = Object.assign(this.config.selection, tab.selection);
                 this.clearSearchFilters();
             },
-            applyTabConfiguration: function (tab) {
-                this.config.selection = Object.assign(this.config.selection, tab.selection);
-            },
-            filterEyepiecesByFocuserSize: function (telescope) {
+            filterEyepiecesByFocuserSize(telescope) {
                 let filterOptions = this.config.columns
                     .find(c => c.dataKey == 'barrel_size')
                     .filterOptions
@@ -293,7 +297,7 @@
                     filterOptions.values = this.mapFocuserSizeToFilterOptions(telescope.max_eyepiece_size);
                 }
             },
-            mapFocuserSizeToFilterOptions: function (focuserSize) {
+            mapFocuserSizeToFilterOptions(focuserSize) {
                 let selectedValues = [];
                 switch (focuserSize) {
                     case '1.25':
@@ -306,19 +310,20 @@
 
                 return selectedValues;
             },
-            clearSearchFilters: function () {
+            clearSearchFilters() {
                 this.config.columns.forEach(column => {
                     column.filterOptions.config.values = null;
                 });
             },
-            getSharedEyepieces: function () {
-                let matches = window.location.hash.match(EYEPIECE_REGEX);
-                return matches[1].split(',').map(id => +id);
+            getSharedEyepieces() {
+                let matches = window.location.href.match(EYEPIECE_REGEX);
+                let ids = matches[1].split(',').map(id => +id);
+                return this.computedEyepieces.filter(e => ids.includes(e.id));
             },
-            isSharing: function () {
-                return EYEPIECE_REGEX.test(window.location.hash);
+            isSharing() {
+                return EYEPIECE_REGEX.test(window.location.href);
             },
-            getSelections: function (group) {
+            getSelections(group) {
                 return this.$store.getters.getSelections(group);
             },
             ...mapActions([

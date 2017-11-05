@@ -8,7 +8,7 @@ import EyepieceFilter from './components/EyepieceFilter.vue';
 import TelescopeForm from './components/TelescopeForm.vue';
 import TelescopeList from './components/TelescopeList.vue';
 import MagnificationOptions from './components/MagnificationOptions.vue';
-import Share from './components/Share.vue';
+import Share from './components/Share/Share.vue';
 import EppTable from './components/Table/Table.vue';
 import LinkCell from './components/Table/Cells/LinkCell.vue';
 import InfoSet from './components/InfoSet.vue';

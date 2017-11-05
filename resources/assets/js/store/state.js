@@ -7,7 +7,6 @@ export default {
 		userName: null
 	},
 	selectedTab: null,
-	selectedEyepieceIDs: [],
 	selections: {
 		eyepieces: []
 	},
