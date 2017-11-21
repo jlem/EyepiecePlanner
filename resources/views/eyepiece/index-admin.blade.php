@@ -9,6 +9,7 @@
                 <th>Product</th>
                 <th>Focal Length</th>
                 <th>Apparent Field</th>
+                <th>Discontinued?</th>
             <tr>
         </thead>
         <tbody>
@@ -20,6 +21,7 @@
                     </td>
                     <td>{{ $eyepiece->getFocalLength() }} mm</td>
                     <td>{{ $eyepiece->getApparentField() }}°</td>
+                    <td>{{ $eyepiece->isDiscontinued() ? 'Yes' : 'No' }}</td>
                 </tr>
             @endforeach
         </tbody>

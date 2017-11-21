@@ -159,3 +159,22 @@
         @endif
     </div>
 </div>
+
+<!-- Discontinued/Available status input -->
+
+<div class="form-group{{ $errors->has('is_discontinued') ? ' has-error' : '' }}">
+    <label for="is_discontinued" class="col-md-4 control-label">Is Discontinued</label>
+
+    <div class="col-md-6">
+        @if(isset($eyepiece) && $eyepiece->isDiscontinued())
+            <input id="is_discontinued" name="is_discontinued" type="checkbox" checked="checked">
+        @else
+            <input id="is_discontinued" name="is_discontinued" type="checkbox">
+        @endif
+        @if ($errors->has('is_discontinued'))
+            <span class="help-block">
+                <strong>{{ $errors->first('is_discontinued') }}</strong>
+            </span>
+        @endif
+    </div>
+</div>

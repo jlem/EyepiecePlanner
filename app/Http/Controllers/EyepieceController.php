@@ -136,6 +136,10 @@ class EyepieceController extends Controller
             if ($value === "") {
                 $input[$key] = null;
             }
+
+            if ($key == 'is_discontinued') {
+                $input['is_discontinued'] = $value === 'on' ? 1 : 0;
+            }
         }
 
         Eyepiece::find($id)->update($input);

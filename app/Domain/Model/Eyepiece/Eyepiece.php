@@ -16,7 +16,8 @@ class Eyepiece extends Model
         'manufacturer_id',
         'product_line_id',
         'price',
-        'region'
+        'region',
+        'is_discontinued'
     ];
 
     public function manufacturer()
