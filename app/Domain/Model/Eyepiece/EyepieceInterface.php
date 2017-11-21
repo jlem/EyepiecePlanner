@@ -30,4 +30,6 @@ interface EyepieceInterface
     public function getPrice();
 
     public function getRegion();
+
+    public function isDiscontinued();
 }

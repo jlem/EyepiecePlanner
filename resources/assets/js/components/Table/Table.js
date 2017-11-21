@@ -17,7 +17,10 @@ const filterAndSortData = (data, sortState, config, selections) => {
 	config.columns
 		.filter(column => !!column.filterOptions)
 		.forEach(column => {
-			data = data.filter(column.filterOptions.config.filterFn.bind(null, column.filterOptions.config.values, column.dataKey))
+			// Don't filter if there are no search values to filter by
+			if (column.filterOptions.config.values) {
+				data = data.filter(column.filterOptions.config.filterFn.bind(null, column.filterOptions.config.values, column.dataKey))
+			}
 		});
 
 	// Sort the data

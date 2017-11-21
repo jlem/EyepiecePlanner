@@ -10,7 +10,13 @@
             <!-- Filter component selection -->
             <div v-if="column.filterOptions">
                 <search v-if="column.filterOptions.type == 'search'" v-model="column.filterOptions.config.values"></search>
-                <multi-select v-if="column.filterOptions.type == 'multi-select'" :options="column.filterOptions.config.options" @onSelect="column.filterOptions.config.values = $event"></multi-select>
+                <boolean-select
+                        v-if="column.filterOptions.type == 'boolean-select'"
+                        @onSelect="column.filterOptions.config.values = $event"></boolean-select>
+                <multi-select
+                        v-if="column.filterOptions.type == 'multi-select'"
+                        :options="column.filterOptions.config.options"
+                        @onSelect="column.filterOptions.config.values = $event"></multi-select>
                 <auto-multi-select
                         v-if="column.filterOptions.type == 'auto-multi-select'"
                         :options="column.filterOptions.config.options"
@@ -27,10 +33,10 @@
                 <i class="glyphicon glyphicon-ok-circle"></i>
             </td>
             <td v-for="column in computedConfig.columns">
-                <span v-if="!column.formatFn && !column.component">{{ row[column.dataKey] }}</span>
-                <span v-if="column.formatFn && !column.component">{{ column.formatFn(row[column.dataKey]) }}</span>
-                <span v-if="column.component">
-                    <component :is="column.component" :props="column.componentData(row)"></component>
+                <span v-if="!column.formatFn && !column.renderComponent">{{ row[column.dataKey] }}</span>
+                <span v-if="column.formatFn && !column.renderComponent">{{ column.formatFn(row[column.dataKey]) }}</span>
+                <span v-if="column.renderComponent">
+                    <component :is="column.renderComponent" :props="{ row, column }"></component>
                 </span>
             </td>
         </tr>

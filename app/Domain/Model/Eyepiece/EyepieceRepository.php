@@ -35,13 +35,18 @@ class EyepieceRepository
                 'eyepieces.price',
                 'eyepieces.region',
                 'eyepieces.barrel_size',
+                'eyepieces.is_discontinued',
                 'manufacturers.name as manufacturer_name',
                 'product_lines.name as product_name'
             ])
             ->orderBy('manufacturers.name', 'ASC')
             ->orderBy('product_lines.name', 'ASC')
             ->orderBy('eyepieces.focal_length', 'ASC')
-            ->get();
+            ->get()
+            ->map(function($eyepiece) {
+                $eyepiece->is_discontinued = (boolean)$eyepiece->is_discontinued;
+                return $eyepiece;
+            });
     }
 
     public function getJSONList()

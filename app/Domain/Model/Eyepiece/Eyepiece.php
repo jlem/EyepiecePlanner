@@ -101,6 +101,11 @@ class Eyepiece extends Model
         return $this->region ? (new Region($this->region))->value() : null;
     }
 
+    public function isDiscontinued()
+    {
+        return $this->is_discontinued === (int)1;
+    }
+
     public function getRegionLabel()
     {
         return $this->region ? (new Region($this->region))->string('strtoupper') : '';

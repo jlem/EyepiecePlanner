@@ -31,18 +31,7 @@
     import { numericRange, contains } from '../search-filters';
     import { mapGetters, mapActions } from 'vuex';
     import formatters from '../formatters';
-
-    /**
-     * Regex explanation so you understand this later:
-     * ep=(.+?) capture everything after finding a match for ep=, but don't be greedy about it
-     * (?:&|$) start non-capturing group with alternate match for ampersand (&) or line end ($)
-     * The presence of this pattern immediately after the (.+) capture group will allow matching where the query param may or may not be the last one
-     * and also prohibits the capturing of characters should it NOT be the last one
-     *
-     * @see https://regex101.com/r/IGamJL/2
-     * @type {RegExp}
-     */
-    const EYEPIECE_REGEX = /ep=(.+?)(?:&|$)/;
+    import shareService from '../services/share-service';
 
     // View Model
     export default {
@@ -104,7 +93,7 @@
                             label: 'FL',
                             tooltip: 'Focal Length',
                             dataKey: 'focal_length',
-                            width: '9%',
+                            width: '8%',
                             formatFn: formatters.mm,
                             filterOptions: {
                                 type: 'search',
@@ -118,7 +107,7 @@
                             label: 'Mag',
                             tooltip: 'Magnification',
                             dataKey: 'magnification',
-                            width: '9%',
+                            width: '8%',
                             formatFn: formatters.mag,
                             filterOptions: {
                                 type: 'search',
@@ -132,7 +121,7 @@
                             label: 'EP',
                             tooltip: 'Exit Pupil',
                             dataKey: 'exit_pupil',
-                            width: '9%',
+                            width: '8%',
                             formatFn: formatters.mm,
                             filterOptions: {
                                 type: 'search',
@@ -146,7 +135,7 @@
                             label: 'TFOV',
                             tooltip: 'True Field of View',
                             dataKey: 'tfov',
-                            width: '9%',
+                            width: '8%',
                             formatFn: formatters.deg,
                             filterOptions: {
                                 type: 'search',
@@ -160,7 +149,7 @@
                             label: 'AFOV',
                             tooltip: 'Apparent Field of View',
                             dataKey: 'apparent_field',
-                            width: '9%',
+                            width: '8%',
                             formatFn: formatters.deg,
                             filterOptions: {
                                 type: 'search',
@@ -174,7 +163,7 @@
                             label: 'ER',
                             tooltip: 'Eye Relief (mm)',
                             dataKey: 'eye_relief',
-                            width: '9%',
+                            width: '8%',
                             formatFn: formatters.mm,
                             filterOptions: {
                                 type: 'search',
@@ -188,7 +177,7 @@
                             label: 'FS',
                             tooltip: 'Field Stop Diameter (mm)',
                             dataKey: 'field_stop',
-                            width: '9%',
+                            width: '8%',
                             formatFn: formatters.mm,
                             filterOptions: {
                                 type: 'search',
@@ -202,7 +191,7 @@
                             label: 'Cost',
                             tooltip: null,
                             dataKey: 'price',
-                            width: '9%',
+                            width: '8%',
                             formatFn: formatters.price,
                             filterOptions: {
                                 type: 'search',
@@ -216,7 +205,7 @@
                             label: 'Loc',
                             tooltip: 'Location',
                             dataKey: 'region',
-                            width: '6%',
+                            width: '8%',
                             filterOptions: {
                                 type: 'search',
                                 config: {
@@ -250,6 +239,24 @@
                                     values: null
                                 }
                             }
+                        },
+                        {
+                            label: 'Status',
+                            tooltip: 'Is eyepiece discontinued or available?',
+                            dataKey: 'is_discontinued',
+                            width: '6%',
+                            renderComponent: 'boolean-cell',
+                            renderComponentOptions: {
+                                trueLabel: 'Discontinued',
+                                falseLabel: 'Available'
+                            },
+                            filterOptions: {
+                                type: 'boolean-select',
+                                config: {
+                                    filterFn: (selectedFilterValues, dataKey, dataValue) => selectedFilterValues.includes(dataValue[dataKey]),
+                                    values: null
+                                }
+                            }
                         }
                     ]
                 }
@@ -258,7 +265,7 @@
         created() {
             let config = this.listConfig[0];
 
-            if (this.isSharing()) {
+            if (shareService.isSharing()) {
                 config = this.listConfig[1];
                 this.setSelectedEyepieces(this.getSharedEyepieces());
             }
@@ -311,17 +318,14 @@
                 return selectedValues;
             },
             clearSearchFilters() {
-                this.config.columns.forEach(column => {
-                    column.filterOptions.config.values = null;
-                });
+//                console.log('fired');
+//                this.config.columns.forEach(column => {
+//                    column.filterOptions.config.values = null;
+//                });
             },
             getSharedEyepieces() {
-                let matches = window.location.href.match(EYEPIECE_REGEX);
-                let ids = matches[1].split(',').map(id => +id);
+                let ids = shareService.getSharedEyepieceIDs(window.location.href);
                 return this.computedEyepieces.filter(e => ids.includes(e.id));
-            },
-            isSharing() {
-                return EYEPIECE_REGEX.test(window.location.href);
             },
             getSelections(group) {
                 return this.$store.getters.getSelections(group);

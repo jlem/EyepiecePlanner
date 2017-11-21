@@ -11,10 +11,12 @@ import MagnificationOptions from './components/MagnificationOptions.vue';
 import Share from './components/Share/Share.vue';
 import EppTable from './components/Table/Table.vue';
 import LinkCell from './components/Table/Cells/LinkCell.vue';
+import BooleanCell from './components/Table/Cells/BooleanCell.vue';
 import InfoSet from './components/InfoSet.vue';
 
 // Table Components / Filters
 import MultiSelect from './components/Table/Filters/MultiSelect/MultiSelect.vue';
+import BooleanSelect from './components/Table/Filters/BooleanSelect/BooleanSelect.vue';
 import AutoMultiSelect from './components/Table/Filters/AutoMultiSelect/AutoMultiSelect.vue';
 import Search from './components/Table/Filters/Search/Search.vue';
 
@@ -33,9 +35,11 @@ Vue.component('magnification-options', MagnificationOptions);
 Vue.component('share', Share);
 Vue.component('epp-table', EppTable);
 Vue.component('link-cell', LinkCell);
+Vue.component('boolean-cell', BooleanCell);
 Vue.component('info-set', InfoSet);
 Vue.component('search', Search);
 Vue.component('multi-select', MultiSelect);
+Vue.component('boolean-select', BooleanSelect);
 Vue.component('auto-multi-select', AutoMultiSelect);
 
 // Register Middleware

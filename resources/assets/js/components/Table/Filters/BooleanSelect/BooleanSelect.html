@@ -1,14 +1,11 @@
-<div class="multi-select" v-bind:class="{ 'multi-select-open': show, 'multi-select-has-selections': hasSelections() && !show }">
+<div class="multi-select" v-bind:class="{ 'multi-select-open': show, 'multi-select-has-selections': hasSelections() }">
     <div class="multi-select-label" @click="show = !show">
         <span class="label-container">{{ getLabel() }}</span>
         <i class="multi-select-label-selector multi-select-label-arrow-top glyphicon glyphicon-triangle-top"></i>
         <i class="multi-select-label-selector multi-select-label-arrow-bottom glyphicon glyphicon-triangle-bottom"></i>
     </div>
     <div class="multi-select-options" v-bind:class="{ 'multi-select-open': show }" v-if="show">
-        <div @click="selectAny()" class="multi-select-option" v-bind:class="{ 'multi-select-option_is-selected': isAnySelected() }">
-            <i class="multi-select-option-icon glyphicon glyphicon-ok-circle"></i> Any
-        </div>
-        <div v-for="option in options" @click="toggleOption(option)" class="multi-select-option" v-bind:class="{ 'multi-select-option_is-selected': option.isSelected }">
+        <div v-for="option in options" @click="selectOption(option)" class="multi-select-option" v-bind:class="{ 'multi-select-option_is-selected': option.isSelected }">
             <i class="multi-select-option-icon glyphicon glyphicon-ok-circle"></i> {{ option.label }}
         </div>
     </div>
