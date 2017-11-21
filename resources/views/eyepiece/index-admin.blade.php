@@ -17,7 +17,7 @@
                 <tr>
                     <td>{{ $eyepiece->getID() }}</td>
                     <td>
-                        <a href="/eyepiece/{{ $eyepiece->getID() }}">{{ $eyepiece->getProductName() }}</a>
+                        <a href="/eyepiece/{{ $eyepiece->getID() }}/edit">{{ $eyepiece->getProductName() }}</a>
                     </td>
                     <td>{{ $eyepiece->getFocalLength() }} mm</td>
                     <td>{{ $eyepiece->getApparentField() }}°</td>
