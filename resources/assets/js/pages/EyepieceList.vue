@@ -241,8 +241,7 @@
                             }
                         },
                         {
-                            label: 'Status',
-                            tooltip: 'Is eyepiece discontinued or available?',
+                            label: 'Discontinued?',
                             dataKey: 'is_discontinued',
                             width: '6%',
                             renderComponent: 'boolean-cell',
