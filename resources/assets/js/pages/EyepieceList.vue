@@ -264,7 +264,7 @@
         created() {
             let config = this.listConfig[0];
 
-            if (shareService.isSharing()) {
+            if (shareService.isSharing(window.location.href)) {
                 config = this.listConfig[1];
                 this.setSelectedEyepieces(this.getSharedEyepieces());
             }
@@ -317,10 +317,9 @@
                 return selectedValues;
             },
             clearSearchFilters() {
-//                console.log('fired');
-//                this.config.columns.forEach(column => {
-//                    column.filterOptions.config.values = null;
-//                });
+                this.config.columns.forEach(column => {
+                    column.filterOptions.config.values = null;
+                });
             },
             getSharedEyepieces() {
                 let ids = shareService.getSharedEyepieceIDs(window.location.href);
