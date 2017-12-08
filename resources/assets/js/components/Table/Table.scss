@@ -55,10 +55,19 @@
 	.select {
 		cursor: pointer;
 
+		i {
+			opacity: 0.2;
+		}
+
 		&:hover i {
 			color: #fff;
 			opacity: 1;
 		}
+	}
+
+	.deselect-all i {
+		opacity: 1;
+		color: orangered;
 	}
 
 	tr.clickable {

@@ -24,7 +24,8 @@ const filterAndSortData = (data, sortState, config, selections) => {
 		});
 
 	// Sort the data
-	return data.sort(utils.compare.bind(null, sortState.key, sortState.subKey, sortState.ascending));
+	let compareFn = config.columns.find(c => c.dataKey === sortState.key).sortFn || utils.compare;
+	return data.sort(compareFn.bind(null, sortState.key, sortState.subKey, sortState.ascending));
 };
 
 const mergeConfigDefaults = config => {

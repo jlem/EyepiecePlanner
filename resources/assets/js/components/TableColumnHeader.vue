@@ -62,7 +62,7 @@
         props: ['label', 'tooltip', 'sortCriteria', 'sortKey'],
         methods: {
             emitSort: function (sortKey) {
-                this.$emit('sort', sortKey);
+                this.$emit('onSort', sortKey);
             }
         }
     }

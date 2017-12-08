@@ -6,7 +6,7 @@
                 :sort-key="column.dataKey"
                 :sort-criteria="sortState"
                 :tooltip="column.tooltip"
-                @sort="sortData">{{ column.label }}</table-column-header>
+                @onSort="sortData">{{ column.label }}</table-column-header>
             <!-- Filter component selection -->
             <div v-if="column.filterOptions">
                 <search v-if="column.filterOptions.type == 'search'" v-model="column.filterOptions.config.values"></search>

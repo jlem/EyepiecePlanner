@@ -27,6 +27,7 @@
 <script type="text/ecmascript-6">
     'use strict';
 
+    import utils from "../utils";
     import telescopeUtils from "../telescope-utils";
     import { numericRange, contains } from '../search-filters';
     import { mapGetters, mapActions } from 'vuex';
@@ -193,6 +194,7 @@
                             dataKey: 'price',
                             width: '8%',
                             formatFn: formatters.price,
+                            sortFn: utils.compareRange,
                             filterOptions: {
                                 type: 'search',
                                 config: {
