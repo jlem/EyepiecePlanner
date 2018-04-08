@@ -6,7 +6,7 @@ const getSelectedLabel = data => data.filter(isSelected).map(getLabel);
 const deselect = option => option.isSelected = false;
 
 export default {
-	props: ['initialSelectionOption'],
+	props: ['initialSelectedOption'],
 	data: function () {
 		return {
 			options: [
@@ -18,18 +18,17 @@ export default {
 		}
 	},
 	created: function () {
-		this.selectOption(this.getInitialSelection(this.initialSelectionOption, this.options));
+		this.selectOption(this.getInitialSelection(this.initialSelectedOption, this.options));
 	},
 	methods: {
 		getInitialSelection: function (initialSelection, options) {
-			switch(initialSelection, options) {
+			switch(initialSelection) {
 				case 'true':
 					return options[1];
 				case 'false':
 					return options[2];
 				default:
 					return options[0];
-					break;
 			}
 		},
 		isAnySelected: function () {
