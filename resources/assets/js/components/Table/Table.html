@@ -12,6 +12,7 @@
                 <search v-if="column.filterOptions.type == 'search'" v-model="column.filterOptions.config.values"></search>
                 <boolean-select
                         v-if="column.filterOptions.type == 'boolean-select'"
+                        :initialSelectedOption="column.filterOptions.config.initialSelectedOption"
                         @onSelect="column.filterOptions.config.values = $event"></boolean-select>
                 <multi-select
                         v-if="column.filterOptions.type == 'multi-select'"

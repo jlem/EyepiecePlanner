@@ -1,14 +1,12 @@
 'use strict';
 
 const isSelected = x => x.isSelected;
-const getValue = x => x.value;
 const getLabel = x => x.label;
-const getSelectedValues = data => data.filter(isSelected).map(getValue);
 const getSelectedLabel = data => data.filter(isSelected).map(getLabel);
-const hasSelections = data => data.filter(isSelected).length > 0;
 const deselect = option => option.isSelected = false;
 
 export default {
+	props: ['initialSelectionOption'],
 	data: function () {
 		return {
 			options: [
@@ -20,9 +18,20 @@ export default {
 		}
 	},
 	created: function () {
-		this.$emit('onSelect', [true, false]);
+		this.selectOption(this.getInitialSelection(this.initialSelectionOption, this.options));
 	},
 	methods: {
+		getInitialSelection: function (initialSelection, options) {
+			switch(initialSelection, options) {
+				case 'true':
+					return options[1];
+				case 'false':
+					return options[2];
+				default:
+					return options[0];
+					break;
+			}
+		},
 		isAnySelected: function () {
 			return this.options[0].isSelected;
 		},
@@ -31,8 +40,12 @@ export default {
 			option.isSelected = true;
 			this.show = false;
 
-			let selectedValues = option.value == 'any' ? [true, false] : [option.value];
-			this.$emit('onSelect', selectedValues);
+			// Allowed values is a list of all the values that should be matched against when filtering
+			// When 'any' is selected, it means we are saying "Any item whose target key has a value of 'true' OR 'false' is allowed"
+			// When 'true' is selected, it means "Only items whose target key also has a value of 'true' should pass through the filter"
+			// When 'false' is selected, it means "Only items whose target key also has a value of 'false' should pass through the filter"
+			let allowedValues = option.value == 'any' ? [true, false] : [option.value];
+			this.$emit('onSelect', allowedValues);
 		},
 		hasSelections: function () {
 			return !this.isAnySelected();

@@ -248,12 +248,19 @@
                             width: '6%',
                             renderComponent: 'boolean-cell',
                             renderComponentOptions: {
-                                trueLabel: 'Discontinued',
-                                falseLabel: 'Available'
+                                trueValue: {
+                                    label: 'Discontinued',
+                                    color: 'red',
+                                },
+                                falseValue: {
+                                    label: 'Available',
+                                    color: 'white'
+                                }
                             },
                             filterOptions: {
                                 type: 'boolean-select',
                                 config: {
+                                    initialSelectedOption: 'false',
                                     filterFn: (selectedFilterValues, dataKey, dataValue) => selectedFilterValues.includes(dataValue[dataKey]),
                                     values: null
                                 }
