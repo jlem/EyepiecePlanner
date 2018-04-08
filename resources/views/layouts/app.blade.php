@@ -27,9 +27,8 @@
         <div class="header">
             <div class="navigation">
                 <img class="logo" src="./logo.png" />
-                <a class="nav-link" href="/#/">Eyepeices</a>
+                <a class="nav-link" href="/#/">Eyepieces</a>
                 @if(Auth::check() && Auth::user()->isAdmin())
-                    <a class="nav-link" href="/eyepiece">Manage Eyepieces</a>
                     <a class="nav-link" href="/manufacturer">Manufacturers</a>
                 @endif
             </div>
