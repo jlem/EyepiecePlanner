@@ -16,7 +16,8 @@ export default {
 	data: function () {
 		return {
 			show: false,
-			anySelected: true
+			anySelected: true,
+			multipleSelected: false,
 		}
 	},
 	created: function () {
@@ -33,16 +34,29 @@ export default {
 		isAnySelected: function () {
 			return this.anySelected;
 		},
+		isMultipleSelected: function () {
+			return this.multipleSelected;
+		},
 		toggleSelection: function (option) {
 			this.anySelected = false;
 			option.isSelected = !option.isSelected;
-			this.$emit('onSelect', getSelectedValues(this.options));
+			let selectedValues = getSelectedValues(this.options);
+			if (this.selectedValues.length > 1) {
+				this.multipleSelected = true;
+			}
+			this.$emit('onSelect', selectedValues);
 		},
 		hasSelections: function () {
 			return hasSelections(this.options) || this.isAnySelected();
 		},
 		getLabel: function () {
-			return this.isAnySelected() ? 'Any' : 'Select';
+			if (this.isAnySelected()) {
+				return 'Any';
+			} else if (this.isMultipleSelected()) {
+				return 'Multi';
+			} else {
+				return getSelectedLabels(this.options)[0];
+			}
 		}
 	}
 }
