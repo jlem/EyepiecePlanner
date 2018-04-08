@@ -1,7 +1,5 @@
 <?php namespace EPP\Domain\Model\Eyepiece;
 
-use EPP\Domain\Model\Eyepiece\Eyepiece;
-
 class EyepieceRepository
 {
     public function __construct(Eyepiece $model)

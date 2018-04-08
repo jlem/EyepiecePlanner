@@ -155,6 +155,8 @@ class EyepieceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Eyepiece::find($id)->delete();
+
+        return redirect('/');
     }
 }
