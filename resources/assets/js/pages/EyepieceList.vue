@@ -296,7 +296,6 @@
         methods: {
             applyTabConfigToTable(tab) {
                 this.config.selection = Object.assign(this.config.selection, tab.selection);
-                this.clearSearchFilters();
             },
             filterEyepiecesByFocuserSize(telescope) {
                 let filterOptions = this.config.columns
