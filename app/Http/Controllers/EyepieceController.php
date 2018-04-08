@@ -144,7 +144,7 @@ class EyepieceController extends Controller
 
         Eyepiece::find($id)->update($input);
 
-        return redirect('/eyepiece');
+        return redirect('/');
     }
 
     /**
