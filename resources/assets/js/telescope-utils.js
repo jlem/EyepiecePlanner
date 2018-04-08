@@ -5,7 +5,7 @@ const calculateMagnification = (eyepiece, telescope) => telescope.effective_foca
 const calculateTrueFoVFieldStop = (eyepiece, telescope) => eyepiece.field_stop / telescope.effective_focal_length * 57.3;
 const calculateTrueFovApparentField = (eyepiece, telescope) => eyepiece.apparent_field / calculateMagnification(eyepiece, telescope);
 const calculateTrueFoV = (eyepiece, telescope) => eyepiece.field_stop ? calculateTrueFoVFieldStop(eyepiece, telescope) : calculateTrueFovApparentField(eyepiece, telescope);
-const calculateExitPupil = (eyepiece, telescope) => telescope.aperture / calculateMagnification(eyepiece, telescope);
+const calculateExitPupil = (eyepiece, telescope) => eyepiece.focal_length / telescope.focal_ratio;
 const calculateMaxMagnification = telescope => telescope.aperture / 25.4 * telescope.max_magnification;
 const calculateLowestMagnification = telescope => telescope.aperture / telescope.max_pupil;
 const isMagnificationTooHigh = (eyepiece, telescope) => calculateMagnification(eyepiece, telescope) > calculateMaxMagnification(telescope);

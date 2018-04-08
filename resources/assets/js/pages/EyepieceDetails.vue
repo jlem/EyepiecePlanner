@@ -8,6 +8,9 @@
         </h1>
         <ul class="tab-list">
             <li class="tab active-tab">Eyepiece Information</li>
+            <li v-if="auth.isAdmin" class="tab-right">
+                <a class="tab tab-button" :href="eyepieceLink">Edit</a>
+            </li>
         </ul>
         <info-set class="eyepiece-info" :cards="eyepieceInfo"></info-set>
         <ul class="tab-list">
@@ -56,6 +59,9 @@
             }
         },
         computed: {
+            eyepieceLink () {
+                return `/eyepiece/${this.id}/edit`;
+            },
             eyepiece () {
                 return window.eyepieces.find(eyepiece => eyepiece.id === +this.id);
             },
@@ -69,7 +75,8 @@
                 ];
             },
             ...mapGetters([
-                'telescopes'
+                'telescopes',
+                'auth'
             ])
         }
     }

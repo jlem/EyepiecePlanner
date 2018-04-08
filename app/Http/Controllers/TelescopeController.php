@@ -76,7 +76,7 @@ class TelescopeController extends Controller
         $data = [
             'telescopes' => Auth::user()->getTelescopes(),
             'selectedTelescope' => Telescope::find($id),
-            'eyepieces' => $this->eyepieceRepository->getJSONList()
+            'eyepieces' => $this->eyepieceRepository->getAll()
         ];
 
         return view('telescope.show', $data);
