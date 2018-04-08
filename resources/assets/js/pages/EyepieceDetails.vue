@@ -2,7 +2,7 @@
     <div>
         <h1>
             {{ eyepiece.focal_length }}mm {{ eyepiece.manufacturer_name }} {{ eyepiece.product_name }}
-            <span class="back-button" @click="navigateBackToEyepieceList()">
+            <span class="badge back-button-badge" @click="navigateBackToEyepieceList()">
                 <i class="glyphicon glyphicon-menu-left"></i> Back to eyepiece list
             </span>
         </h1>
@@ -24,21 +24,24 @@
         margin-bottom: 100px;
     }
 
-    .back-button {
+    .badge {
         position: relative;
-        top: -7px;
+        top: -5px;
         font-size: 13px;
-        cursor: pointer;
         margin-left: 15px;
         padding: 5px 8px;
-        background: linear-gradient(rgba(200, 165, 220, 0.15), rgba(200, 165, 220, 0.06));
         color: #fff;
         border-radius: 3px;
+    }
+
+    .back-button-badge {
+        cursor: pointer;
+        background: linear-gradient(rgba(200, 165, 220, 0.15), rgba(200, 165, 220, 0.06));
 
         i {
             vertical-align: baseline;
             font-weight: bold;
-           color: #aa6dca;
+            color: #aa6dca;
         }
 
         &:hover {
@@ -66,13 +69,19 @@
                 return window.eyepieces.find(eyepiece => eyepiece.id === +this.id);
             },
             eyepieceInfo () {
-                return [
+                let cards = [
                     { label: 'Focal Length', value: this.eyepiece.focal_length + 'mm' },
                     { label: 'Apparent Field of View', value: this.eyepiece.apparent_field + '°' },
                     { label: 'Eye Relief', value: this.eyepiece.eye_relief + 'mm' },
                     { label: 'Field Stop', value: this.eyepiece.field_stop ? this.eyepiece.field_stop + 'mm' : 'N/A' },
                     { label: 'Barrel Size', value: this.eyepiece.barrel_size + '"' }
                 ];
+
+                if (this.eyepiece.is_discontinued) {
+                    cards.push({ label: 'Discontinued', type: 'badge', badgeClass: 'badge-alert' });
+                }
+
+                return cards;
             },
             ...mapGetters([
                 'telescopes',
