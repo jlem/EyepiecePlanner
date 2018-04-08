@@ -7,9 +7,9 @@ use EPP\User;
 class AuthJSONTransformer
 {
     public function toJson(User $auth) {
-        $isAdmin = $auth ? $auth->isAdmin() : false;
-        $isAuthenticated = !is_null($auth);
-        $userName = $auth ? $auth->name : null;
+        $isAdmin = $auth->isAdmin();
+        $isAuthenticated = !is_null($auth->name);
+        $userName = $auth->name;
 
         return json_encode(compact('isAuthenticated', 'userName', 'isAdmin'));
     }

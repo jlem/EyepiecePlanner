@@ -6,6 +6,7 @@ use EPP\Domain\Model\Eyepiece\EyepieceRepository;
 use EPP\Transformers\AuthJSONTransformer;
 use EPP\Transformers\EyepieceJSONTransformer;
 use EPP\Transformers\TelescopeJSONTransformer;
+use EPP\User;
 use Illuminate\Support\ServiceProvider;
 use Auth;
 use View;
@@ -32,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             $telescopes = Auth::check() ? Auth::user()->getTelescopes() : collect([]);
 
             $view->with([
-                'auth' => $authTransformer->toJson(Auth::user()),
+                'auth' => $authTransformer->toJson(Auth::check() ? Auth::user() : new User()),
                 'eyepieces' =>  $eyepieceTransformer->toJson($eyepieces),
                 'telescopes_json' => $telescopeTransformer->toJson($telescopes)
             ]);
