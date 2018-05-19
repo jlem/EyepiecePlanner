@@ -32,9 +32,6 @@ export default {
 	clearSelections({ commit }, group) {
 		commit(types.CLEAR_SELECTIONS, group);
 	},
-	setMagnificationModifiers ({ commit }, modifiers) {
-		commit(types.SET_MAGNIFICATION_MODIFIERS, modifiers);
-	},
 	showEditModal ({ commit }) {
 		commit(types.TOGGLE_EDIT_MODAL, true);
 	},

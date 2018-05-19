@@ -5,7 +5,6 @@ export default {
 	telescopeToEdit: state => Object.assign({}, state.telescopeToEdit),
 	selectedTab: state => Object.assign({}, state.selectedTab),
 	telescopes: state => state.telescopes,
-	magnificationModifiers: state => state.magnificationModifiers,
 	getSelections: (state, getters) => group => state.selections[group],
 	getAllSelections: state => state.selections
 };

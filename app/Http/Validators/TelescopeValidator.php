@@ -12,6 +12,7 @@ class TelescopeValidator
             'name' => 'required|max:64',
             'aperture' => 'required|numeric|min:1|max:100000',
             'focal_ratio' => 'required|numeric|min:1',
+            'focal_length' => 'required|numeric|min:1',
             'max_eyepiece_size' => 'required|in:1.25,2,3'
         ];
 

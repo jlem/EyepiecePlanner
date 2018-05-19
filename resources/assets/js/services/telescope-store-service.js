@@ -16,16 +16,24 @@ const addTelescope = telescope => {
 };
 
 const removeTelescope = telescope => {
-	store.dispatch('removeTelescope', telescope);
 	if (authService.isAuthenticated()) {
-		telescopeHttpService.remove(telescope).then(() => {});
+		telescopeHttpService.remove(telescope).then(response => {
+			console.log(response);
+			store.dispatch('removeTelescope', telescope);
+		});
+	} else {
+		store.dispatch('removeTelescope', telescope);
 	}
 };
 
 const updateTelescope = telescope => {
-	store.dispatch('updateTelescope', telescope);
 	if (authService.isAuthenticated()) {
-		telescopeHttpService.update(telescope).then(() => {});
+		telescopeHttpService.update(telescope).then(response => {
+			console.log(response)
+			store.dispatch('updateTelescope', telescope);
+		});
+	} else {
+		store.dispatch('updateTelescope', telescope);
 	}
 }
 

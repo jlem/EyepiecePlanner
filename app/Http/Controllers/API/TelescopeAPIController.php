@@ -18,24 +18,16 @@ class TelescopeAPIController extends Controller
      */
     public function add(Request $request)
     {
-        $input = $request->only(['name', 'aperture', 'focal_ratio', 'max_eyepiece_size']);
-
-        // Convert to correct data types
-        $telescope = [
-            'name' => $input['name'],
-            'aperture' => (float)$input['aperture'],
-            'focal_ratio' => (float)$input['focal_ratio'],
-            'max_eyepiece_size' => $input['max_eyepiece_size']
-        ];
+        $telescopeData = $this->getTelescopeDataFromRequest($request);
 
         /** @var $validator \Illuminate\Validation\Validator */
-        $validator = TelescopeValidator::make($telescope);
+        $validator = TelescopeValidator::make($telescopeData);
 
         if ($validator->fails()) {
             return new BadRequest($validator->errors()->toArray());
         }
 
-        $newTelescope = Auth::user()->telescopes()->create($telescope);
+        $newTelescope = Auth::user()->telescopes()->create($telescopeData);
 
         return new Ok($newTelescope);
     }
@@ -65,13 +57,33 @@ class TelescopeAPIController extends Controller
     public function update($id, Request $request)
     {
         $telescope = Auth::user()->telescopes()->where('id', $id)->first();
-
         if (!$telescope) {
             return new BadRequest(['Telescope not found']);
         }
 
-        $telescope->update($request->only(['name', 'focal_length', 'focal_ratio', 'aperture', 'max_eyepiece_size']));
+        $telescopeData = $this->getTelescopeDataFromRequest($request);
+
+        /** @var $validator \Illuminate\Validation\Validator */
+        $validator = TelescopeValidator::make($telescopeData);
+
+        if ($validator->fails()) {
+            return new BadRequest($validator->errors()->toArray());
+        }
+
+        $telescope->update($telescopeData);
 
         return new Ok($telescope);
+    }
+
+    private function getTelescopeDataFromRequest(Request $request) {
+        $input = $request->only(['name', 'aperture', 'focal_ratio', 'focal_length', 'max_eyepiece_size']);
+
+        return [
+            'name' => $input['name'],
+            'aperture' => (float)$input['aperture'],
+            'focal_ratio' => (float)$input['focal_ratio'],
+            'focal_length' => (float)$input['focal_length'],
+            'max_eyepiece_size' => $input['max_eyepiece_size']
+        ];
     }
 }

@@ -30,9 +30,6 @@ export default {
 
 		state.selections[group] = [];
 	},
-	[types.SET_MAGNIFICATION_MODIFIERS] (state, modifiers) {
-		state.magnificationModifiers = modifiers;
-	},
 	[types.SELECT_TAB] (state, tab) {
 		state.selectedTab = tab;
 	},

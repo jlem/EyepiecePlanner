@@ -142,8 +142,6 @@
                 }
 
                 let computedTelescopes = this.telescopes.map(telescope => {
-                    telescope.effective_focal_length = telescope.focal_length;
-
                     let calculations = {
                         magnification: formatters.numberFormat(telescopeUtils.calculateMagnification(this.eyepiece, telescope)),
                         exit_pupil: formatters.numberFormat(telescopeUtils.calculateExitPupil(this.eyepiece, telescope)),
@@ -152,8 +150,6 @@
 
                     return Object.assign({}, telescope, calculations);
                 });
-
-                console.log(computedTelescopes);
 
                 return computedTelescopes;
             }

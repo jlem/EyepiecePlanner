@@ -14,6 +14,5 @@ export default {
 	selectedTelescope: telescopeFactoryService.pristineTelescope(),
 	telescopeToEdit: null,
 	telescopes: [],
-	createEditMode: false,
-	magnificationModifiers: []
+	createEditMode: false
 };

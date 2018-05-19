@@ -283,10 +283,9 @@
         },
         computed: {
             computedEyepieces() {
-                return telescopeUtils.computeEyepieceProperties(this.eyepieces, this.selectedTelescope, this.magnificationModifiers);
+                return telescopeUtils.computeEyepieceProperties(this.eyepieces, this.selectedTelescope);
             },
             ...mapGetters([
-                'magnificationModifiers',
                 'selectedEyepieceIDs',
                 'selectedTelescope',
                 'selectedTab',

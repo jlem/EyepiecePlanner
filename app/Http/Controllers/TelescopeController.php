@@ -111,7 +111,7 @@ class TelescopeController extends Controller
             abort(401);
         }
 
-        $input = $request->only(['name', 'aperture', 'focal_ratio', 'max_eyepiece_size']);
+        $input = $request->only(['name', 'aperture', 'focal_ratio', 'focal_length', 'max_eyepiece_size']);
 
         $validator = TelescopeValidator::make($input);
 

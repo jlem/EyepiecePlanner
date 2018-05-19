@@ -9,7 +9,7 @@
                     </div>
                     <div class="telescope-form-field">
                         <label>Aperture(mm)</label>
-                        <input type="text" role="search" v-model="telescopeModel.aperture" @input="updateAperture(telescopeModel)" required autocomplete="off"/>
+                        <input type="text" role="search" v-model="telescopeModel.aperture" @input="updateFocalLength(telescopeModel)" required autocomplete="off"/>
                     </div>
                     <div class="telescope-form-field">
                         <label>Focal Ratio</label>
@@ -192,9 +192,6 @@
                 }
                 this.$emit('onTelescopeSaved', telescope);
                 this.closeModal();
-            },
-            updateAperture: function(telescope) {
-                this.updateFocalLength(telescope);
             },
             updateFocalRatio: function(telescope) {
                 telescope.focal_ratio = telescope.focal_length / telescope.aperture;
