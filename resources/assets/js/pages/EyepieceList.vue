@@ -1,7 +1,7 @@
 <template>
     <div>
         <telescope-form @onTelescopeSaved="filterEyepiecesByFocuserSize($event)"></telescope-form>
-        <telescope-list :telescopes="telescopes" :selectedTelescope="selectedTelescope" @onTelescopeSelected="filterEyepiecesByFocuserSize($event)"></telescope-list>
+        <telescope-tab-list :telescopes="telescopes" :selectedTelescope="selectedTelescope" @onTelescopeSelected="filterEyepiecesByFocuserSize($event)"></telescope-tab-list>
         <div class="list-container">
             <eyepiece-tabs
                 :selectedTelescope="selectedTelescope"

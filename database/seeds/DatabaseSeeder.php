@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
 //        $this->call(ManufacturersTableSeeder::class);
 //        $this->call(ProductLinesTableSeeder::class);
 //        $this->call(EyepiecesTableSeeder::class);
-        $this->call(RegionSeeder::class);
+//        $this->call(RegionSeeder::class);
 //        $this->call(UserSeeder::class); // seeds roles and admin account
     }
 }

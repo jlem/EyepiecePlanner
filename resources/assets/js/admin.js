@@ -24,7 +24,7 @@ Vue.component('multi-select', require('./components/Table/Filters/MultiSelect/Mu
 Vue.component('eyepiece-tabs', require('./components/EyepieceTabs.vue'));
 Vue.component('eyepiece-filter', require('./components/EyepieceFilter.vue'));
 Vue.component('telescope-form', require('./components/TelescopeForm.vue'));
-Vue.component('telescope-list', require('./components/TelescopeList.vue'));
+Vue.component('telescope-tab-list', require('./components/TelescopeTabList.vue'));
 Vue.component('epp-table', require('./components/Table/Table.vue'));
 Vue.component('link-cell', require('./components/Table/Cells/LinkCell.vue'));
 

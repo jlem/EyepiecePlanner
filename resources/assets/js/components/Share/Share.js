@@ -2,6 +2,11 @@
 
 export default {
 	props: ['telescope', 'selectedEyepieces'],
+	data: function() {
+		return {
+			showRedditTableModal: false
+		}
+	},
 	computed: {
 		shareUrl: function () {
 			let url = 'https://eyepieceplanner.com/#/';
@@ -11,6 +16,11 @@ export default {
 					return previousValue;
 				}, []).join(',');
 			return url + eyepieces + telescope;
+		}
+	},
+	methods: {
+		openRedditTableModal: function () {
+			this.showRedditTableModal = true;
 		}
 	}
 }

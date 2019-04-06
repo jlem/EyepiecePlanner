@@ -1,0 +1,10 @@
+.share-reddit-table__overlay {
+	z-index: 99999;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	overflow-y: auto;
+	background: rgba(0,0,0,0.5);
+	top: 0;
+	left: 0;
+}

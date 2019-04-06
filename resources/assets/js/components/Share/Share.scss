@@ -29,3 +29,14 @@
 		background: rgba(255, 255, 255, 0.15);
 	}
 }
+
+.reddit-share-button {
+	display: inline-block;
+	margin-left: 15px;
+	padding: 8px 18px;
+	cursor: pointer;
+
+	&:hover {
+		background: $primary-gradient-hover;
+	}
+}
