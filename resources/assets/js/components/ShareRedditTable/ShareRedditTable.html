@@ -1,7 +1,21 @@
 <div class="share-reddit-table">
    <div class="share-reddit-table__overlay">
-       <div class="share-reddit-table__modal">
-
+       <div class="share-reddit-table__modal-container">
+           <div class="share-reddit-table__modal">
+               <div class="close-button" @click="closeModal()">
+                   <i class="glyphicon glyphicon-remove"></i> Close <span class="escape-hint">(esc)</span>
+               </div>
+               <div class="share-reddit-table__modal-content">
+                   <ul class="share-reddit-table__telescopes-list">
+                       <li v-for="(telescope, index) in telescopes"
+                           :class="{ 'active-tab': telescope.id === selectedTelescope.id }"
+                           @click="selectTelescope(telescope)">
+                               {{ telescope.name }}
+                       </li>
+                   </ul>
+                   <textarea class="share-reddit-table__text" readonly v-model="table"></textarea>
+               </div>
+           </div>
        </div>
    </div>
 </div>

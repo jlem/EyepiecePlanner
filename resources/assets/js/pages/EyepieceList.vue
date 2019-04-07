@@ -17,7 +17,8 @@
             </epp-table>
             <share
                 :telescope="selectedTelescope"
-                :selectedEyepieces="getSelections('eyepieces')"></share>
+                :telescopes="telescopes"
+                :selectedEyepieces="computeEyepieces(getSelections('eyepieces'), selectedTelescope)"></share>
         </div>
     </div>
 </template>
@@ -94,7 +95,7 @@
                             label: 'FL',
                             tooltip: 'Focal Length',
                             dataKey: 'focal_length',
-                            width: '8%',
+                            width: '10%',
                             formatFn: formatters.mm,
                             filterOptions: {
                                 type: 'search',
@@ -108,7 +109,7 @@
                             label: 'Mag',
                             tooltip: 'Magnification',
                             dataKey: 'magnification',
-                            width: '8%',
+                            width: '10%',
                             formatFn: formatters.mag,
                             filterOptions: {
                                 type: 'search',
@@ -122,7 +123,7 @@
                             label: 'EP',
                             tooltip: 'Exit Pupil',
                             dataKey: 'exit_pupil',
-                            width: '8%',
+                            width: '10%',
                             formatFn: formatters.mm,
                             filterOptions: {
                                 type: 'search',
@@ -136,7 +137,7 @@
                             label: 'TFOV',
                             tooltip: 'True Field of View',
                             dataKey: 'tfov',
-                            width: '8%',
+                            width: '10%',
                             formatFn: formatters.deg,
                             filterOptions: {
                                 type: 'search',
@@ -150,7 +151,7 @@
                             label: 'AFOV',
                             tooltip: 'Apparent Field of View',
                             dataKey: 'apparent_field',
-                            width: '8%',
+                            width: '10%',
                             formatFn: formatters.deg,
                             filterOptions: {
                                 type: 'search',
@@ -164,7 +165,7 @@
                             label: 'ER',
                             tooltip: 'Eye Relief (mm)',
                             dataKey: 'eye_relief',
-                            width: '8%',
+                            width: '10%',
                             formatFn: formatters.mm,
                             filterOptions: {
                                 type: 'search',
@@ -178,40 +179,12 @@
                             label: 'FS',
                             tooltip: 'Field Stop Diameter (mm)',
                             dataKey: 'field_stop',
-                            width: '8%',
+                            width: '10%',
                             formatFn: formatters.mm,
                             filterOptions: {
                                 type: 'search',
                                 config: {
                                     filterFn: numericRange,
-                                    values: null
-                                },
-                            }
-                        },
-                        {
-                            label: 'Cost',
-                            tooltip: null,
-                            dataKey: 'price',
-                            width: '8%',
-                            formatFn: formatters.price,
-                            sortFn: utils.compareRange,
-                            filterOptions: {
-                                type: 'search',
-                                config: {
-                                    filterFn: numericRange,
-                                    values: null
-                                },
-                            }
-                        },
-                        {
-                            label: 'Loc',
-                            tooltip: 'Location',
-                            dataKey: 'region',
-                            width: '8%',
-                            filterOptions: {
-                                type: 'search',
-                                config: {
-                                    filterFn: contains,
                                     values: null
                                 },
                             }
@@ -293,6 +266,9 @@
             ])
         },
         methods: {
+            computeEyepieces(eyepieces, telescope) {
+                return telescopeUtils.computeEyepieceProperties(eyepieces, telescope);
+            },
             applyTabConfigToTable(tab) {
                 this.config.selection = Object.assign(this.config.selection, tab.selection);
             },

@@ -1,7 +1,7 @@
 'use strict';
 
 export default {
-	props: ['telescope', 'selectedEyepieces'],
+	props: ['telescope', 'telescopes', 'selectedEyepieces'],
 	data: function() {
 		return {
 			showRedditTableModal: false
@@ -16,7 +16,7 @@ export default {
 					return previousValue;
 				}, []).join(',');
 			return url + eyepieces + telescope;
-		}
+		},
 	},
 	methods: {
 		openRedditTableModal: function () {

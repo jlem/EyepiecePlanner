@@ -1,10 +1,102 @@
-.share-reddit-table__overlay {
-	z-index: 99999;
-	height: 100%;
-	width: 100%;
-	position: fixed;
-	overflow-y: auto;
-	background: rgba(0,0,0,0.5);
-	top: 0;
-	left: 0;
+@import "../../../sass/_variables.scss";
+
+.share-reddit-table {
+	&__overlay {
+		z-index: 99999;
+		height: 100%;
+		width: 100%;
+		position: fixed;
+		overflow-y: auto;
+		background: rgba(0,0,0,0.5);
+		top: 0;
+		left: 0;
+	}
+
+	&__modal-container {
+		width: 900px;
+		display: block;
+		margin: 100px auto 0 auto;
+	}
+
+	&__modal {
+		border-radius: 3px;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+		width: 900px;
+		height: 563px;
+		background-image: linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)), url('/modalbg.jpg');
+		position: relative;
+		padding: 3em 2em 2em;
+	}
+
+	&__modal-content {
+		display: flex;
+		height: 100%;
+	}
+
+	&__telescopes-list {
+		flex: 1;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+
+		& li {
+			background: rgba(255, 255, 255, 0.1);
+			margin-bottom: 1px;
+			padding: 0.5em;
+			cursor: pointer;
+
+			&:first-of-type {
+				border-radius: 3px 0 0 0;
+			}
+
+			&:last-of-type {
+				border-radius: 0 0 0 3px;
+			}
+
+			&.active-tab {
+				background: $primary-gradient;
+
+				&:hover {
+					background: $primary-gradient-hover;
+				}
+			}
+
+			&:not(.active-tab):hover {
+				background: rgba(255, 255, 255, 0.18);
+			}
+		}
+	}
+
+	&__text {
+		font-family: monospace;
+		flex: 2;
+		outline: none;
+		padding: 0.5em;
+		resize: none;
+		height: 100%;
+		background: rgba(0,0,0,0.5);
+		border: none;
+	}
+
+	.close-button {
+		position: absolute;
+		color: #fff;
+		border-radius: 0 2px 0 10px;
+		top: 0;
+		right: 0;
+		padding: 8px 15px;
+		border-left: 1px solid rgba(0, 0, 0, 0.5);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+		cursor: pointer;
+		background: $primary_gradient_transparent;
+
+		&:hover {
+			background: $primary_gradient_transparent_hover;
+		}
+	}
+
+	.escape-hint {
+		opacity: 0.33;
+	}
 }
