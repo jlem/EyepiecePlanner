@@ -28,3 +28,7 @@ Route::get('/api/region/{id}', 'API\RegionAPIController@details');
 Route::post('/api/telescope', 'API\TelescopeAPIController@add')->middleware('auth');
 Route::delete('/api/telescope/{id}', 'API\TelescopeAPIController@remove')->middleware('auth');
 Route::put('/api/telescope/{id}', 'API\TelescopeAPIController@update')->middleware('auth');
+
+// Blog
+//Route::get('/blog', 'BlogController@index');
+//Route::get('/blog/{entry}/{page}', 'BlogController@details');

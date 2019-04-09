@@ -26,7 +26,7 @@
     <div id="app">
         <div class="header">
             <div class="navigation">
-                <img class="logo" src="./logo.png" />
+                <img class="logo" src="/logo.png" />
                 <a class="nav-link" href="/#/">Eyepieces</a>
                 @if(Auth::check() && Auth::user()->isAdmin())
                     <a class="nav-link" href="/manufacturer">Manufacturers</a>
