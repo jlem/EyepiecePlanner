@@ -193,3 +193,34 @@ h2 {
 		background: $primary-gradient;
 	}
 }
+
+.table-tooltip-container {
+	position: relative;
+}
+
+.table-tooltip {
+	white-space: nowrap;
+	position: absolute;
+	top: -47px;
+	left: -8px;
+	background: rgba(0,0,0,0.75);
+	color: #fff;
+	padding: 4px 8px;
+	border-radius: 3px;
+	display: none;
+	font-weight: normal;
+}
+
+.table-tooltip:after {
+	position: absolute;
+	bottom: -4px;
+	display: block;
+	width: 10px;
+	height: 10px;
+	content: '▼';
+	color: rgba(0,0,0,0.75);
+}
+
+.table-tooltip-container:hover .table-tooltip {
+	display: block;
+}

@@ -11,6 +11,8 @@ import ShareRedditTable from './components/ShareRedditTable/ShareRedditTable.vue
 import EppTable from './components/Table/Table.vue';
 import LinkCell from './components/Table/Cells/LinkCell.vue';
 import BooleanCell from './components/Table/Cells/BooleanCell.vue';
+import ComputedFieldStopCell from './components/Table/Cells/ComputedFieldStopCell.vue';
+import ComputedTFOVCell from './components/Table/Cells/ComputedTFOVCell.vue';
 import InfoSet from './components/InfoSet.vue';
 
 // Table Components / Filters
@@ -34,6 +36,8 @@ Vue.component('share-reddit-table', ShareRedditTable);
 Vue.component('epp-table', EppTable);
 Vue.component('link-cell', LinkCell);
 Vue.component('boolean-cell', BooleanCell);
+Vue.component('computed-field-stop-cell', ComputedFieldStopCell);
+Vue.component('computed-tfov-cell', ComputedTFOVCell);
 Vue.component('info-set', InfoSet);
 Vue.component('search', Search);
 Vue.component('multi-select', MultiSelect);

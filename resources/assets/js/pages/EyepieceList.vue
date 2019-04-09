@@ -138,14 +138,14 @@
                             tooltip: 'True Field of View',
                             dataKey: 'tfov',
                             width: '10%',
-                            formatFn: formatters.deg,
                             filterOptions: {
                                 type: 'search',
                                 config: {
                                     filterFn: numericRange,
                                     values: null
                                 },
-                            }
+                            },
+                            renderComponent: 'computed-tfov-cell'
                         },
                         {
                             label: 'AFOV',
@@ -180,14 +180,14 @@
                             tooltip: 'Field Stop Diameter (mm)',
                             dataKey: 'field_stop',
                             width: '10%',
-                            formatFn: formatters.mm,
                             filterOptions: {
                                 type: 'search',
                                 config: {
                                     filterFn: numericRange,
                                     values: null
                                 },
-                            }
+                            },
+                            renderComponent: 'computed-field-stop-cell'
                         },
                         {
                             label: 'Size',
