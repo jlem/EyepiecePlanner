@@ -6,6 +6,7 @@ const calculateTrueFoVFieldStop = (eyepiece, telescope) => eyepiece.field_stop /
 const calculateTrueFovApparentField = (eyepiece, telescope) => eyepiece.apparent_field / calculateMagnification(eyepiece, telescope);
 const calculateFieldStopFromAFOV = eyepiece => (eyepiece.focal_length * eyepiece.apparent_field) / 57.3;
 const calculateTrueFoV = (eyepiece, telescope) => eyepiece.field_stop ? calculateTrueFoVFieldStop(eyepiece, telescope) : calculateTrueFovApparentField(eyepiece, telescope);
+const getFieldStop = eyepiece => eyepiece.field_stop ? eyepiece.field_stop : calculateFieldStopFromAFOV(eyepiece);
 const calculateExitPupil = (eyepiece, telescope) => eyepiece.focal_length / telescope.focal_ratio;
 const calculateMaxMagnification = telescope => telescope.aperture / 25.4 * telescope.max_magnification;
 const calculateLowestMagnification = telescope => telescope.aperture / telescope.max_pupil;
@@ -20,7 +21,7 @@ const computeEyepieceProperties = (eyepieces, telescope) => {
 			tfov: formatters.numberFormat(calculateTrueFoV(eyepiece, telescope)),
 			magnification: formatters.numberFormat(calculateMagnification(eyepiece, telescope)),
 			exit_pupil: formatters.numberFormat(calculateExitPupil(eyepiece, telescope)),
-			field_stop_computed: formatters.numberFormat(calculateFieldStopFromAFOV(eyepiece)),
+			field_stop_computed: formatters.numberFormat(getFieldStop(eyepiece)),
 			name: getEyepieceName(eyepiece)
 		};
 

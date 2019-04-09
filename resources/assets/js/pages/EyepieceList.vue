@@ -178,7 +178,7 @@
                         {
                             label: 'FS',
                             tooltip: 'Field Stop Diameter (mm)',
-                            dataKey: 'field_stop',
+                            dataKey: 'field_stop_computed',
                             width: '10%',
                             filterOptions: {
                                 type: 'search',
