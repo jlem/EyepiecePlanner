@@ -4,7 +4,7 @@
             <li :class="[{ 'active-tab': telescope.id === selectedTelescope.id }, 'tab']"
                 v-for="(telescope, index) in telescopes"
                 @click="selectTelescope(telescope)">
-                    <span>{{ telescope.name }} asdfasffd</span>
+                    <span>{{ telescope.name }}</span>
                     <span v-if="telescope.id === selectedTelescope.id" class="action-buttons">
                         <span @click="openCreateEditModal(telescope)" class="tab-action-button">
                             <i class="glyphicon glyphicon-pencil" title="Edit Telescope" alt="Edit Telescope"></i>
